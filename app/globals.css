@@ -1631,6 +1631,10 @@ button {
   bottom: max(24px, env(safe-area-inset-bottom));
 }
 
+.background-audio {
+  display: none;
+}
+
 .utility-actions {
   display: flex;
   gap: 4px;

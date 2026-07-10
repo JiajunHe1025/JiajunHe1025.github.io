@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ArtCursor } from "./ArtCursor";
+import { WebsitePet } from "./WebsitePet";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -83,6 +85,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <WebsitePet />
+        <ArtCursor />
       </body>
     </html>
   );

@@ -28,6 +28,7 @@ const dockCopy: Record<
     pause: string;
     track: string;
     description: string;
+    blocked: string;
     volume: string;
     unsupported: string;
   }
@@ -41,10 +42,11 @@ const dockCopy: Record<
     today: "今天",
     play: "播放",
     pause: "暂停",
-    track: "专注环境声",
-    description: "网站内生成的轻柔氛围，不会自动播放",
+    track: "凪のお暇 · メインテーマ",
+    description: "PASCALS · 循环背景音乐",
+    blocked: "浏览器已拦截自动播放；轻触页面或点击播放即可开始",
     volume: "音量",
-    unsupported: "当前浏览器不支持音频播放",
+    unsupported: "音乐加载失败，请稍后重试",
   },
   en: {
     calendar: "Calendar",
@@ -55,10 +57,11 @@ const dockCopy: Record<
     today: "Today",
     play: "Play",
     pause: "Pause",
-    track: "Focus ambience",
-    description: "A gentle in-browser soundscape that never autoplays",
+    track: "Nagi's Long Vacation · Main Theme",
+    description: "PASCALS · Looping background music",
+    blocked: "Autoplay was blocked; tap the page or press play to begin",
     volume: "Volume",
-    unsupported: "Audio is not supported in this browser",
+    unsupported: "The track could not be loaded. Please try again later",
   },
   ja: {
     calendar: "カレンダー",
@@ -69,10 +72,11 @@ const dockCopy: Record<
     today: "今日",
     play: "再生",
     pause: "一時停止",
-    track: "集中アンビエンス",
-    description: "ブラウザ内で生成する穏やかな音。自動再生はしません",
+    track: "凪のお暇 · メインテーマ",
+    description: "PASCALS · ループ再生中のBGM",
+    blocked: "自動再生がブロックされました。画面をタップするか再生を押してください",
     volume: "音量",
-    unsupported: "このブラウザでは音声を再生できません",
+    unsupported: "音楽を読み込めませんでした。しばらくしてからお試しください",
   },
 };
 
@@ -91,10 +95,9 @@ export function AmbientDock({ locale }: { locale: Locale }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(34);
   const [audioUnsupported, setAudioUnsupported] = useState(false);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const masterGainRef = useRef<GainNode | null>(null);
-  const audioNodesRef = useRef<AudioScheduledSourceNode[]>([]);
-  const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const manuallyPausedRef = useRef(false);
   const calendarButtonRef = useRef<HTMLButtonElement>(null);
   const musicButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -132,16 +135,48 @@ export function AmbientDock({ locale }: { locale: Locale }) {
   }, [openPanel]);
 
   useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.volume = 0.34;
+    let cancelled = false;
+
+    const detachUnlockListeners = () => {
+      document.removeEventListener("pointerdown", unlockPlayback, true);
+      document.removeEventListener("keydown", unlockPlayback, true);
+    };
+
+    const attemptPlayback = () => {
+      if (cancelled || manuallyPausedRef.current) return;
+
+      try {
+        void Promise.resolve(audio.play())
+          .then(() => {
+            if (cancelled) return;
+            setAutoplayBlocked(false);
+            detachUnlockListeners();
+          })
+          .catch(() => {
+            if (!cancelled) setAutoplayBlocked(true);
+          });
+      } catch {
+        if (!cancelled) setAutoplayBlocked(true);
+      }
+    };
+
+    function unlockPlayback(event: Event) {
+      if (event.target instanceof Element && event.target.closest("[data-music-play]")) return;
+      attemptPlayback();
+    }
+
+    document.addEventListener("pointerdown", unlockPlayback, true);
+    document.addEventListener("keydown", unlockPlayback, true);
+    attemptPlayback();
+
     return () => {
-      if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-      audioNodesRef.current.forEach((node) => {
-        try {
-          node.stop();
-        } catch {
-          // The node may already be stopped by the browser.
-        }
-      });
-      void audioContextRef.current?.close().catch(() => undefined);
+      cancelled = true;
+      detachUnlockListeners();
+      audio.pause();
     };
   }, []);
 
@@ -195,94 +230,24 @@ export function AmbientDock({ locale }: { locale: Locale }) {
     setViewMonth(new Date(current.getFullYear(), current.getMonth(), 1));
   };
 
-  const ensureAmbientAudio = () => {
-    if (audioContextRef.current && masterGainRef.current) {
-      return { context: audioContextRef.current, master: masterGainRef.current };
-    }
-
-    if (typeof window.AudioContext === "undefined") {
-      setAudioUnsupported(true);
-      return null;
-    }
-
-    const context = new window.AudioContext();
-    const master = context.createGain();
-    const filter = context.createBiquadFilter();
-    master.gain.value = 0.0001;
-    filter.type = "lowpass";
-    filter.frequency.value = 920;
-    filter.Q.value = 0.7;
-    filter.connect(master);
-    master.connect(context.destination);
-
-    const oscillators = [130.81, 196, 261.63].map((frequency, index) => {
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      oscillator.type = index === 1 ? "triangle" : "sine";
-      oscillator.frequency.value = frequency;
-      oscillator.detune.value = index === 0 ? -5 : index === 2 ? 4 : 0;
-      gain.gain.value = index === 1 ? 0.24 : 0.16;
-      oscillator.connect(gain);
-      gain.connect(filter);
-      oscillator.start();
-      return oscillator;
-    });
-
-    const lfo = context.createOscillator();
-    const lfoDepth = context.createGain();
-    lfo.frequency.value = 0.07;
-    lfoDepth.gain.value = 110;
-    lfo.connect(lfoDepth);
-    lfoDepth.connect(filter.frequency);
-    lfo.start();
-
-    audioContextRef.current = context;
-    masterGainRef.current = master;
-    audioNodesRef.current = [...oscillators, lfo];
-    return { context, master };
-  };
-
-  const playAmbientAudio = () => {
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-    const audio = ensureAmbientAudio();
+  const toggleAudio = () => {
+    const audio = audioRef.current;
     if (!audio) return;
 
-    void audio.context.resume().catch(() => {
-      setAudioUnsupported(true);
-      setIsPlaying(false);
-    });
-    const targetVolume = Math.max(0.0001, (volume / 100) * 0.075);
-    audio.master.gain.cancelScheduledValues(audio.context.currentTime);
-    audio.master.gain.setValueAtTime(Math.max(audio.master.gain.value, 0.0001), audio.context.currentTime);
-    audio.master.gain.linearRampToValueAtTime(targetVolume, audio.context.currentTime + 1.1);
-    setIsPlaying(true);
-  };
-
-  const pauseAmbientAudio = () => {
-    const context = audioContextRef.current;
-    const master = masterGainRef.current;
-    if (!context || !master) return;
-
-    master.gain.cancelScheduledValues(context.currentTime);
-    master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), context.currentTime);
-    master.gain.linearRampToValueAtTime(0.0001, context.currentTime + 0.55);
-    setIsPlaying(false);
-    pauseTimerRef.current = setTimeout(() => void context.suspend().catch(() => undefined), 620);
-  };
-
-  const toggleAudio = () => {
-    if (isPlaying) pauseAmbientAudio();
-    else playAmbientAudio();
+    if (audio.paused) {
+      manuallyPausedRef.current = false;
+      void audio.play()
+        .then(() => setAutoplayBlocked(false))
+        .catch(() => setAutoplayBlocked(true));
+    } else {
+      manuallyPausedRef.current = true;
+      audio.pause();
+    }
   };
 
   const updateVolume = (nextVolume: number) => {
     setVolume(nextVolume);
-    const context = audioContextRef.current;
-    const master = masterGainRef.current;
-    if (!context || !master || !isPlaying) return;
-    master.gain.cancelScheduledValues(context.currentTime);
-    master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), context.currentTime);
-    master.gain.setTargetAtTime(Math.max(0.0001, (nextVolume / 100) * 0.075), context.currentTime, 0.12);
+    if (audioRef.current) audioRef.current.volume = nextVolume / 100;
   };
 
   const togglePanel = (panel: Exclude<DockPanel, null>) => {
@@ -291,6 +256,24 @@ export function AmbientDock({ locale }: { locale: Locale }) {
 
   return (
     <div className="utility-dock">
+      <audio
+        ref={audioRef}
+        className="background-audio"
+        src="/audio/nagi-no-oitoma-theme.m4a"
+        autoPlay
+        loop
+        playsInline
+        preload="auto"
+        onPlay={() => {
+          setIsPlaying(true);
+          setAutoplayBlocked(false);
+        }}
+        onPause={() => setIsPlaying(false)}
+        onError={() => {
+          setAudioUnsupported(true);
+          setIsPlaying(false);
+        }}
+      />
       <div className="utility-actions" aria-label={`${copy.calendar} · ${copy.music}`}>
         <button
           ref={calendarButtonRef}
@@ -360,10 +343,13 @@ export function AmbientDock({ locale }: { locale: Locale }) {
           <div className={isPlaying ? "ambient-visualizer is-playing" : "ambient-visualizer"} aria-hidden="true">
             {Array.from({ length: 18 }, (_, index) => <i key={index} />)}
           </div>
-          <p>{audioUnsupported ? copy.unsupported : copy.description}</p>
+          <p role="status" aria-live="polite">
+            {audioUnsupported ? copy.unsupported : autoplayBlocked && !isPlaying ? copy.blocked : copy.description}
+          </p>
           <div className="music-controls">
             <button
               className="music-play"
+              data-music-play
               type="button"
               onClick={toggleAudio}
               disabled={audioUnsupported}

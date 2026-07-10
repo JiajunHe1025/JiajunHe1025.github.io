@@ -1,0 +1,203 @@
+.petRoot {
+  --pet-w: 118px;
+  --pet-h: 128px;
+  position: fixed;
+  z-index: 72;
+  width: var(--pet-w);
+  height: var(--pet-h);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateZ(0);
+  transition: opacity 180ms ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.petRoot.ready {
+  opacity: 1;
+}
+
+.petRoot.moving {
+  transition: left 5.8s linear, opacity 180ms ease;
+}
+
+.petButton {
+  position: absolute;
+  inset: 0;
+  width: var(--pet-w);
+  height: var(--pet-h);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.petButton:active {
+  cursor: grabbing;
+}
+
+.petButton:focus-visible {
+  border-radius: 30px;
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.sprite {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: var(--pet-w);
+  height: var(--pet-h);
+  background-image: var(--pet-sheet);
+  background-repeat: no-repeat;
+  background-position-x: 0%;
+  background-position-y: var(--pet-row);
+  background-size: 800% 1100%;
+  filter: drop-shadow(0 10px 10px rgba(7, 26, 38, 0.18));
+  animation: pet-frames var(--pet-speed) steps(7, end) infinite;
+}
+
+.speech {
+  position: absolute;
+  z-index: 2;
+  bottom: calc(100% - 4px);
+  left: 50%;
+  width: max-content;
+  max-width: min(220px, calc(100vw - 24px));
+  padding: 9px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px 14px 14px 4px;
+  background: color-mix(in srgb, var(--paper-strong) 92%, transparent);
+  color: var(--ink);
+  box-shadow: 0 12px 32px rgba(7, 26, 38, 0.16);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.45;
+  pointer-events: none;
+  transform: translateX(-50%);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+
+.speech::after {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-right: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  background: inherit;
+  content: "";
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.petControls {
+  position: absolute;
+  z-index: 3;
+  top: 4px;
+  right: -18px;
+  display: grid;
+  gap: 4px;
+  opacity: 0;
+  pointer-events: auto;
+  transform: translateX(-4px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.petRoot:hover .petControls,
+.petRoot:focus-within .petControls {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.petControls button,
+.wakeButton {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 50%;
+  background: rgba(7, 26, 38, 0.92);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(7, 26, 38, 0.22);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.wakeButton {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  pointer-events: auto;
+}
+
+.basketballIcon {
+  position: relative;
+  display: block;
+  width: 25px;
+  height: 25px;
+  overflow: hidden;
+  border: 1px solid #7d2e0c;
+  border-radius: 50%;
+  background: #ef6b20;
+  box-shadow: inset -4px -3px rgba(125, 46, 12, 0.18);
+}
+
+.basketballIcon::before,
+.basketballIcon::after {
+  position: absolute;
+  inset: 3px -6px;
+  border: 1px solid rgba(91, 37, 13, 0.72);
+  border-radius: 50%;
+  content: "";
+}
+
+.basketballIcon::after {
+  inset: -6px 3px;
+}
+
+@keyframes pet-frames {
+  from { background-position-x: 0%; }
+  to { background-position-x: 100%; }
+}
+
+@media (max-width: 520px) {
+  .petRoot {
+    --pet-w: 92px;
+    --pet-h: 100px;
+  }
+
+  .petControls {
+    right: -11px;
+    opacity: 0.78;
+  }
+
+  .petControls button {
+    width: 29px;
+    height: 29px;
+  }
+
+  .speech {
+    max-width: min(190px, calc(100vw - 20px));
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petRoot,
+  .petRoot.moving {
+    transition-duration: 0.01ms;
+  }
+
+  .sprite {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}

@@ -351,6 +351,7 @@ export const content: Record<Locale, SiteContent> = {
       { label: "经历", href: "#journey" },
       { label: "荣誉", href: "#recognition" },
       { label: "爱好", href: "#hobbies" },
+      { label: "笔记", href: "/notes/" },
       { label: "联系", href: "#contact" },
     ],
     hero: {
@@ -548,6 +549,7 @@ export const content: Record<Locale, SiteContent> = {
       { label: "Journey", href: "#journey" },
       { label: "Recognition", href: "#recognition" },
       { label: "Hobbies", href: "#hobbies" },
+      { label: "Notes", href: "/notes/" },
       { label: "Contact", href: "#contact" },
     ],
     hero: {
@@ -747,6 +749,7 @@ export const content: Record<Locale, SiteContent> = {
       { label: "経歴", href: "#journey" },
       { label: "受賞", href: "#recognition" },
       { label: "趣味", href: "#hobbies" },
+      { label: "ノート", href: "/notes/" },
       { label: "連絡", href: "#contact" },
     ],
     hero: {
