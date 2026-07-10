@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,58 +12,50 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host =
-    requestHeaders.get("x-forwarded-host") ??
-    requestHeaders.get("host") ??
-    "localhost:3000";
-  const protocol =
-    requestHeaders.get("x-forwarded-proto") ??
-    (host.startsWith("localhost") ? "http" : "https");
-  const metadataBase = new URL(`${protocol}://${host}`);
-  const title = "何嘉俊 · Jiajun He | Speech & Multimodal AI";
-  const description =
-    "Personal research portfolio of Jiajun He, working across speech recognition, multimodal intelligence, and large language models.";
+const title = "何嘉俊 · Jiajun He | Speech & Multimodal AI";
+const description =
+  "Personal research portfolio of Jiajun He, working across speech recognition, multimodal intelligence, and large language models.";
 
-  return {
-    metadataBase,
+export const metadata: Metadata = {
+  metadataBase: new URL("https://jiajunhe1025.github.io"),
+  title,
+  description,
+  keywords: [
+    "Jiajun He",
+    "何嘉俊",
+    "speech recognition",
+    "multimodal AI",
+    "ASR",
+    "speech emotion recognition",
+    "large language models",
+  ],
+  authors: [{ name: "Jiajun He" }],
+  creator: "Jiajun He",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
     title,
     description,
-    keywords: [
-      "Jiajun He",
-      "何嘉俊",
-      "speech recognition",
-      "multimodal AI",
-      "ASR",
-      "speech emotion recognition",
-      "large language models",
-    ],
-    authors: [{ name: "Jiajun He" }],
-    creator: "Jiajun He",
-    openGraph: {
-      type: "website",
-      title,
-      description,
-      siteName: "Jiajun He · Research Portfolio",
-      url: "/",
-      images: [
+    siteName: "Jiajun He · Research Portfolio",
+    url: "/",
+    images: [
         {
           url: "/og.png",
-          width: 1731,
-          height: 909,
+          width: 900,
+          height: 473,
           alt: "Jiajun He — Speech, Language, and Multimodal AI",
         },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: ["/og.png"],
-    },
-  };
-}
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og.png"],
+  },
+};
 
 export default function RootLayout({
   children,
