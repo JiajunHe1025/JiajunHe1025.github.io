@@ -16,6 +16,18 @@ const title = "何嘉俊 · Jiajun He | Speech & Multimodal AI";
 const description =
   "Personal research portfolio of Jiajun He, working across speech recognition, multimodal intelligence, and large language models.";
 
+const themeInitScript = `
+  (() => {
+    try {
+      const savedTheme = window.localStorage.getItem("jiajun-site-theme");
+      const allowedThemes = ["classic", "night", "film", "glass"];
+      document.documentElement.dataset.theme = allowedThemes.includes(savedTheme) ? savedTheme : "classic";
+    } catch {
+      document.documentElement.dataset.theme = "classic";
+    }
+  })();
+`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://jiajunhe1025.github.io"),
   title,
@@ -63,7 +75,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-Hans">
+    <html lang="zh-Hans" data-theme="classic" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

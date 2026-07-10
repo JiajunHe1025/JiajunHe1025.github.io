@@ -1,11 +1,44 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AmbientDock } from "./AmbientDock";
 import { content, localeLabels, type Locale } from "./content";
 import { TravelMap } from "./TravelMap";
 
 const languages: Locale[] = ["zh", "en", "ja"];
+const themes = ["classic", "night", "film", "glass"] as const;
+type Theme = (typeof themes)[number];
+
+const themeNames: Record<Locale, Record<Theme, string>> = {
+  zh: {
+    classic: "经典学术",
+    night: "暗夜实验室",
+    film: "胶片旅行",
+    glass: "流体玻璃",
+  },
+  en: {
+    classic: "Academic",
+    night: "Night Lab",
+    film: "Film Journey",
+    glass: "Liquid Glass",
+  },
+  ja: {
+    classic: "アカデミック",
+    night: "ナイトラボ",
+    film: "フィルム旅",
+    glass: "リキッドグラス",
+  },
+};
+
+const themeLabels: Record<Locale, string> = {
+  zh: "切换网站主题",
+  en: "Switch website theme",
+  ja: "サイトテーマを切り替える",
+};
+
+const isTheme = (value: string | undefined | null): value is Theme =>
+  themes.includes(value as Theme);
 const signalHeights = [18, 32, 48, 26, 64, 42, 78, 38, 58, 86, 54, 34, 72, 46, 92, 62, 40, 68, 30, 50, 24, 44, 20];
 
 function SectionHeading({
@@ -55,18 +88,48 @@ function Arrow() {
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
+  const [theme, setTheme] = useState<Theme>("classic");
+  const themeMenuRef = useRef<HTMLDetailsElement>(null);
   const current = content[locale];
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("jiajun-site-language") as Locale | null;
-    if (saved && languages.includes(saved)) {
-      setLocale(saved);
-      return;
-    }
+    const timer = window.setTimeout(() => {
+      const saved = window.localStorage.getItem("jiajun-site-language") as Locale | null;
+      if (saved && languages.includes(saved)) {
+        setLocale(saved);
+        return;
+      }
 
-    const browserLanguage = window.navigator.language.toLowerCase();
-    if (browserLanguage.startsWith("ja")) setLocale("ja");
-    else if (!browserLanguage.startsWith("zh")) setLocale("en");
+      const browserLanguage = window.navigator.language.toLowerCase();
+      if (browserLanguage.startsWith("ja")) setLocale("ja");
+      else if (!browserLanguage.startsWith("zh")) setLocale("en");
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const initialTheme = document.documentElement.dataset.theme;
+      if (isTheme(initialTheme)) setTheme(initialTheme);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const closeThemeMenu = (event: PointerEvent) => {
+      const menu = themeMenuRef.current;
+      if (menu?.open && !menu.contains(event.target as Node)) menu.removeAttribute("open");
+    };
+    const closeThemeMenuOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") themeMenuRef.current?.removeAttribute("open");
+    };
+
+    document.addEventListener("pointerdown", closeThemeMenu);
+    document.addEventListener("keydown", closeThemeMenuOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeThemeMenu);
+      document.removeEventListener("keydown", closeThemeMenuOnEscape);
+    };
   }, []);
 
   useEffect(() => {
@@ -74,6 +137,17 @@ export default function Home() {
     document.title = current.pageTitle;
     window.localStorage.setItem("jiajun-site-language", locale);
   }, [current.htmlLang, current.pageTitle, locale]);
+
+  const selectTheme = (nextTheme: Theme) => {
+    setTheme(nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    try {
+      window.localStorage.setItem("jiajun-site-theme", nextTheme);
+    } catch {
+      // Keep theme switching functional when browser storage is unavailable.
+    }
+    themeMenuRef.current?.removeAttribute("open");
+  };
 
   return (
     <div className="site-root" id="top">
@@ -97,17 +171,41 @@ export default function Home() {
           ))}
         </nav>
 
-        <div className="language-switch" role="group" aria-label={current.languageLabel}>
-          {languages.map((language) => (
-            <button
-              key={language}
-              type="button"
-              onClick={() => setLocale(language)}
-              aria-pressed={locale === language}
-            >
-              {localeLabels[language]}
-            </button>
-          ))}
+        <div className="header-controls">
+          <details className="theme-menu" ref={themeMenuRef}>
+            <summary aria-label={`${themeLabels[locale]}：${themeNames[locale][theme]}`}>
+              <span className={`theme-swatch theme-swatch-${theme}`} aria-hidden="true" />
+              <span className="theme-current">{themeNames[locale][theme]}</span>
+              <span className="theme-chevron" aria-hidden="true">⌄</span>
+            </summary>
+            <div className="theme-options" role="group" aria-label={themeLabels[locale]}>
+              {themes.map((themeOption) => (
+                <button
+                  key={themeOption}
+                  type="button"
+                  aria-pressed={theme === themeOption}
+                  onClick={() => selectTheme(themeOption)}
+                >
+                  <span className={`theme-swatch theme-swatch-${themeOption}`} aria-hidden="true" />
+                  <span>{themeNames[locale][themeOption]}</span>
+                  <span className="theme-check" aria-hidden="true">✓</span>
+                </button>
+              ))}
+            </div>
+          </details>
+
+          <div className="language-switch" role="group" aria-label={current.languageLabel}>
+            {languages.map((language) => (
+              <button
+                key={language}
+                type="button"
+                onClick={() => setLocale(language)}
+                aria-pressed={locale === language}
+              >
+                {localeLabels[language]}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
@@ -416,6 +514,8 @@ export default function Home() {
         <span>{current.footer}</span>
         <a href="#top">TOP ↑</a>
       </footer>
+
+      <AmbientDock locale={locale} />
     </div>
   );
 }
