@@ -12,6 +12,9 @@ type ResearchItem = {
   metric: string;
   metricLabel: string;
   tags: string[];
+  figure: string;
+  figureAlt: string;
+  paper: string;
 };
 
 type PublicationItem = {
@@ -21,6 +24,8 @@ type PublicationItem = {
   title: string;
   note: string;
   href: string;
+  authors?: string;
+  citations?: number;
 };
 
 type JourneyItem = {
@@ -70,6 +75,8 @@ export type SiteContent = {
     title: string;
     introduction: string;
     linkLabel: string;
+    scholarLabel: string;
+    scholarUrl: string;
     items: PublicationItem[];
   };
   journey: {
@@ -89,6 +96,16 @@ export type SiteContent = {
     skillsTitle: string;
     skillGroups: { label: string; items: string[] }[];
   };
+  hobbies: {
+    index: string;
+    eyebrow: string;
+    title: string;
+    introduction: string;
+    mapLabel: string;
+    visitedLabel: string;
+    placeholderTitle: string;
+    placeholderBody: string;
+  };
   contact: {
     index: string;
     eyebrow: string;
@@ -100,55 +117,228 @@ export type SiteContent = {
   footer: string;
 };
 
-const sharedPublications = [
+const sharedPublications: PublicationItem[] = [
   {
-    year: "2025",
-    venue: "IEEE TASLP",
-    code: "PMF-CEC",
-    title:
-      "Phoneme-augmented Multimodal Fusion for Context-aware ASR Error Correction with Error-specific Selective Decoding",
-    href: "https://ieeexplore.ieee.org/abstract/document/11027557",
+    year: "2026",
+    venue: "Computer Speech & Language",
+    code: "CSL",
+    title: "Robust Speech Emotion Recognition under Human Speech Noise",
+    authors: "Jinyi Mi · Xiaohan Shi · Ding Ma · Jiajun He · Takuya Fujimura · Tomoki Toda",
+    citations: 1,
+    note: "",
+    href: "https://doi.org/10.1016/j.csl.2026.101987",
   },
   {
-    year: "2025",
-    venue: "INTERSPEECH",
-    code: "CMT-LLM",
-    title: "Contextual Multi-Talker ASR Utilizing Large Language Models",
-    href: "https://www.isca-archive.org/interspeech_2025/he25_interspeech.pdf",
+    year: "2026",
+    venue: "arXiv:2606.01905",
+    code: "ELEC-SPEECH",
+    title: "Advancing Electrolaryngeal Speech Enhancement Through Speech-Text Representation Learning",
+    authors: "Ding Ma · Jinyi Mi · Fengji Li · Lester Phillip Violeta · Jiajun He · et al.",
+    citations: 0,
+    note: "Preprint",
+    href: "https://arxiv.org/abs/2606.01905",
+  },
+  {
+    year: "2026",
+    venue: "IEEE TBME",
+    code: "IEEE TBME",
+    title: "EMBC Special Issue: Advancing Electrolaryngeal Speech Enhancement Through Speech-Text Representation Learning",
+    authors: "Ding Ma · Jinyi Mi · Fengji Li · Lester Phillip Violeta · Jiajun He · et al.",
+    citations: 0,
+    note: "Journal version",
+    href: "https://doi.org/10.1109/TBME.2026.3694703",
+  },
+  {
+    year: "2026",
+    venue: "PsyArXiv / OSF",
+    code: "REVIEW",
+    title: "A Comprehensive Review in Unimodal and Multimodal Emotion Recognition",
+    authors: "Jiachen Luo · Qu Yang · Jiajun He · et al.",
+    citations: 0,
+    note: "Review",
+    href: "https://doi.org/10.31234/osf.io/pny2b_v1",
+  },
+  {
+    year: "2026",
+    venue: "IEEE TASLP",
+    code: "NSER",
+    title: "A Comprehensive Study on the Effectiveness of ASR Representations for Noise-Robust Speech Emotion Recognition",
+    authors: "Xiaohan Shi · Jiajun He · Xingfeng Li · Tomoki Toda",
+    citations: 2,
+    note: "",
+    href: "https://doi.org/10.1109/TASLPRO.2026.3654273",
   },
   {
     year: "2025",
     venue: "IEEE TASLP",
     code: "M4SER",
-    title:
-      "Multimodal, Multirepresentation, Multitask, and Multistrategy Learning for Speech Emotion Recognition",
-    href: "https://ieeexplore.ieee.org/document/11180050",
+    title: "M4SER: Multimodal, Multirepresentation, Multitask, and Multistrategy Learning for Speech Emotion Recognition",
+    authors: "Jiajun He · Xiaohan Shi · Cheng-Hung Hu · Jinyi Mi · Xingfeng Li · Tomoki Toda",
+    citations: 3,
+    note: "",
+    href: "https://doi.org/10.1109/TASLPRO.2025.3614428",
+  },
+  {
+    year: "2025",
+    venue: "IEEE ASRU",
+    code: "PARCO",
+    title: "PARCO: Phoneme-Augmented Robust Contextual ASR via Contrastive Entity Disambiguation",
+    authors: "Jiajun He · Naoki Sawada · Koichi Miyazaki · Tomoki Toda",
+    citations: 1,
+    note: "",
+    href: "https://doi.org/10.1109/ASRU65441.2025.11434772",
+  },
+  {
+    year: "2025",
+    venue: "IEEE TASLP",
+    code: "PMF-CEC",
+    title: "PMF-CEC: Phoneme-Augmented Multimodal Fusion for Context-Aware ASR Error Correction with Error-Specific Selective Decoding",
+    authors: "Jiajun He · Tomoki Toda",
+    citations: 4,
+    note: "",
+    href: "https://doi.org/10.1109/TASLPRO.2025.3577356",
   },
   {
     year: "2025",
     venue: "INTERSPEECH",
     code: "GIA-MIC",
-    title:
-      "Multimodal Emotion Recognition with Gated Interactive Attention and Modality-Invariant Learning Constraints",
-    href: "https://www.isca-archive.org/interspeech_2025/he25c_interspeech.pdf",
+    title: "GIA-MIC: Multimodal Emotion Recognition with Gated Interactive Attention and Modality-Invariant Learning Constraints",
+    authors: "Jiajun He · Jinyi Mi · Tomoki Toda",
+    citations: 5,
+    note: "",
+    href: "https://www.isca-archive.org/interspeech_2025/he25c_interspeech.html",
+  },
+  {
+    year: "2025",
+    venue: "INTERSPEECH",
+    code: "CMT-LLM",
+    title: "CMT-LLM: Contextual Multi-Talker ASR Utilizing Large Language Models",
+    authors: "Jiajun He · Naoki Sawada · Koichi Miyazaki · Tomoki Toda",
+    citations: 4,
+    note: "",
+    href: "https://www.isca-archive.org/interspeech_2025/he25_interspeech.html",
+  },
+  {
+    year: "2024",
+    venue: "APSIPA ASC",
+    code: "TSE-SER",
+    title: "Two-Stage Framework for Robust Speech Emotion Recognition Using Target Speaker Extraction in Human Speech Noise Conditions",
+    authors: "Jinyi Mi · Xiaohan Shi · Ding Ma · Jiajun He · Takuya Fujimura · Tomoki Toda",
+    citations: 8,
+    note: "",
+    href: "https://doi.org/10.1109/APSIPAASC63619.2025.10848943",
   },
   {
     year: "2024",
     venue: "INTERSPEECH",
     code: "2DP-2MRC",
-    title:
-      "2-Dimensional Pointer-based Machine Reading Comprehension Method for Multimodal Moment Retrieval",
-    href: "https://www.isca-archive.org/interspeech_2024/he24_interspeech.pdf",
+    title: "2DP-2MRC: 2-Dimensional Pointer-Based Machine Reading Comprehension Method for Multimodal Moment Retrieval",
+    authors: "Jiajun He · Tomoki Toda",
+    citations: 3,
+    note: "",
+    href: "https://www.isca-archive.org/interspeech_2024/he24_interspeech.html",
+  },
+  {
+    year: "2024",
+    venue: "IEEE ICASSP",
+    code: "MF-AED-AEC",
+    title: "MF-AED-AEC: Speech Emotion Recognition by Leveraging Multimodal Fusion, ASR Error Detection, and ASR Error Correction",
+    authors: "Jiajun He · Xiaohan Shi · Xingfeng Li · Tomoki Toda",
+    citations: 41,
+    note: "",
+    href: "https://doi.org/10.1109/ICASSP48485.2024.10446548",
+  },
+  {
+    year: "2024",
+    venue: "APSIPA ASC",
+    code: "VIDEO-SUM",
+    title: "Multi-Modal Video Summarization Based on Two-Stage Fusion of Audio, Visual, and Recognized Text Information",
+    authors: "Zekun Yang · Jiajun He · Tomoki Toda",
+    citations: 7,
+    note: "",
+    href: "https://doi.org/10.1109/APSIPAASC63619.2025.10849046",
+  },
+  {
+    year: "2024",
+    venue: "APSIPA ASC",
+    code: "LAYER-ADAPTER",
+    title: "A Study on Multimodal Fusion and Layer Adapter in Emotion Recognition",
+    authors: "Xiaohan Shi · Yuan Gao · Jiajun He · Jinyi Mi · Xingfeng Li · Tomoki Toda",
+    citations: 7,
+    note: "",
+    href: "https://doi.org/10.1109/APSIPAASC63619.2025.10848773",
   },
   {
     year: "2023",
     venue: "IEEE ASRU",
     code: "ED-CEC",
-    title:
-      "Improving Rare Word Recognition Using ASR Post-processing Based on Error Detection and Context-aware Error Correction",
-    href: "https://ieeexplore.ieee.org/document/10389661",
+    title: "ED-CEC: Improving Rare Word Recognition Using ASR Postprocessing Based on Error Detection and Context-Aware Error Correction",
+    authors: "Jiajun He · Zekun Yang · Tomoki Toda",
+    citations: 8,
+    note: "",
+    href: "https://doi.org/10.1109/ASRU57964.2023.10389661",
   },
-] as const;
+  {
+    year: "2023",
+    venue: "IEICE Technical Report",
+    code: "IEICE",
+    title: "Enhancing Recognition of Rare Words in ASR Through Error Detection and Context-Aware Error Correction",
+    authors: "Jiajun He · Zekun Yang · Tomoki Toda",
+    citations: 4,
+    note: "",
+    href: "https://ken.ieice.org/ken/paper/20231203gCzJ/eng/",
+  },
+  {
+    year: "2023",
+    venue: "arXiv:2311.07093",
+    code: "NOISY-SER",
+    title: "On the Effectiveness of ASR Representations in Real-World Noisy Speech Emotion Recognition",
+    authors: "Xiaohan Shi · Jiajun He · Xingfeng Li · Tomoki Toda",
+    citations: 6,
+    note: "Preprint",
+    href: "https://arxiv.org/abs/2311.07093",
+  },
+  {
+    year: "2023",
+    venue: "MoRE",
+    code: "MER 2023",
+    title: "Semi-Supervised Multimodal Emotion Recognition with Consensus Decision-Making and Label Correction",
+    authors: "Jingguang Tian · Desheng Hu · Xiaohan Shi · Jiajun He · et al.",
+    citations: 19,
+    note: "",
+    href: "https://doi.org/10.1145/3607865.3613182",
+  },
+  {
+    year: "2022",
+    venue: "JACMP",
+    code: "ULTRASOUND",
+    title: "Deep Learning for Emergency Ascites Diagnosis Using Ultrasonography Images",
+    authors: "Zhanye Lin · Zhengyi Li · Peng Cao · Yingying Lin · Fengting Liang · Jiajun He · Libing Huang",
+    citations: 30,
+    note: "",
+    href: "https://doi.org/10.1002/acm2.13695",
+  },
+  {
+    year: "2021",
+    venue: "arXiv:2108.06444",
+    code: "MRC-NER",
+    title: "A New Entity Extraction Method Based on Machine Reading Comprehension",
+    authors: "Xiaobo Jiang · Kun He · Jiajun He · Guangyu Yan",
+    citations: 8,
+    note: "Preprint",
+    href: "https://arxiv.org/abs/2108.06444",
+  },
+  {
+    year: "2020",
+    venue: "IEEE ICCT",
+    code: "LDPC",
+    title: "A Deep Learning-Aided Post-Processing Scheme to Lower the Error Floor of LDPC Codes",
+    authors: "Jiajun He",
+    citations: 5,
+    note: "",
+    href: "https://doi.org/10.1109/ICCT50939.2020.9295784",
+  },
+];
 
 export const content: Record<Locale, SiteContent> = {
   zh: {
@@ -160,6 +350,7 @@ export const content: Record<Locale, SiteContent> = {
       { label: "论文", href: "#publications" },
       { label: "经历", href: "#journey" },
       { label: "荣誉", href: "#recognition" },
+      { label: "爱好", href: "#hobbies" },
       { label: "联系", href: "#contact" },
     ],
     hero: {
@@ -179,7 +370,7 @@ export const content: Record<Locale, SiteContent> = {
       { value: "70.42%", label: "最高错误率降幅", detail: "AISHELL-1 · Contextual ASR" },
       { value: "7.9%", label: "多说话人识别 WER", detail: "LibriMix · CMT-LLM" },
       { value: "+4.1", label: "情感识别提升", detail: "百分点 · IEMOCAP" },
-      { value: "10", label: "第一作者成果", detail: "会议与期刊" },
+      { value: "22", label: "Google Scholar 记录", detail: "截至 2026.07" },
     ],
     now: {
       index: "01",
@@ -205,6 +396,9 @@ export const content: Record<Locale, SiteContent> = {
           metric: "−70.42%",
           metricLabel: "AISHELL-1 最高 CER 降幅",
           tags: ["Contextual ASR", "Rare Words", "Error Correction"],
+          figure: "/research/contextual-asr.png",
+          figureAlt: "上下文语音识别模型结构图",
+          paper: "PMF-CEC / PARCO",
         },
         {
           number: "R / 02",
@@ -214,6 +408,9 @@ export const content: Record<Locale, SiteContent> = {
           metric: "7.9%",
           metricLabel: "LibriMix WER",
           tags: ["Multi-talker", "LLM", "WavLM"],
+          figure: "/research/multitalker-llm.png",
+          figureAlt: "结合大语言模型的多说话人语音识别框架图",
+          paper: "CMT-LLM · INTERSPEECH 2025",
         },
         {
           number: "R / 03",
@@ -223,31 +420,22 @@ export const content: Record<Locale, SiteContent> = {
           metric: "+4.1",
           metricLabel: "IEMOCAP 绝对提升 / 百分点",
           tags: ["Speech Emotion", "Multimodal", "Video"],
+          figure: "/research/multimodal-emotion.png",
+          figureAlt: "多模态语音情感识别方法图",
+          paper: "M4SER / GIA-MIC",
         },
       ],
     },
     publications: {
       index: "03",
-      eyebrow: "代表论文",
-      title: "以论文记录方法，也记录问题如何被重新定义。",
+      eyebrow: "全部论文",
+      title: "从 2020 到 2026，完整记录研究轨迹。",
       introduction:
-        "研究成果发表于 IEEE TASLP、ICASSP、INTERSPEECH 与 ASRU。以下为部分代表工作，论文标题保留英文原文。",
+        "以下收录 Google Scholar 当前全部 22 条记录，包含期刊、会议、预印本及同一工作的不同版本；链接优先指向 DOI、arXiv 或官方论文页面。",
       linkLabel: "阅读论文",
-      items: sharedPublications.map((item) => ({
-        ...item,
-        note:
-          item.code === "PMF-CEC"
-            ? "面向 ASR 错误位置的音素增强多模态纠错。"
-            : item.code === "CMT-LLM"
-              ? "提出结合大语言模型的多说话人上下文 ASR。"
-              : item.code === "M4SER"
-                ? "多表征、多任务与多策略的语音情感识别框架。"
-                : item.code === "GIA-MIC"
-                  ? "通过门控交互注意力学习模态共享与互补信息。"
-                  : item.code === "2DP-2MRC"
-                    ? "以二维指针网络定位多模态视频片段。"
-                    : "通过错误检测与上下文纠错改善稀有词识别。",
-      })),
+      scholarLabel: "在 Google Scholar 查看完整档案",
+      scholarUrl: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+      items: sharedPublications,
     },
     journey: {
       index: "04",
@@ -322,8 +510,19 @@ export const content: Record<Locale, SiteContent> = {
         },
       ],
     },
-    contact: {
+    hobbies: {
       index: "06",
+      eyebrow: "爱好 · 旅行与摄影",
+      title: "用旅行打开世界，也用摄影把它留住。",
+      introduction:
+        "地图记录已经抵达的地方，照片记录当时的光线、街道与偶然。点击高亮地点即可进入对应照片画廊。",
+      mapLabel: "何嘉俊到访地点世界地图",
+      visitedLabel: "个到访地点",
+      placeholderTitle: "照片稍后上传",
+      placeholderBody: "这里已经为你的实拍照片预留位置；上传后会按地点组成可浏览的摄影画廊。",
+    },
+    contact: {
+      index: "07",
       eyebrow: "联系",
       title: "如果你也在思考机器如何更好地理解人，我们可以聊聊。",
       description: "欢迎交流语音识别、多模态学习、情感计算与大语言模型相关的研究与合作。",
@@ -331,6 +530,10 @@ export const content: Record<Locale, SiteContent> = {
       links: [
         { label: "jiajun.he@g.sp.m.is.nagoya-u.ac.jp", href: "mailto:jiajun.he@g.sp.m.is.nagoya-u.ac.jp" },
         { label: "GitHub", href: "https://github.com/JiajunHe1025" },
+        {
+          label: "Google Scholar",
+          href: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+        },
       ],
     },
     footer: "何嘉俊 · 语音、语言与多模态智能",
@@ -344,6 +547,7 @@ export const content: Record<Locale, SiteContent> = {
       { label: "Papers", href: "#publications" },
       { label: "Journey", href: "#journey" },
       { label: "Recognition", href: "#recognition" },
+      { label: "Hobbies", href: "#hobbies" },
       { label: "Contact", href: "#contact" },
     ],
     hero: {
@@ -364,7 +568,7 @@ export const content: Record<Locale, SiteContent> = {
       { value: "70.42%", label: "Max. error reduction", detail: "AISHELL-1 · Contextual ASR" },
       { value: "7.9%", label: "Multi-talker ASR WER", detail: "LibriMix · CMT-LLM" },
       { value: "+4.1", label: "Emotion recognition gain", detail: "percentage points · IEMOCAP" },
-      { value: "10", label: "First-author works", detail: "conference + journal" },
+      { value: "22", label: "Google Scholar records", detail: "as of Jul 2026" },
     ],
     now: {
       index: "01",
@@ -390,6 +594,9 @@ export const content: Record<Locale, SiteContent> = {
           metric: "−70.42%",
           metricLabel: "maximum CER reduction on AISHELL-1",
           tags: ["Contextual ASR", "Rare Words", "Error Correction"],
+          figure: "/research/contextual-asr.png",
+          figureAlt: "Architecture for contextual speech recognition",
+          paper: "PMF-CEC / PARCO",
         },
         {
           number: "R / 02",
@@ -399,6 +606,9 @@ export const content: Record<Locale, SiteContent> = {
           metric: "7.9%",
           metricLabel: "WER on LibriMix",
           tags: ["Multi-talker", "LLM", "WavLM"],
+          figure: "/research/multitalker-llm.png",
+          figureAlt: "Multi-talker speech recognition framework powered by a large language model",
+          paper: "CMT-LLM · INTERSPEECH 2025",
         },
         {
           number: "R / 03",
@@ -408,31 +618,22 @@ export const content: Record<Locale, SiteContent> = {
           metric: "+4.1",
           metricLabel: "absolute points on IEMOCAP",
           tags: ["Speech Emotion", "Multimodal", "Video"],
+          figure: "/research/multimodal-emotion.png",
+          figureAlt: "Multimodal speech emotion recognition method",
+          paper: "M4SER / GIA-MIC",
         },
       ],
     },
     publications: {
       index: "03",
-      eyebrow: "Selected work",
-      title: "Papers as records of methods—and of reframed questions.",
+      eyebrow: "Complete publication record",
+      title: "A research trail from 2020 to 2026, in full.",
       introduction:
-        "Published across IEEE TASLP, ICASSP, INTERSPEECH, and ASRU. Here is a compact selection of representative work.",
+        "All 22 records currently listed on Google Scholar are included below, covering journals, conferences, preprints, and separate versions of the same work. Links favor the DOI or official paper page.",
       linkLabel: "Read paper",
-      items: sharedPublications.map((item) => ({
-        ...item,
-        note:
-          item.code === "PMF-CEC"
-            ? "Phoneme-augmented multimodal correction focused on likely ASR errors."
-            : item.code === "CMT-LLM"
-              ? "A new contextual multi-talker ASR task and LLM-powered solution."
-              : item.code === "M4SER"
-                ? "A multi-representation, multitask, and multi-strategy framework for SER."
-                : item.code === "GIA-MIC"
-                  ? "Gated interaction for shared and complementary multimodal cues."
-                  : item.code === "2DP-2MRC"
-                    ? "Two-dimensional pointer reasoning for multimodal moment retrieval."
-                    : "Rare-word ASR improved through error detection and contextual correction.",
-      })),
+      scholarLabel: "View the complete profile on Google Scholar",
+      scholarUrl: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+      items: sharedPublications,
     },
     journey: {
       index: "04",
@@ -507,8 +708,19 @@ export const content: Record<Locale, SiteContent> = {
         },
       ],
     },
-    contact: {
+    hobbies: {
       index: "06",
+      eyebrow: "Hobbies · Travel & photography",
+      title: "Travel opens the world; photography keeps a piece of it.",
+      introduction:
+        "The map traces places already visited, while photographs preserve their light, streets, and chance encounters. Select a highlighted place to open its gallery.",
+      mapLabel: "World map of places visited by Jiajun He",
+      visitedLabel: "places visited",
+      placeholderTitle: "Photos coming soon",
+      placeholderBody: "This space is ready for your own photographs. Once uploaded, they will form a browsable gallery for each place.",
+    },
+    contact: {
+      index: "07",
       eyebrow: "Contact",
       title: "If you are also thinking about how machines can understand people better, let’s talk.",
       description:
@@ -517,39 +729,44 @@ export const content: Record<Locale, SiteContent> = {
       links: [
         { label: "jiajun.he@g.sp.m.is.nagoya-u.ac.jp", href: "mailto:jiajun.he@g.sp.m.is.nagoya-u.ac.jp" },
         { label: "GitHub", href: "https://github.com/JiajunHe1025" },
+        {
+          label: "Google Scholar",
+          href: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+        },
       ],
     },
     footer: "Jiajun He · Speech, Language & Multimodal Intelligence",
   },
   ja: {
     htmlLang: "ja",
-    pageTitle: "何 嘉俊 | 音声・マルチモーダルAI研究",
+    pageTitle: "カカシュン | 音声・マルチモーダルAI研究",
     languageLabel: "言語を選択",
     nav: [
       { label: "研究", href: "#research" },
       { label: "論文", href: "#publications" },
       { label: "経歴", href: "#journey" },
       { label: "受賞", href: "#recognition" },
+      { label: "趣味", href: "#hobbies" },
       { label: "連絡", href: "#contact" },
     ],
     hero: {
       eyebrow: "音声 · 言語 · マルチモーダル知能",
-      name: "何 嘉俊",
-      romanName: "Jiajun He",
+      name: "カカシュン",
+      romanName: "Jiajun He / 何嘉俊",
       headline: "実環境で言語・話者・感情を理解するAIを研究しています。",
       introduction:
         "文脈音声認識、音声感情理解、複数話者モデリング、大規模言語モデルを横断し、複雑な実環境でも機能する知能システムを探究しています。",
       current: "Alibaba 通義実験室に在籍",
       primaryCta: "研究を見る",
       secondaryCta: "論文を見る",
-      portraitAlt: "何嘉俊のポートレート",
+      portraitAlt: "カカシュンのポートレート",
       availability: "2026.06 — 現在",
     },
     metrics: [
       { value: "70.42%", label: "最大誤り率削減", detail: "AISHELL-1 · 文脈 ASR" },
       { value: "7.9%", label: "複数話者 ASR の WER", detail: "LibriMix · CMT-LLM" },
       { value: "+4.1", label: "感情認識の向上", detail: "ポイント · IEMOCAP" },
-      { value: "10", label: "筆頭著者成果", detail: "国際会議・論文誌" },
+      { value: "22", label: "Google Scholar 登録", detail: "2026年7月現在" },
     ],
     now: {
       index: "01",
@@ -575,6 +792,9 @@ export const content: Record<Locale, SiteContent> = {
           metric: "−70.42%",
           metricLabel: "AISHELL-1 における最大 CER 削減",
           tags: ["Contextual ASR", "Rare Words", "Error Correction"],
+          figure: "/research/contextual-asr.png",
+          figureAlt: "文脈依存音声認識モデルの構成図",
+          paper: "PMF-CEC / PARCO",
         },
         {
           number: "R / 02",
@@ -584,6 +804,9 @@ export const content: Record<Locale, SiteContent> = {
           metric: "7.9%",
           metricLabel: "LibriMix における WER",
           tags: ["Multi-talker", "LLM", "WavLM"],
+          figure: "/research/multitalker-llm.png",
+          figureAlt: "大規模言語モデルを用いた複数話者音声認識の構成図",
+          paper: "CMT-LLM · INTERSPEECH 2025",
         },
         {
           number: "R / 03",
@@ -593,31 +816,22 @@ export const content: Record<Locale, SiteContent> = {
           metric: "+4.1",
           metricLabel: "IEMOCAP での絶対向上ポイント",
           tags: ["Speech Emotion", "Multimodal", "Video"],
+          figure: "/research/multimodal-emotion.png",
+          figureAlt: "マルチモーダル音声感情認識手法の構成図",
+          paper: "M4SER / GIA-MIC",
         },
       ],
     },
     publications: {
       index: "03",
-      eyebrow: "主要論文",
-      title: "手法だけでなく、問いの捉え直しも論文に残す。",
+      eyebrow: "全論文",
+      title: "2020年から2026年までの研究軌跡を一覧に。",
       introduction:
-        "IEEE TASLP、ICASSP、INTERSPEECH、ASRU などで成果を発表しています。以下は代表的な研究です。",
+        "Google Scholar に掲載されている全22件を収録しています。論文誌、国際会議、プレプリント、同一研究の別版を含み、DOI または公式ページへのリンクを優先しています。",
       linkLabel: "論文を読む",
-      items: sharedPublications.map((item) => ({
-        ...item,
-        note:
-          item.code === "PMF-CEC"
-            ? "ASR 誤り位置に着目した音素拡張マルチモーダル訂正。"
-            : item.code === "CMT-LLM"
-              ? "LLM を用いた文脈依存複数話者 ASR を提案。"
-              : item.code === "M4SER"
-                ? "多表現・マルチタスク・複数戦略による音声感情認識。"
-                : item.code === "GIA-MIC"
-                  ? "ゲート付き相互注意によるモダリティ共通・補完情報の学習。"
-                  : item.code === "2DP-2MRC"
-                    ? "二次元ポインタ推論による映像区間検索。"
-                    : "誤り検出と文脈訂正による希少語認識の改善。",
-      })),
+      scholarLabel: "Google Scholar で全業績を見る",
+      scholarUrl: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+      items: sharedPublications,
     },
     journey: {
       index: "04",
@@ -692,8 +906,19 @@ export const content: Record<Locale, SiteContent> = {
         },
       ],
     },
-    contact: {
+    hobbies: {
       index: "06",
+      eyebrow: "趣味 · 旅と写真",
+      title: "旅で世界に触れ、写真でその瞬間を残す。",
+      introduction:
+        "地図は訪れた場所を、写真はその土地の光や街並み、偶然の出会いを記録します。ハイライトされた場所を選ぶと、写真ギャラリーが開きます。",
+      mapLabel: "カカシュンが訪れた場所の世界地図",
+      visitedLabel: "の訪問先",
+      placeholderTitle: "写真は後日追加予定",
+      placeholderBody: "ご自身で撮影した写真を追加するためのスペースです。アップロード後、場所ごとのギャラリーとして閲覧できます。",
+    },
+    contact: {
+      index: "07",
       eyebrow: "連絡",
       title: "機械が人をより深く理解する方法を考えている方へ。ぜひお話ししましょう。",
       description:
@@ -702,9 +927,13 @@ export const content: Record<Locale, SiteContent> = {
       links: [
         { label: "jiajun.he@g.sp.m.is.nagoya-u.ac.jp", href: "mailto:jiajun.he@g.sp.m.is.nagoya-u.ac.jp" },
         { label: "GitHub", href: "https://github.com/JiajunHe1025" },
+        {
+          label: "Google Scholar",
+          href: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+        },
       ],
     },
-    footer: "何 嘉俊 · 音声・言語・マルチモーダル知能",
+    footer: "カカシュン · 音声・言語・マルチモーダル知能",
   },
 };
 

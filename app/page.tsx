@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { content, localeLabels, type Locale } from "./content";
+import { TravelMap } from "./TravelMap";
 
 const languages: Locale[] = ["zh", "en", "ja"];
 const signalHeights = [18, 32, 48, 26, 64, 42, 78, 38, 58, 86, 54, 34, 72, 46, 92, 62, 40, 68, 30, 50, 24, 44, 20];
@@ -81,9 +82,11 @@ export default function Home() {
       </a>
 
       <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Jiajun He — home">
+        <a className="wordmark" href="#top" aria-label={`${current.hero.name} — home`}>
           <span className="wordmark-mark">HJ</span>
-          <span className="wordmark-name">何嘉俊 / Jiajun He</span>
+          <span className="wordmark-name">
+            {current.hero.name} / {current.hero.romanName}
+          </span>
         </a>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
@@ -141,8 +144,8 @@ export default function Home() {
                 className="portrait-image"
                 src="/jiajun-he.jpg"
                 alt={current.hero.portraitAlt}
-                width={567}
-                height={756}
+                width={895}
+                height={1280}
                 sizes="(max-width: 720px) 82vw, (max-width: 1100px) 38vw, 390px"
                 priority
                 unoptimized
@@ -212,6 +215,18 @@ export default function Home() {
                     <i />
                   </div>
                 </div>
+                <figure className="research-figure">
+                  <Image
+                    className="research-figure-image"
+                    src={item.figure}
+                    alt={item.figureAlt}
+                    width={1600}
+                    height={960}
+                    sizes="(max-width: 820px) 90vw, 36vw"
+                    unoptimized
+                  />
+                  <figcaption>{item.paper}</figcaption>
+                </figure>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
                 <div className="research-metric">
@@ -240,7 +255,7 @@ export default function Home() {
               {current.publications.items.map((publication) => (
                 <a
                   className="publication-row"
-                  key={publication.code}
+                  key={`${publication.year}-${publication.title}`}
                   href={publication.href}
                   target="_blank"
                   rel="noreferrer"
@@ -251,6 +266,9 @@ export default function Home() {
                   <span className="publication-title">
                     <strong>{publication.code}</strong>
                     <span>{publication.title}</span>
+                    {publication.authors ? (
+                      <small className="publication-authors">{publication.authors}</small>
+                    ) : null}
                     <small>{publication.note}</small>
                   </span>
                   <span className="publication-link">
@@ -259,6 +277,15 @@ export default function Home() {
                 </a>
               ))}
             </div>
+            <a
+              className="scholar-profile-link"
+              href={current.publications.scholarUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>{current.publications.scholarLabel}</span>
+              <Arrow />
+            </a>
           </div>
         </section>
 
@@ -336,6 +363,24 @@ export default function Home() {
                 ))}
               </aside>
             </div>
+          </div>
+        </section>
+
+        <section className="content-section hobbies-section" id="hobbies">
+          <div className="section-shell">
+            <SectionHeading
+              index={current.hobbies.index}
+              eyebrow={current.hobbies.eyebrow}
+              title={current.hobbies.title}
+              introduction={current.hobbies.introduction}
+            />
+            <TravelMap
+              locale={locale}
+              mapLabel={current.hobbies.mapLabel}
+              visitedLabel={current.hobbies.visitedLabel}
+              placeholderTitle={current.hobbies.placeholderTitle}
+              placeholderBody={current.hobbies.placeholderBody}
+            />
           </div>
         </section>
 
