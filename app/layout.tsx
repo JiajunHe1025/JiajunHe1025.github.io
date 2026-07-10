@@ -22,10 +22,10 @@ const themeInitScript = `
   (() => {
     try {
       const savedTheme = window.localStorage.getItem("jiajun-site-theme");
-      const allowedThemes = ["classic", "night", "film", "glass"];
-      document.documentElement.dataset.theme = allowedThemes.includes(savedTheme) ? savedTheme : "classic";
+      const allowedThemes = ["classic", "night", "film", "glass", "pixel", "cartoon"];
+      document.documentElement.dataset.theme = allowedThemes.includes(savedTheme) ? savedTheme : "glass";
     } catch {
-      document.documentElement.dataset.theme = "classic";
+      document.documentElement.dataset.theme = "glass";
     }
   })();
 `;
@@ -77,7 +77,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-Hans" data-theme="classic" suppressHydrationWarning>
+    <html lang="zh-Hans" data-theme="glass" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>

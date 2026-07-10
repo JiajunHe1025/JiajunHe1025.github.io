@@ -6,10 +6,10 @@ import { AmbientDock } from "../AmbientDock";
 import styles from "./notes.module.css";
 
 type Locale = "zh" | "en" | "ja";
-type Theme = "classic" | "night" | "film" | "glass";
+type Theme = "classic" | "night" | "film" | "glass" | "pixel" | "cartoon";
 
 const locales: Locale[] = ["zh", "en", "ja"];
-const themes: Theme[] = ["classic", "night", "film", "glass"];
+const themes: Theme[] = ["classic", "night", "film", "glass", "pixel", "cartoon"];
 
 const isLocale = (value: string | null): value is Locale =>
   value !== null && locales.includes(value as Locale);
@@ -29,7 +29,7 @@ const copy = {
     intro: "记录语音、语言与多模态智能中的关键概念，并把研究方法拆成可以复现的实践步骤。这里的内容是导读与教程，不代表新的实验结论。",
     languageLabel: "切换语言",
     themeLabel: "切换主题",
-    themeNames: { classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃" },
+    themeNames: { classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃", pixel: "日系像素", cartoon: "明亮卡通" },
     read: "展开教程",
     close: "再次点击标题即可收起",
     steps: "实践步骤",
@@ -114,7 +114,7 @@ const copy = {
     intro: "Clear guides to speech, language, and multimodal intelligence, with research ideas translated into reproducible steps. These are primers and tutorials—not claims of new experimental results.",
     languageLabel: "Switch language",
     themeLabel: "Switch theme",
-    themeNames: { classic: "Classic", night: "Night", film: "Film", glass: "Glass" },
+    themeNames: { classic: "Classic", night: "Night", film: "Film", glass: "Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon" },
     read: "Open tutorial",
     close: "Select the heading again to close",
     steps: "Practical steps",
@@ -199,7 +199,7 @@ const copy = {
     intro: "音声・言語・マルチモーダル知能の要点を整理し、研究の考え方を再現可能な手順へ落とし込みます。掲載内容は入門解説とチュートリアルであり、新たな実験結果を主張するものではありません。",
     languageLabel: "言語を切り替える",
     themeLabel: "テーマを切り替える",
-    themeNames: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス" },
+    themeNames: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン" },
     read: "チュートリアルを開く",
     close: "見出しをもう一度選ぶと閉じます",
     steps: "実践ステップ",
@@ -324,13 +324,21 @@ const copy = {
 
 export function NotesPage() {
   const [locale, setLocale] = useState<Locale>("zh");
-  const [theme, setTheme] = useState<Theme>("classic");
+  const [theme, setTheme] = useState<Theme>("glass");
   const [submitted, setSubmitted] = useState(false);
   const current = copy[locale];
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const savedLocale = window.localStorage.getItem("jiajun-site-language");
+      let savedLocale: string | null = null;
+      let savedTheme: string | null = null;
+      try {
+        savedLocale = window.localStorage.getItem("jiajun-site-language");
+        savedTheme = window.localStorage.getItem("jiajun-site-theme");
+      } catch {
+        // Private browsing restrictions should not prevent the default experience.
+      }
+
       if (isLocale(savedLocale)) {
         setLocale(savedLocale);
       } else if (window.navigator.language.toLowerCase().startsWith("ja")) {
@@ -339,13 +347,7 @@ export function NotesPage() {
         setLocale("en");
       }
 
-      const savedTheme = window.localStorage.getItem("jiajun-site-theme");
-      const documentTheme = document.documentElement.dataset.theme;
-      const initialTheme = isTheme(documentTheme)
-        ? documentTheme
-        : isTheme(savedTheme)
-          ? savedTheme
-          : "classic";
+      const initialTheme = isTheme(savedTheme) ? savedTheme : "glass";
       setTheme(initialTheme);
       document.documentElement.setAttribute("data-theme", initialTheme);
       setSubmitted(new URLSearchParams(window.location.search).get("submitted") === "1");
@@ -381,6 +383,7 @@ export function NotesPage() {
       <header className={styles.header}>
         <Link className={styles.homeLink} href="/" aria-label={current.home}>
           <span className={styles.mark} aria-hidden="true">HJ</span>
+          <span className={styles.backArrow} aria-hidden="true">←</span>
           <span>{current.home}</span>
         </Link>
 

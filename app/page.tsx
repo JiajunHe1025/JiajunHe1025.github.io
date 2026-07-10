@@ -7,7 +7,7 @@ import { content, localeLabels, type Locale } from "./content";
 import { TravelMap } from "./TravelMap";
 
 const languages: Locale[] = ["zh", "en", "ja"];
-const themes = ["classic", "night", "film", "glass"] as const;
+const themes = ["classic", "night", "film", "glass", "pixel", "cartoon"] as const;
 type Theme = (typeof themes)[number];
 
 const themeNames: Record<Locale, Record<Theme, string>> = {
@@ -16,18 +16,24 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     night: "暗夜实验室",
     film: "胶片旅行",
     glass: "流体玻璃",
+    pixel: "日系像素",
+    cartoon: "缤纷卡通",
   },
   en: {
     classic: "Academic",
     night: "Night Lab",
     film: "Film Journey",
     glass: "Liquid Glass",
+    pixel: "Japanese Pixel",
+    cartoon: "Playful Cartoon",
   },
   ja: {
     classic: "アカデミック",
     night: "ナイトラボ",
     film: "フィルム旅",
     glass: "リキッドグラス",
+    pixel: "和風ピクセル",
+    cartoon: "カラフル漫画",
   },
 };
 
@@ -35,6 +41,12 @@ const themeLabels: Record<Locale, string> = {
   zh: "切换网站主题",
   en: "Switch website theme",
   ja: "サイトテーマを切り替える",
+};
+
+const notesShortcutLabels: Record<Locale, string> = {
+  zh: "技术笔记",
+  en: "Notes",
+  ja: "技術ノート",
 };
 
 const isTheme = (value: string | undefined | null): value is Theme =>
@@ -88,7 +100,7 @@ function Arrow() {
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
-  const [theme, setTheme] = useState<Theme>("classic");
+  const [theme, setTheme] = useState<Theme>("glass");
   const themeMenuRef = useRef<HTMLDetailsElement>(null);
   const current = content[locale];
 
@@ -172,6 +184,11 @@ export default function Home() {
         </nav>
 
         <div className="header-controls">
+          <a className="notes-shortcut" href="/notes/">
+            <span>{notesShortcutLabels[locale]}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+
           <details className="theme-menu" ref={themeMenuRef}>
             <summary aria-label={`${themeLabels[locale]}：${themeNames[locale][theme]}`}>
               <span className={`theme-swatch theme-swatch-${theme}`} aria-hidden="true" />
