@@ -482,7 +482,7 @@ export function NotesPage() {
             {submitted ? (
               <div className={styles.success} role="status">{current.guestbook.success}</div>
             ) : null}
-            <form method="POST" action="https://formsubmit.co/jiajun.he@g.sp.m.is.nagoya-u.ac.jp">
+            <form method="POST" action="https://formsubmit.co/595057239@qq.com">
               <input type="hidden" name="_subject" value="New moderated website message" />
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_next" value="https://jiajunhe1025.github.io/notes/?submitted=1" />
