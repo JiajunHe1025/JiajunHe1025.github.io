@@ -28,12 +28,12 @@ type CountryProperties = {
 };
 
 const places: Place[] = [
-  { id: "thailand", iso3: "THA", names: { zh: "泰国", en: "Thailand", ja: "タイ" } },
-  { id: "vietnam", iso3: "VNM", names: { zh: "越南", en: "Vietnam", ja: "ベトナム" } },
+  { id: "thailand", iso3: "THA", names: { zh: "泰国", en: "Thailand", ja: "タイ", ko: "태국" } },
+  { id: "vietnam", iso3: "VNM", names: { zh: "越南", en: "Vietnam", ja: "ベトナム", ko: "베트남" } },
   {
     id: "turkiye",
     iso3: "TUR",
-    names: { zh: "土耳其", en: "Türkiye", ja: "トルコ" },
+    names: { zh: "土耳其", en: "Türkiye", ja: "トルコ", ko: "튀르키예" },
     photos: [
       {
         src: "/travel/turkiye/marina-fisherman.jpg",
@@ -41,6 +41,7 @@ const places: Place[] = [
           zh: "土耳其海港夜色中的渔人、猫与木船",
           en: "A fisherman, a cat, and wooden boats at a Turkish marina at night",
           ja: "トルコの夜の港に並ぶ木造船と釣り人、猫",
+          ko: "튀르키예의 밤 항구에 정박한 목선과 낚시꾼, 고양이",
         },
       },
     ],
@@ -48,7 +49,7 @@ const places: Place[] = [
   {
     id: "greece",
     iso3: "GRC",
-    names: { zh: "希腊", en: "Greece", ja: "ギリシャ" },
+    names: { zh: "希腊", en: "Greece", ja: "ギリシャ", ko: "그리스" },
     photos: [
       {
         src: "/travel/greece/seaside-street.jpg",
@@ -56,6 +57,7 @@ const places: Place[] = [
           zh: "希腊海边街道上的骑行者与蓝色海面",
           en: "A cyclist passing a bright blue Greek seafront",
           ja: "青い海を望むギリシャの海辺を走るサイクリスト",
+          ko: "푸른 바다를 따라 달리는 그리스 해안의 자전거 여행자",
         },
       },
       {
@@ -64,6 +66,7 @@ const places: Place[] = [
           zh: "希腊海边餐厅的蓝调时刻",
           en: "Blue hour at a waterfront restaurant in Greece",
           ja: "ギリシャの海辺のレストランで迎えるブルーアワー",
+          ko: "그리스 해변 레스토랑의 푸른 저녁 시간",
         },
       },
       {
@@ -72,6 +75,7 @@ const places: Place[] = [
           zh: "希腊海岸的树荫、沙滩与深蓝海水",
           en: "A shaded beach and deep-blue water on the Greek coast",
           ja: "木陰と深い青の海が広がるギリシャのビーチ",
+          ko: "나무 그늘과 짙푸른 바다가 펼쳐진 그리스 해변",
         },
       },
       {
@@ -80,6 +84,7 @@ const places: Place[] = [
           zh: "希腊小镇夜幕下热闹的街边餐厅",
           en: "A lively street restaurant at dusk in a Greek town",
           ja: "夕暮れのギリシャの街で賑わうレストラン",
+          ko: "해 질 무렵 활기찬 그리스 마을의 거리 레스토랑",
         },
       },
     ],
@@ -87,7 +92,7 @@ const places: Place[] = [
   {
     id: "spain",
     iso3: "ESP",
-    names: { zh: "西班牙", en: "Spain", ja: "スペイン" },
+    names: { zh: "西班牙", en: "Spain", ja: "スペイン", ko: "스페인" },
     photos: [
       {
         src: "/travel/spain/barcelona-sagrada-01.jpg",
@@ -95,6 +100,7 @@ const places: Place[] = [
           zh: "从高处俯瞰巴塞罗那与圣家堂",
           en: "Barcelona and the Sagrada Família seen from above",
           ja: "高台から望むバルセロナとサグラダ・ファミリア",
+          ko: "높은 곳에서 내려다본 바르셀로나와 사그라다 파밀리아",
         },
       },
       {
@@ -103,6 +109,7 @@ const places: Place[] = [
           zh: "巴塞罗那城市天际线中的圣家堂",
           en: "The Sagrada Família rising above Barcelona",
           ja: "バルセロナの街並みにそびえるサグラダ・ファミリア",
+          ko: "바르셀로나 도심 위로 솟은 사그라다 파밀리아",
         },
       },
       {
@@ -111,6 +118,7 @@ const places: Place[] = [
           zh: "西班牙街角自行车咖啡馆前小憩的骑行者",
           en: "Cyclists resting outside a corner café in Spain",
           ja: "スペインの街角のカフェで休むサイクリスト",
+          ko: "스페인 골목 카페 앞에서 쉬는 자전거 여행자들",
         },
       },
       {
@@ -119,6 +127,7 @@ const places: Place[] = [
           zh: "夕阳照亮的西班牙海岸小镇与海湾",
           en: "A Spanish coastal town and bay in warm evening light",
           ja: "夕陽に照らされたスペインの海辺の町と入り江",
+          ko: "저녁 햇살이 비추는 스페인 해안 마을과 만",
         },
       },
     ],
@@ -126,7 +135,7 @@ const places: Place[] = [
   {
     id: "hawaii",
     coordinates: [-156.333, 20.25],
-    names: { zh: "美国 · 夏威夷", en: "United States · Hawaiʻi", ja: "アメリカ · ハワイ" },
+    names: { zh: "美国 · 夏威夷", en: "United States · Hawaiʻi", ja: "アメリカ · ハワイ", ko: "미국 · 하와이" },
     photos: [
       {
         src: "/travel/hawaii/honolulu-street.jpg",
@@ -134,15 +143,16 @@ const places: Place[] = [
           zh: "夏威夷檀香山树荫下的街角",
           en: "A tree-lined street corner in Honolulu, Hawaiʻi",
           ja: "木陰が広がるハワイ・ホノルルの街角",
+          ko: "나무 그늘이 드리운 하와이 호놀룰루의 거리",
         },
       },
     ],
   },
-  { id: "france", iso3: "FRA", names: { zh: "法国", en: "France", ja: "フランス" } },
+  { id: "france", iso3: "FRA", names: { zh: "法国", en: "France", ja: "フランス", ko: "프랑스" } },
   {
     id: "netherlands",
     iso3: "NLD",
-    names: { zh: "荷兰", en: "Netherlands", ja: "オランダ" },
+    names: { zh: "荷兰", en: "Netherlands", ja: "オランダ", ko: "네덜란드" },
     photos: [
       {
         src: "/travel/netherlands/cyclists-under-trees.jpg",
@@ -150,6 +160,7 @@ const places: Place[] = [
           zh: "荷兰林荫街道上的两位骑行者",
           en: "Two cyclists beneath leafy trees in the Netherlands",
           ja: "オランダの並木道を走る二人のサイクリスト",
+          ko: "네덜란드의 나무가 늘어선 길을 달리는 두 사람",
         },
       },
     ],
@@ -157,7 +168,7 @@ const places: Place[] = [
   {
     id: "belgium",
     iso3: "BEL",
-    names: { zh: "比利时", en: "Belgium", ja: "ベルギー" },
+    names: { zh: "比利时", en: "Belgium", ja: "ベルギー", ko: "벨기에" },
     photos: [
       {
         src: "/travel/belgium/ghent-old-town.jpg",
@@ -165,6 +176,7 @@ const places: Place[] = [
           zh: "从钟楼俯瞰比利时根特老城的教堂与街道",
           en: "A church and old-town streets seen from above in Ghent, Belgium",
           ja: "鐘楼から見下ろすベルギー・ゲント旧市街の教会と通り",
+          ko: "종탑에서 내려다본 벨기에 헨트 구시가지의 교회와 거리",
         },
       },
     ],
@@ -172,7 +184,7 @@ const places: Place[] = [
   {
     id: "korea",
     iso3: "KOR",
-    names: { zh: "韩国", en: "South Korea", ja: "韓国" },
+    names: { zh: "韩国", en: "South Korea", ja: "韓国", ko: "대한민국" },
     photos: [
       {
         src: "/travel/korea/seoul-tower.jpg",
@@ -180,6 +192,7 @@ const places: Place[] = [
           zh: "首尔街巷尽头的南山首尔塔",
           en: "N Seoul Tower above a neighborhood street",
           ja: "街並みの向こうに見えるNソウルタワー",
+          ko: "동네 골목 너머로 보이는 N서울타워",
         },
       },
       {
@@ -188,6 +201,7 @@ const places: Place[] = [
           zh: "晴日里繁忙的韩国城市街道",
           en: "A busy South Korean city street on a clear day",
           ja: "晴れた日の賑やかな韓国の街角",
+          ko: "맑은 날의 활기찬 한국 도심 거리",
         },
       },
       {
@@ -196,6 +210,7 @@ const places: Place[] = [
           zh: "釜山山坡上层叠的彩色房屋",
           en: "Colorful homes layered across a hillside in Busan",
           ja: "釜山の斜面に連なる色鮮やかな家々",
+          ko: "부산 산비탈을 따라 겹겹이 이어진 알록달록한 집들",
         },
       },
       {
@@ -204,6 +219,7 @@ const places: Place[] = [
           zh: "韩国居民区里纵横交错的铁路道口与电线",
           en: "A railway crossing and layered overhead wires in a South Korean neighborhood",
           ja: "韓国の住宅街に広がる踏切と幾重もの架線",
+          ko: "한국 주택가의 철도 건널목과 겹겹이 얽힌 전선",
         },
       },
     ],
@@ -211,7 +227,7 @@ const places: Place[] = [
   {
     id: "japan",
     iso3: "JPN",
-    names: { zh: "日本", en: "Japan", ja: "日本" },
+    names: { zh: "日本", en: "Japan", ja: "日本", ko: "일본" },
     photos: [
       {
         src: "/travel/japan/cherry-blossoms.jpg",
@@ -219,6 +235,7 @@ const places: Place[] = [
           zh: "晴空下盛开的日本樱花与合影的人们",
           en: "People gathering beneath cherry blossoms in Japan",
           ja: "青空の下、満開の桜と記念撮影を楽しむ人々",
+          ko: "파란 하늘 아래 만개한 벚꽃과 사진을 찍는 사람들",
         },
       },
       {
@@ -227,6 +244,7 @@ const places: Place[] = [
           zh: "樱花与油菜花之间沿河骑行的人们",
           en: "Cyclists riding between cherry blossoms and yellow flowers by a river",
           ja: "桜と菜の花に囲まれた川沿いを走るサイクリスト",
+          ko: "벚꽃과 유채꽃 사이 강변을 달리는 자전거 여행자들",
         },
       },
       {
@@ -235,6 +253,7 @@ const places: Place[] = [
           zh: "日本海边山城通向港口的石阶",
           en: "Stone steps descending through a Japanese hillside town toward the harbor",
           ja: "港へと下る日本の坂の町の石段",
+          ko: "항구로 내려가는 일본 언덕 마을의 돌계단",
         },
       },
       {
@@ -243,6 +262,7 @@ const places: Place[] = [
           zh: "日本寺院参道上金黄与深红的秋叶",
           en: "Golden and deep-red autumn leaves along a temple path in Japan",
           ja: "日本の寺院の参道を彩る黄金色と深紅の紅葉",
+          ko: "일본 사찰 참배길을 물들인 황금빛과 진홍빛 단풍",
         },
       },
       {
@@ -251,15 +271,16 @@ const places: Place[] = [
           zh: "樱花盛开时日本老街上的鲜鱼店",
           en: "A neighborhood fish shop beneath cherry blossoms in Japan",
           ja: "桜の下に佇む日本の町の鮮魚店",
+          ko: "벚꽃 아래 자리한 일본 동네의 생선가게",
         },
       },
     ],
   },
-  { id: "china", iso3: "CHN", names: { zh: "中国", en: "China", ja: "中国" } },
+  { id: "china", iso3: "CHN", names: { zh: "中国", en: "China", ja: "中国", ko: "중국" } },
   {
     id: "taiwan",
     iso3: "TWN",
-    names: { zh: "中国台湾", en: "Taiwan", ja: "台湾" },
+    names: { zh: "中国台湾", en: "Taiwan", ja: "台湾", ko: "중국 대만" },
     photos: [
       {
         src: "/travel/taiwan/jiufen-lanterns.jpg",
@@ -267,6 +288,7 @@ const places: Place[] = [
           zh: "雨夜里九份老街层叠的红灯笼",
           en: "Red lanterns lining Jiufen Old Street on a rainy night",
           ja: "雨の夜、九份老街に連なる赤い提灯",
+          ko: "비 오는 밤 지우펀 옛거리에 이어진 붉은 등불",
         },
       },
       {
@@ -275,6 +297,7 @@ const places: Place[] = [
           zh: "被弧形建筑框住的台北 101",
           en: "Taipei 101 framed by two curved buildings",
           ja: "曲線的な建物の間にそびえる台北101",
+          ko: "곡선형 건물 사이로 솟은 타이베이 101",
         },
       },
       {
@@ -283,6 +306,7 @@ const places: Place[] = [
           zh: "云雾中的台北 101 与老街巷",
           en: "Taipei 101 rising through mist beyond a narrow alley",
           ja: "路地の向こう、雲の中にそびえる台北101",
+          ko: "좁은 골목 너머 안개 속에 솟은 타이베이 101",
         },
       },
     ],
@@ -290,12 +314,12 @@ const places: Place[] = [
   {
     id: "hong-kong",
     coordinates: [114.167, 22.358],
-    names: { zh: "中国香港", en: "China · Hong Kong", ja: "中国・香港" },
+    names: { zh: "中国香港", en: "China · Hong Kong", ja: "中国・香港", ko: "중국 · 홍콩" },
   },
   {
     id: "macau",
     coordinates: [113.5394, 22.2111],
-    names: { zh: "中国澳门", en: "China · Macao", ja: "中国・マカオ" },
+    names: { zh: "中国澳门", en: "China · Macao", ja: "中国・マカオ", ko: "중국 · 마카오" },
   },
 ];
 
@@ -317,6 +341,11 @@ const galleryUi: Record<
     previous: "前の写真",
     next: "次の写真",
     count: (current, total) => `${current} / ${total} 枚`,
+  },
+  ko: {
+    previous: "이전 사진",
+    next: "다음 사진",
+    count: (current, total) => `${current} / ${total}장`,
   },
 };
 

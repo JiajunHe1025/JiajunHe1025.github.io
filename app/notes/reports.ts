@@ -1,4 +1,4 @@
-export type Locale = "zh" | "en" | "ja";
+export type Locale = "zh" | "en" | "ja" | "ko";
 
 export type Localized = Record<Locale, string>;
 
@@ -62,49 +62,54 @@ export type Report = {
   sources: ReportSource[];
 };
 
-const l = (zh: string, en: string, ja: string): Localized => ({ zh, en, ja });
+// Korean falls back to the English source unless a Korean rendering is supplied.
+// This keeps every technical claim and citation intact while Korean coverage grows.
+const l = (zh: string, en: string, ja: string, ko: string = en): Localized => ({ zh, en, ja, ko });
 
 export const reports: Report[] = [
   {
     index: "01",
     slug: "moss-transcribe-diarize-0-9b-sats",
     published: "2026-07-09",
-    readingTime: l("约 18 分钟", "About 18 min", "約18分"),
-    category: l("深度报告 · 多说话人语音识别", "Deep report · Multi-speaker ASR", "詳細レポート · 複数話者ASR"),
+    readingTime: l("约 18 分钟", "About 18 min", "約18分", "약 18분"),
+    category: l("深度报告 · 多说话人语音识别", "Deep report · Multi-speaker ASR", "詳細レポート · 複数話者ASR", "심층 보고서 · 다화자 음성 인식"),
     title: l(
       "0.9B 模型怎样一次整理清楚“谁在何时说了什么”？",
       "How can a 0.9B model organize who said what, and when?",
-      "0.9Bモデルは「誰が・いつ・何を話したか」をどう一度に整理するのか"
+      "0.9Bモデルは「誰が・いつ・何を話したか」をどう一度に整理するのか",
+      "0.9B 모델은 ‘누가 언제 무엇을 말했는가’를 어떻게 한 번에 정리할까?"
     ),
     summary: l(
       "MOSS-Transcribe-Diarize 把转写、匿名说话人标签和时间边界放进同一条自回归输出序列，并利用长上下文维持整场会议中的说话人一致性。这篇笔记拆解它真正统一了什么、实验数字应当怎样读，以及离可靠生产系统还缺哪些证据。",
       "MOSS-Transcribe-Diarize emits transcription, anonymous speaker labels, and time boundaries in one autoregressive sequence, using long context to keep speakers consistent across a meeting. This note explains what is genuinely unified, how to read the reported numbers, and what evidence is still missing for production use.",
-      "MOSS-Transcribe-Diarizeは、文字起こし・匿名話者ラベル・時間境界を一つの自己回帰系列として出力し、長い文脈で会議全体の話者整合性を保ちます。本稿では、何が統合されたのか、数値をどう読むべきか、実運用までに不足する検証を整理します。"
+      "MOSS-Transcribe-Diarizeは、文字起こし・匿名話者ラベル・時間境界を一つの自己回帰系列として出力し、長い文脈で会議全体の話者整合性を保ちます。本稿では、何が統合されたのか、数値をどう読むべきか、実運用までに不足する検証を整理します。",
+      "MOSS-Transcribe-Diarize는 전사, 익명 화자 라벨, 시간 경계를 하나의 자기회귀 출력으로 생성하고 긴 문맥으로 회의 전체의 화자 일관성을 유지합니다. 이 글은 무엇이 실제로 통합되었는지, 실험 수치를 어떻게 읽어야 하는지, 안정적인 운영에 어떤 근거가 더 필요한지 설명합니다."
     ),
     thesis: l(
       "这项工作的关键不只是“小模型能转长音频”，而是把原本彼此传递误差的多个模块改写为一个带结构约束的序列预测问题；长上下文的主要价值，是让说话人归属拥有全局参照。",
       "The central contribution is not merely long-audio transcription with a small model. It recasts several error-propagating modules as one structured sequence-prediction problem, while long context supplies a global reference for speaker attribution.",
-      "重要なのは小型モデルで長音声を扱えることだけではありません。誤差を受け渡していた複数モジュールを構造化系列予測へまとめ、長文脈を話者帰属の全体的な手掛かりとして使う点です。"
+      "重要なのは小型モデルで長音声を扱えることだけではありません。誤差を受け渡していた複数モジュールを構造化系列予測へまとめ、長文脈を話者帰属の全体的な手掛かりとして使う点です。",
+      "핵심은 작은 모델이 긴 오디오를 처리한다는 데만 있지 않습니다. 서로 오류를 전달하던 여러 모듈을 구조화된 시퀀스 예측 문제로 바꾸고, 긴 문맥을 화자 귀속의 전역 기준으로 활용합니다."
     ),
     tags: ["SATS", "Speaker Diarization", "Long-context ASR", "MOSS", "0.9B"],
     facts: [
       {
-        label: l("模型规模", "Model size", "モデル規模"),
-        value: l("约 0.9B 参数", "About 0.9B parameters", "約0.9Bパラメータ"),
+        label: l("模型规模", "Model size", "モデル規模", "모델 규모"),
+        value: l("约 0.9B 参数", "About 0.9B parameters", "約0.9Bパラメータ", "약 0.9B 파라미터"),
         detail: l("模型卡给出的 BF16 权重体积约 1.82 GB；显存还要计入音频表示、KV 缓存与运行时开销。", "The model card lists roughly 1.82 GB of BF16 weights; audio states, KV cache, and runtime overhead require additional memory.", "モデルカード上のBF16重みは約1.82GBですが、音声表現、KVキャッシュ、ランタイム分のメモリは別途必要です。"),
       },
       {
-        label: l("上下文窗口", "Context window", "コンテキスト長"),
-        value: l("128K token", "128K tokens", "128Kトークン"),
+        label: l("上下文窗口", "Context window", "コンテキスト長", "문맥 창"),
+        value: l("128K token", "128K tokens", "128Kトークン", "128K 토큰"),
         detail: l("项目将其对应到约 90 分钟音频，但可用时长还会受输出长度、采样方式和推理后端影响。", "The project maps this to roughly 90 minutes of audio, although usable duration also depends on output length, sampling, and the inference backend.", "プロジェクトでは約90分の音声に相当するとしますが、実際の長さは出力長やサンプリング、推論基盤にも左右されます。"),
       },
       {
-        label: l("统一输出", "Unified output", "統合出力"),
-        value: l("文字 + 时间 + 匿名话者", "Text + time + anonymous speaker", "文字＋時刻＋匿名話者"),
+        label: l("统一输出", "Unified output", "統合出力", "통합 출력"),
+        value: l("文字 + 时间 + 匿名话者", "Text + time + anonymous speaker", "文字＋時刻＋匿名話者", "텍스트 + 시간 + 익명 화자"),
         detail: l("[S01] 一类标签只在当前文件内部区分说话人，不等同于真实身份识别，也不能自动跨会议关联同一个人。", "Labels such as [S01] distinguish speakers only within a file; they are neither identity recognition nor automatic cross-recording linkage.", "[S01]のようなラベルは一つのファイル内で話者を区別するだけで、本人確認や録音をまたぐ同一人物の照合ではありません。"),
       },
       {
-        label: l("开放方式", "Release", "公開形態"),
+        label: l("开放方式", "Release", "公開形態", "공개 방식"),
         value: l("Apache-2.0", "Apache-2.0", "Apache-2.0"),
         detail: l("权重、模型卡与推理工具已公开；具体使用仍应核查依赖组件、输入数据和部署环境的许可。", "Weights, model card, and inference tools are public; downstream dependencies, input data, and deployment conditions still need license review.", "重み、モデルカード、推論ツールは公開されていますが、依存物・入力データ・運用条件のライセンス確認は必要です。"),
       },
@@ -112,8 +117,8 @@ export const reports: Report[] = [
     sections: [
       {
         id: "problem",
-        kicker: l("01 · 问题重构", "01 · Reframing the task", "01 · 問題の捉え直し"),
-        heading: l("会议记录不是“先转写，再贴姓名”这么简单", "Meeting transcription is not just ASR followed by names", "会議記録は文字起こし後に名前を貼るだけではない"),
+        kicker: l("01 · 问题重构", "01 · Reframing the task", "01 · 問題の捉え直し", "01 · 문제 다시 정의하기"),
+        heading: l("会议记录不是“先转写，再贴姓名”这么简单", "Meeting transcription is not just ASR followed by names", "会議記録は文字起こし後に名前を貼るだけではない", "회의 기록은 ‘전사한 뒤 이름을 붙이는’ 단순한 문제가 아니다"),
         paragraphs: [
           l("普通 ASR 只回答内容，而会议纪要还必须回答发言者和时间。经典流水线通常先检测语音，再切分说话人、运行识别，最后做时间对齐。每个模块单独可用，却可能在交界处放大错误：切分边界偏移会截断词语，识别错误又会让后续的说话人合并更难。", "Conventional ASR answers what was said, while meeting records also need speaker and timing. A cascade usually detects speech, segments speakers, recognizes text, and aligns timestamps. Each part may work in isolation, yet boundary errors can clip words and recognition errors can make later speaker merging harder.", "通常のASRが答えるのは発話内容ですが、会議記録には話者と時刻も必要です。従来のパイプラインは音声検出、話者分割、認識、時刻合わせを順に行い、境界のずれが単語を切り、認識誤りが話者統合をさらに難しくします。"),
           l("MOSS-Transcribe-Diarize 把任务定义为 speaker-attributed transcription with timestamps：模型直接生成一条可解析的记录。这样做没有让困难消失，而是让文字、说话人和时间在训练时共同承担误差，模型可以利用词义、音色变化与对话轮换的联合线索。", "MOSS-Transcribe-Diarize formulates the task as speaker-attributed transcription with timestamps and directly generates a parseable record. The difficulty does not disappear; instead, text, speaker, and time share the training objective so lexical meaning, voice changes, and turn-taking can be considered jointly.", "MOSS-Transcribe-Diarizeは、話者付き文字起こしと時刻推定を一つの解析可能な記録生成として定式化します。難しさが消えるのではなく、文字・話者・時刻が同じ学習目標を共有し、意味、声質変化、ターン交替を同時に利用できます。"),
@@ -126,8 +131,8 @@ export const reports: Report[] = [
       },
       {
         id: "structured-output",
-        kicker: l("02 · 输出设计", "02 · Output design", "02 · 出力設計"),
-        heading: l("把一段发言压成“起点—话者—文字—终点”", "Encoding each turn as start–speaker–text–end", "一つの発話を「開始—話者—文字—終了」で表す"),
+        kicker: l("02 · 输出设计", "02 · Output design", "02 · 出力設計", "02 · 출력 설계"),
+        heading: l("把一段发言压成“起点—话者—文字—终点”", "Encoding each turn as start–speaker–text–end", "一つの発話を「開始—話者—文字—終了」で表す", "한 발화를 ‘시작–화자–텍스트–종료’로 표현하기"),
         paragraphs: [
           l("模型将时间 token、说话人 token 和文字放在同一词表空间内，典型片段由起始时间、[Sxx] 标签、转写内容和结束时间组成。输出格式本身就是监督信号：模型不仅学哪句话最可能，还要学它在记录结构中的位置。", "Time tokens, speaker tokens, and text share one vocabulary space. A typical segment contains a start time, an [Sxx] label, the transcript, and an end time. The format is itself supervision: the model learns not only likely words but where they belong in the record structure.", "時刻トークン、話者トークン、文字を同じ語彙空間へ置き、開始時刻、[Sxx]、文字列、終了時刻を一つの区間として生成します。形式そのものが教師信号となり、語だけでなく記録構造上の位置も学習します。"),
           l("这一设计便于直接生成字幕或会议条目，但也带来一个产品层面的边界：标签是“本次录音里的第几位声源”，不是姓名。若要显示真实姓名，还需要征得同意的声纹注册、座次信息或人工映射，并明确处理隐私。", "The representation is convenient for subtitles and meeting entries, but it has a product boundary: labels denote sources within the current recording, not names. Real identities require consented enrollment, seating metadata, or manual mapping, with explicit privacy controls.", "字幕や会議項目には便利ですが、ラベルは今回の録音内の音源番号であり氏名ではありません。実名表示には同意済みの声紋登録、座席情報、手動対応などと明確なプライバシー管理が必要です。"),
@@ -139,8 +144,8 @@ export const reports: Report[] = [
       },
       {
         id: "architecture",
-        kicker: l("03 · 模型结构", "03 · Architecture", "03 · アーキテクチャ"),
-        heading: l("30 秒前端窗口与 128K 全局上下文并不矛盾", "Thirty-second front-end windows can still feed a 128K global context", "30秒の前処理窓と128Kの全体文脈は両立する"),
+        kicker: l("03 · 模型结构", "03 · Architecture", "03 · アーキテクチャ", "03 · 모델 구조"),
+        heading: l("30 秒前端窗口与 128K 全局上下文并不矛盾", "Thirty-second front-end windows can still feed a 128K global context", "30秒の前処理窓と128Kの全体文脈は両立する", "30초 프런트엔드 창과 128K 전역 문맥은 함께 사용할 수 있다"),
         paragraphs: [
           l("输入被转换为 16 kHz、80 维 Mel 特征，音频编码器以约 30 秒为前端处理单位。随后四倍时间合并和 MLP 适配器压缩声学序列，再交给基于 Qwen3-0.6B 风格的 28 层因果解码器。前端分窗是为了编码效率，不等于每窗独立转写后再拼接。", "Input is represented as 16 kHz, 80-bin Mel features. A Whisper-Medium-like encoder processes roughly 30-second front-end windows, followed by 4× temporal merging and an MLP adapter before a 28-layer Qwen3-0.6B-style causal decoder. Front-end windowing improves encoding efficiency; it is not independent transcription followed by stitching.", "入力は16kHz・80次元Mel特徴となり、Whisper-Medium系エンコーダが約30秒単位で処理します。4倍の時間統合とMLPアダプタを経て、Qwen3-0.6B系の28層因果デコーダへ渡ります。前処理の窓分割は効率のためで、窓ごとの独立認識を連結する方式ではありません。"),
           l("各窗口的表示会被放进同一次长上下文建模，模型因此可以回看更早的声音与对话模式。其主要意义不是让 90 分钟录音“免费”运行，而是减少分块系统中 [S01] 在不同窗口被重新编号的漂移；代价则是更长的预填充、KV 缓存和输出序列。", "Representations from the windows enter one long-context model, allowing later predictions to refer to earlier voices and dialogue patterns. The benefit is not free 90-minute inference, but less speaker-label drift than chunk-wise systems that reassign [S01]. Costs remain in prefill, KV cache, and output length.", "各窓の表現は同じ長文脈モデルに入り、後半から前半の声や対話パターンを参照できます。利点は90分推論が無料になることではなく、チャンクごとに[S01]を振り直す方式より話者ラベルの漂流を抑えることです。プリフィル、KVキャッシュ、出力長のコストは残ります。"),
@@ -153,8 +158,8 @@ export const reports: Report[] = [
       },
       {
         id: "training",
-        kicker: l("04 · 数据引擎", "04 · Data engine", "04 · データ設計"),
-        heading: l("真正稀缺的是带重叠、轮换与一致标签的长对话", "The scarce resource is long dialogue with overlap, turns, and consistent labels", "希少なのは重なり・交替・一貫ラベルを備えた長対話"),
+        kicker: l("04 · 数据引擎", "04 · Data engine", "04 · データ設計", "04 · 데이터 엔진"),
+        heading: l("真正稀缺的是带重叠、轮换与一致标签的长对话", "The scarce resource is long dialogue with overlap, turns, and consistent labels", "希少なのは重なり・交替・一貫ラベルを備えた長対話", "희소한 것은 중첩·턴 전환·일관된 라벨을 갖춘 긴 대화다"),
         paragraphs: [
           l("公开语音语料往往更像单人朗读，无法覆盖会议中的抢话、短回应、房间混响与远场噪声。该工作把真实材料与合成会话结合：从 2 到 12 位说话人采样轮换关系，允许重叠，并通过混响、噪声和交叉淡化让拼接边界更接近实际录音。", "Public speech corpora often resemble single-speaker reading and underrepresent interruptions, short backchannels, reverberation, and far-field noise. The project mixes real and synthetic conversations, sampling 2–12 speakers, overlap, reverberation, noise, and crossfades to create more realistic transitions.", "公開音声は単独朗読に偏り、割り込み、相づち、残響、遠距離雑音を十分に含みません。本研究は実音声と合成会話を組み合わせ、2〜12話者、重なり、残響、雑音、クロスフェードを用いて実環境に近い遷移を作ります。"),
           l("合成器允许重叠区间达到较短发言的一定比例，并在低能量边缘调整拼接点。这能规模化制造监督信号，却不能替代真实互动：合成的轮换规则、音色组合与噪声分布一旦过于规则，模型可能学会生成器的习惯，而不是人的对话习惯。", "The synthesizer permits substantial overlap relative to the shorter utterance and adjusts boundaries around low-energy regions. This scales supervision but does not replace real interaction: overly regular turn rules, speaker combinations, or noise distributions can teach generator artifacts rather than human conversation.", "合成器は短い発話に対して大きな重なりを許し、低エネルギー付近へ接合点を調整します。教師データは増えますが実対話の代わりではなく、規則的すぎる交替や音色、雑音分布は人間ではなく生成器の癖を学習させます。"),
@@ -167,8 +172,8 @@ export const reports: Report[] = [
       },
       {
         id: "evaluation",
-        kicker: l("05 · 指标解读", "05 · Reading the metrics", "05 · 指標の読み方"),
-        heading: l("CER 好不代表“谁说的”也一定对", "A good CER does not guarantee correct speaker attribution", "CERが良くても話者帰属が正しいとは限らない"),
+        kicker: l("05 · 指标解读", "05 · Reading the metrics", "05 · 指標の読み方", "05 · 지표 읽기"),
+        heading: l("CER 好不代表“谁说的”也一定对", "A good CER does not guarantee correct speaker attribution", "CERが良くても話者帰属が正しいとは限らない", "CER이 좋아도 화자 귀속까지 정확하다는 뜻은 아니다"),
         paragraphs: [
           l("CER 只计算文字层面的编辑距离；cpCER 会先寻找参考说话人与预测说话人的最佳排列，再计算归属后的字符错误。两者之差 Δcp 可以粗略观察话者归属带来的额外损失，但它不是标准 diarization error rate，也无法单独描述漏检、误检与混淆时间。", "CER measures character edits only. cpCER first finds the best permutation between reference and predicted speakers, then scores speaker-attributed text. Their difference, Δcp, roughly exposes attribution cost, but it is not diarization error rate and does not separately measure missed, false-alarm, or confused time.", "CERは文字編集距離だけを測ります。cpCERは参照話者と予測話者の最良対応を求めてから話者付き文字を評価します。差分Δcpは帰属コストの目安ですが、DERではなく、未検出・誤検出・混同時間を個別には示しません。"),
           l("因此应同时观察基础文字质量与说话人归属增量。电影场景中 CER 尚可但 Δcp 较高，说明重叠、背景声或快速切换仍会破坏归属；AliMeeting 出现负 Δcp 也不是数学错误，而是排列式汇总与整体 CER 的分段方式可能带来这种结果。", "Both text quality and attribution increment matter. In movies, reasonable CER with a larger Δcp suggests overlap, background audio, or rapid turns still hurt attribution. A negative Δcp on AliMeeting is not necessarily a calculation error; permutation-based aggregation and segmentation can produce it.", "文字品質と話者帰属の増分を併記すべきです。映画ではCERが比較的良くてもΔcpが大きく、重なりや背景音、速い交替が帰属を壊すことが分かります。AliMeetingの負のΔcpも必ずしも誤りではなく、順列評価と集計方法で起こり得ます。"),
@@ -188,8 +193,8 @@ export const reports: Report[] = [
       },
       {
         id: "claims",
-        kicker: l("06 · 结果纠偏", "06 · Calibrating the claims", "06 · 主張の補正"),
-        heading: l("亮眼数字成立的范围，比标题更重要", "The scope of a strong number matters more than the headline", "目立つ数値は適用範囲まで読んで初めて意味を持つ"),
+        kicker: l("06 · 结果纠偏", "06 · Calibrating the claims", "06 · 主張の補正", "06 · 주장 보정하기"),
+        heading: l("亮眼数字成立的范围，比标题更重要", "The scope of a strong number matters more than the headline", "目立つ数値は適用範囲まで読んで初めて意味を持つ", "인상적인 수치보다 그 수치가 성립하는 범위가 더 중요하다"),
         paragraphs: [
           l("AISHELL-4 上，相对一个 cpCER 24.99 的公开基线，15.83 约等于 36.7% 的相对下降；对 27.86 的另一系统则约为 43.2%。这是有意义的改善，但它只针对特定数据集、指标和版本，不能自动外推到所有语言、麦克风和会议形态。", "On AISHELL-4, 15.83 cpCER is about a 36.7% relative reduction from a 24.99 baseline and about 43.2% from a 27.86 system. This is meaningful, but it is scoped to a dataset, metric, and version; it does not automatically generalize to every language, microphone, or meeting style.", "AISHELL-4ではcpCER 15.83は24.99の基準から約36.7%、27.86の別システムから約43.2%の相対低下です。有意な改善ですが、特定データ・指標・版に限られ、全言語や全マイク、全会議形式へ自動的に一般化できません。"),
           l("微信介绍与最新版报告在个别 AISHELL 数值上存在差异，模型卡与 v6 报告给出的 15.83 / 0.99 应作为当前参考。电影数据上“最优 Δcp”的文字描述也与表格中若干闭源系统的数值非常接近甚至略有冲突，所以更稳妥的结论是其表现具有竞争力，而不是宣称所有维度绝对第一。", "The WeChat article and the latest report differ on some AISHELL figures; 15.83 / 0.99 from the model card and v6 report is the current reference. The movie-set “best Δcp” wording is also extremely close to, or slightly conflicts with, some closed-system table values. “Competitive” is safer than an absolute across-the-board first place.", "微信記事と最新版報告ではAISHELLの一部数値が異なり、現時点ではモデルカード／v6の15.83・0.99を参照すべきです。映画セットの「最良Δcp」も表中の閉鎖系と僅差または軽い不整合があるため、全指標で絶対一位より「競争力がある」が妥当です。"),
@@ -201,8 +206,8 @@ export const reports: Report[] = [
       },
       {
         id: "deployment",
-        kicker: l("07 · 应用路径", "07 · Deployment path", "07 · 活用への道筋"),
-        heading: l("最适合先做可审计的离线转写，而不是无人值守定稿", "Start with auditable offline transcription, not unattended final copy", "まず監査可能なオフライン文字起こしから始める"),
+        kicker: l("07 · 应用路径", "07 · Deployment path", "07 · 活用への道筋", "07 · 적용 경로"),
+        heading: l("最适合先做可审计的离线转写，而不是无人值守定稿", "Start with auditable offline transcription, not unattended final copy", "まず監査可能なオフライン文字起こしから始める", "무인 최종본보다 감사 가능한 오프라인 전사부터 시작하기"),
         paragraphs: [
           l("会议、访谈、呼叫中心质检和字幕草稿是自然场景：统一输出能减少工程模块，长上下文有助于保持整场记录的一致编号。模型还支持在提示中加入术语或热词，但公开材料没有提供系统性的热词消融，因此上线前要测试普通词误触发与错误提示下的退化。", "Meetings, interviews, call-center review, and subtitle drafts are natural uses. Unified output reduces pipeline glue, and long context helps consistent numbering. Prompts can include terminology or hotwords, but there is no systematic public hotword ablation, so false triggers and misleading prompts must be tested before launch.", "会議、インタビュー、コールセンター監査、字幕草稿が自然な用途です。統合出力は接着処理を減らし、長文脈は番号整合性を助けます。専門語やホットワードを提示できますが、体系的な公開アブレーションがないため、誤誘発と誤った提示での劣化を事前検証すべきです。"),
           l("可靠流程应保留原始音频、模型版本、结构化输出和人工修改记录；对数字、姓名、法律或医疗术语设低置信复核规则。真实姓名映射放在独立权限层，避免把匿名聚类结果误当身份事实。", "A dependable workflow retains source audio, model version, structured output, and human edits, with review rules for numbers, names, and legal or medical terms. Identity mapping belongs in a separately permissioned layer so anonymous clustering is not mistaken for an identity fact.", "信頼できる運用では元音声、モデル版、構造化出力、人手修正を保存し、数字・氏名・法律医療用語に確認規則を設けます。実名対応は別権限層へ置き、匿名クラスタを本人情報と誤認しないようにします。"),
@@ -214,8 +219,8 @@ export const reports: Report[] = [
       },
       {
         id: "limits",
-        kicker: l("08 · 尚未回答", "08 · Open questions", "08 · 未解決点"),
-        heading: l("缺少的不是演示，而是可复核的边界证据", "What is missing is reproducible boundary evidence, not another demo", "不足しているのはデモではなく再検証できる限界証拠"),
+        kicker: l("08 · 尚未回答", "08 · Open questions", "08 · 未解決点", "08 · 남은 질문"),
+        heading: l("缺少的不是演示，而是可复核的边界证据", "What is missing is reproducible boundary evidence, not another demo", "不足しているのはデモではなく再検証できる限界証拠", "더 필요한 것은 또 다른 데모가 아니라 재현 가능한 한계 근거다"),
         paragraphs: [
           l("当前结果没有系统报告时间戳偏差、标准 DER、置信区间或关键组件消融；自建 Podcast 与 Movies 也缺少足够公开细节。我们因此无法判断改进主要来自长上下文、合成数据、结构 token，还是更强的基础编码器。", "Current results do not systematically report timestamp error, standard DER, confidence intervals, or component ablations, and the in-house Podcast and Movies sets lack sufficient public detail. We therefore cannot isolate whether gains come mainly from long context, synthetic data, structure tokens, or the stronger encoder.", "現結果には時刻誤差、標準DER、信頼区間、主要要素のアブレーションが体系的に示されず、独自Podcast・Moviesの詳細も不足します。改善が長文脈、合成データ、構造トークン、強いエンコーダのどれに由来するか切り分けられません。"),
           l("此外它仍是离线、匿名的记录生成器。高重叠多人讨论、陌生语言、极长录音中的显存压力，以及输出格式失配都需要按目标场景实测。把它称为有前景的开放基线是合理的，把它称为已经解决所有多说话人转写则过早。", "It remains an offline, anonymous record generator. Heavy overlap, unseen languages, memory pressure on very long audio, and format failures all require task-specific testing. Calling it a promising open baseline is reasonable; calling multi-speaker transcription solved is premature.", "これは依然としてオフラインかつ匿名の記録生成器です。高重なり、未知言語、超長音声のメモリ、書式崩れを用途別に試す必要があります。有望な公開基準とは言えますが、複数話者文字起こしが解決済みとは言えません。"),
@@ -238,61 +243,64 @@ export const reports: Report[] = [
       { term: "KV cache", definition: l("自回归推理中缓存的注意力键值，能减少重复计算，但会随上下文增长占用显存。", "Cached attention keys and values that save repeated computation but grow with context.", "自己回帰推論で再計算を減らす注意機構のキャッシュで、文脈とともにメモリを消費します。") },
     ],
     sources: [
-      { label: l("微信原文", "WeChat article", "WeChat記事"), kind: "article", url: "https://mp.weixin.qq.com/s/EGLtIthM19PU8h8t31O5Qw" },
-      { label: l("技术报告（arXiv）", "Technical report (arXiv)", "技術報告（arXiv）"), kind: "paper", url: "https://arxiv.org/abs/2601.01554" },
-      { label: l("官方 GitHub", "Official GitHub", "公式GitHub"), kind: "repository", url: "https://github.com/OpenMOSS/MOSS-Transcribe-Diarize" },
-      { label: l("官方模型卡", "Official model card", "公式モデルカード"), kind: "model", url: "https://huggingface.co/OpenMOSS-Team/MOSS-Transcribe-Diarize" },
+      { label: l("微信原文", "WeChat article", "WeChat記事", "WeChat 원문"), kind: "article", url: "https://mp.weixin.qq.com/s/EGLtIthM19PU8h8t31O5Qw" },
+      { label: l("技术报告（arXiv）", "Technical report (arXiv)", "技術報告（arXiv）", "기술 보고서(arXiv)"), kind: "paper", url: "https://arxiv.org/abs/2601.01554" },
+      { label: l("官方 GitHub", "Official GitHub", "公式GitHub", "공식 GitHub"), kind: "repository", url: "https://github.com/OpenMOSS/MOSS-Transcribe-Diarize" },
+      { label: l("官方模型卡", "Official model card", "公式モデルカード", "공식 모델 카드"), kind: "model", url: "https://huggingface.co/OpenMOSS-Team/MOSS-Transcribe-Diarize" },
     ],
   },
   {
     index: "02",
     slug: "dllm-asr-prior-guided-adaptive-denoising",
     published: "2026-06-29",
-    readingTime: l("约 17 分钟", "About 17 min", "約17分"),
-    category: l("深度报告 · 扩散语言模型 ASR", "Deep report · Diffusion-LM ASR", "詳細レポート · 拡散言語モデルASR"),
+    readingTime: l("约 17 分钟", "About 17 min", "約17分", "약 17분"),
+    category: l("深度报告 · 扩散语言模型 ASR", "Deep report · Diffusion-LM ASR", "詳細レポート · 拡散言語モデルASR", "심층 보고서 · 확산 언어 모델 ASR"),
     title: l(
       "扩散式 ASR 为什么先写一份粗稿，反而能快 4.44 倍？",
       "Why can a diffusion ASR system run 4.44× faster by drafting first?",
-      "拡散型ASRは、なぜ先に下書きを作ると4.44倍速くなるのか"
+      "拡散型ASRは、なぜ先に下書きを作ると4.44倍速くなるのか",
+      "확산형 ASR은 왜 초안을 먼저 쓰면 4.44배 빨라질까?"
     ),
     summary: l(
       "dLLM-ASR 不让 8B 扩散语言模型从全掩码序列开始盲目恢复文本，而是由轻量 CTC 分支先提供长度和粗略转写，再按置信度只修补不确定位置。它展示的不是“扩散天然更快”，而是一套把昂贵计算集中到难 token 的推理工程。",
       "dLLM-ASR does not ask an 8B diffusion language model to reconstruct text from an entirely masked sequence. A lightweight CTC branch supplies length and a draft, then confidence-guided denoising focuses on uncertain positions. The lesson is not that diffusion is inherently faster, but that expensive computation can be allocated to difficult tokens.",
-      "dLLM-ASRは8Bの拡散言語モデルに全マスク列から文字を当てさせず、軽量CTCが長さと下書きを与え、確信度に応じて不確かな位置だけを修正します。拡散が本質的に速いのではなく、高価な計算を難しいトークンへ集中する設計です。"
+      "dLLM-ASRは8Bの拡散言語モデルに全マスク列から文字を当てさせず、軽量CTCが長さと下書きを与え、確信度に応じて不確かな位置だけを修正します。拡散が本質的に速いのではなく、高価な計算を難しいトークンへ集中する設計です。",
+      "dLLM-ASR은 8B 확산 언어 모델이 전체 마스크 시퀀스에서 무작정 텍스트를 복원하게 하지 않습니다. 가벼운 CTC 분기가 길이와 초안을 제공하고 신뢰도 기반 디노이징이 불확실한 위치에 집중합니다. 핵심은 확산이 본질적으로 빠르다는 것이 아니라 비싼 계산을 어려운 토큰에 배분하는 방식입니다."
     ),
     thesis: l(
       "这篇工作的价值在于把扩散解码从“固定轮数、固定长度、全位置反复计算”改造成“有声学先验的自适应校对”；4.44 倍是相对指定自回归基线、在特定硬件和测试流程下的结果，不能脱离条件引用。",
       "The contribution turns diffusion decoding from fixed rounds over a padded, fully uncertain sequence into adaptive proofreading with an acoustic prior. The 4.44× number is relative to a specified autoregressive baseline under a particular evaluation setup, not a hardware-independent constant.",
-      "本研究は、固定長・固定反復で全位置を再計算する拡散復号を、音響事前分布付きの適応的校正へ変えます。4.44倍は特定の自己回帰基準、機器、評価条件に対する値で、普遍定数ではありません。"
+      "本研究は、固定長・固定反復で全位置を再計算する拡散復号を、音響事前分布付きの適応的校正へ変えます。4.44倍は特定の自己回帰基準、機器、評価条件に対する値で、普遍定数ではありません。",
+      "이 연구는 고정 길이·고정 반복으로 모든 위치를 재계산하던 확산 디코딩을 음향 사전정보가 있는 적응형 교정으로 바꿉니다. 4.44배는 특정 자기회귀 기준 모델과 하드웨어·평가 조건에서 얻은 값이며 보편적인 상수가 아닙니다."
     ),
     tags: ["dLLM", "ASR", "CTC", "Adaptive denoising", "KV cache"],
     facts: [
       {
-        label: l("平均 WER", "Average WER", "平均WER"),
+        label: l("平均 WER", "Average WER", "平均WER", "평균 WER"),
         value: l("6.34", "6.34", "6.34"),
         detail: l("在论文汇总的英语测试集上略低于自回归 Whisper-LLaMA3 的 6.54，但并非每个子集都更好。", "Across the paper's aggregated English test sets, this is slightly below Whisper-LLaMA3's 6.54, but not every subset improves.", "論文の英語テスト平均ではWhisper-LLaMA3の6.54を僅かに下回りますが、全サブセットで優位ではありません。"),
       },
       {
-        label: l("实时因子", "Real-time factor", "リアルタイム係数"),
+        label: l("实时因子", "Real-time factor", "リアルタイム係数", "실시간 계수"),
         value: l("0.063", "0.063", "0.063"),
         detail: l("同一论文中自回归基线为 0.280，由此得到约 4.44 倍加速；RTF 会随 GPU、批量和实现改变。", "The paper's autoregressive baseline is 0.280, yielding roughly 4.44×; RTF changes with GPU, batching, and implementation.", "同論文の自己回帰基準0.280に対して約4.44倍ですが、RTFはGPU、バッチ、実装で変わります。"),
       },
       {
-        label: l("解码器", "Decoder", "デコーダ"),
+        label: l("解码器", "Decoder", "デコーダ", "디코더"),
         value: l("LLaDA-8B-Instruct", "LLaDA-8B-Instruct", "LLaDA-8B-Instruct"),
         detail: l("语音编码器来自冻结的 Whisper-large-v3；适配器与 LoRA 分阶段训练，而不是从头训练整套 8B 模型。", "A frozen Whisper-large-v3 supplies speech features; the adapter and LoRA are trained in stages rather than retraining the full 8B model from scratch.", "音声特徴は凍結Whisper-large-v3から得て、8B全体をゼロから学習せず、アダプタとLoRAを段階的に訓練します。"),
       },
       {
-        label: l("训练语音", "Training speech", "学習音声"),
-        value: l("约 13,900 小时英语", "About 13,900 hours of English", "約13,900時間の英語"),
+        label: l("训练语音", "Training speech", "学習音声", "학습 음성"),
+        value: l("约 13,900 小时英语", "About 13,900 hours of English", "約13,900時間の英語", "영어 약 13,900시간"),
         detail: l("数据来自 LibriSpeech、Common Voice 22 英语部分和 GigaSpeech；论文未证明相同策略可直接迁移到多语或语码切换。", "Data comes from LibriSpeech, English Common Voice 22, and GigaSpeech; the paper does not establish direct transfer to multilingual or code-switched speech.", "LibriSpeech、Common Voice 22英語、GigaSpeechを使用し、多言語やコードスイッチへの直接移行は未検証です。"),
       },
     ],
     sections: [
       {
         id: "motivation",
-        kicker: l("01 · 速度悖论", "01 · The speed paradox", "01 · 速度の逆説"),
-        heading: l("能并行改词，不代表整套系统就会更快", "Parallel token updates do not automatically make a faster system", "並列に単語を直せても、システム全体が速いとは限らない"),
+        kicker: l("01 · 速度悖论", "01 · The speed paradox", "01 · 速度の逆説", "01 · 속도의 역설"),
+        heading: l("能并行改词，不代表整套系统就会更快", "Parallel token updates do not automatically make a faster system", "並列に単語を直せても、システム全体が速いとは限らない", "토큰을 병렬로 고쳐도 전체 시스템이 자동으로 빨라지지는 않는다"),
         paragraphs: [
           l("自回归 ASR 必须一个 token 接一个 token 生成，后一个词等待前一个词，看起来天然串行。扩散语言模型可以在一轮中同时更新多个位置，理论上更有并行潜力；但每一轮都要经过完整的 8B Transformer，如果轮数很多，单轮并行的优势会被反复计算吞掉。", "Autoregressive ASR emits one token after another, so later words wait for earlier ones. A diffusion language model can update many positions in each round, which offers parallelism, but every round still traverses an 8B Transformer. Too many rounds can erase the advantage.", "自己回帰ASRは一語ずつ生成し、後続語は前語を待ちます。拡散言語モデルは一回で複数位置を更新できますが、各ラウンドで8B Transformer全体を通るため、反復が多いと並列性の利点が消えます。"),
           l("论文中的朴素 Whisper-LLaDA 正是反例：LibriSpeech test-clean 上 RTF 约 1.678，明显慢于自回归 Whisper-LLaMA3 的 0.317。换言之，算法类别不会自动决定速度；初始化、输出长度、停止策略和缓存才决定实际算了多少次。", "The naïve Whisper-LLaDA baseline illustrates the problem: on LibriSpeech test-clean its RTF is about 1.678, much slower than 0.317 for autoregressive Whisper-LLaMA3. Model family alone does not determine speed; initialization, length, stopping, and caching determine how much work is done.", "朴素なWhisper-LLaDAはその反例で、LibriSpeech test-cleanのRTFは約1.678、自己回帰Whisper-LLaMA3は0.317です。方式名ではなく、初期化、長さ、停止、キャッシュが実計算量を決めます。"),
@@ -305,8 +313,8 @@ export const reports: Report[] = [
       },
       {
         id: "mismatches",
-        kicker: l("02 · 三种浪费", "02 · Three mismatches", "02 · 三つの無駄"),
-        heading: l("全空白起步、固定长度、固定轮数都忽略了语音的难易差异", "All-mask starts, fixed length, and fixed rounds ignore speech difficulty", "全マスク開始・固定長・固定反復は音声の難易度差を無視する"),
+        kicker: l("02 · 三种浪费", "02 · Three mismatches", "02 · 三つの無駄", "02 · 세 가지 낭비"),
+        heading: l("全空白起步、固定长度、固定轮数都忽略了语音的难易差异", "All-mask starts, fixed length, and fixed rounds ignore speech difficulty", "全マスク開始・固定長・固定反復は音声の難易度差を無視する", "전체 마스크 시작·고정 길이·고정 반복은 음성의 난이도 차이를 무시한다"),
         paragraphs: [
           l("第一种浪费是从全 [MASK] 开始：模型明明已经接收声学表示，却没有一份离散文字草稿来缩小搜索空间。第二种是用固定最大长度覆盖大多数句子，短句后面的大量位置仍参与注意力。第三种是每条样本运行相同去噪轮数，简单、清晰的词也和含糊词一样反复送入大模型。", "First, an all-[MASK] sequence discards the chance to narrow the discrete search space with a textual draft. Second, a fixed maximum length keeps many positions active after short utterances. Third, a fixed number of denoising rounds sends easy, clear tokens through the large model as often as ambiguous ones.", "第一に全[MASK]から始めると、文字下書きで離散探索を狭める機会を捨てます。第二に最大長固定では短い発話の後ろも計算します。第三に反復回数固定では、明瞭な語も曖昧な語と同じだけ大モデルを通ります。"),
           l("dLLM-ASR 的核心判断是：语音识别不是从无到有的自由生成，而是存在强声学约束的序列恢复。轻量模型先把容易部分确定下来，昂贵模型只需要解决同音词、边界和语言一致性等难点。", "dLLM-ASR treats recognition as sequence recovery under strong acoustic constraints, not unconstrained generation. A cheap model commits the easy structure first, leaving homophones, boundaries, and linguistic consistency to the expensive model.", "dLLM-ASRは音声認識を自由生成ではなく、強い音響制約下の系列復元とみなします。軽量モデルが容易な構造を先に決め、高価なモデルは同音語、境界、言語整合性へ集中します。"),
@@ -318,8 +326,8 @@ export const reports: Report[] = [
       },
       {
         id: "architecture",
-        kicker: l("03 · 声学到文字", "03 · From acoustics to text", "03 · 音響から文字へ"),
-        heading: l("冻结语音编码器，把训练重点放在跨模态接口", "Freeze the speech encoder and train the modality bridge", "音声エンコーダを凍結し、モダリティ橋を学習する"),
+        kicker: l("03 · 声学到文字", "03 · From acoustics to text", "03 · 音響から文字へ", "03 · 음향에서 텍스트로"),
+        heading: l("冻结语音编码器，把训练重点放在跨模态接口", "Freeze the speech encoder and train the modality bridge", "音声エンコーダを凍結し、モダリティ橋を学習する", "음성 인코더를 고정하고 모달리티 연결부를 학습한다"),
         paragraphs: [
           l("系统使用冻结的 Whisper-large-v3 编码器提取 25 Hz 特征，再以步长为 2 的一维卷积降至 12.5 Hz，并通过线性层把 1280 维声学表示投影到 LLaDA 的 4096 维空间。这样保留成熟声学前端，同时让扩散语言模型在熟悉的隐藏维度接收语音条件。", "A frozen Whisper-large-v3 encoder produces 25 Hz features. A stride-2 Conv1d reduces them to 12.5 Hz, and a linear layer projects 1280-dimensional acoustics into LLaDA's 4096-dimensional space. The design retains a mature acoustic front end while conditioning the diffusion LM in its native hidden dimension.", "凍結Whisper-large-v3が25Hz特徴を作り、stride 2のConv1dで12.5Hzへ落とし、線形層で1280次元からLLaDAの4096次元へ射影します。成熟した音響前段を保ち、拡散LMへ馴染みの表現空間で条件を渡します。"),
           l("训练分两步：先只训练适配器，避免一开始扰动语言模型；再联合适配器与 LoRA，让解码器学习语音条件下的文字恢复。离散掩码扩散按时间 t 随机遮住目标 token，并用与 1/t 相关的权重学习恢复；约 20% 样本使用完全遮蔽，以保留从零恢复的能力。", "Training first updates only the adapter, then jointly updates the adapter and LoRA so the decoder learns speech-conditioned reconstruction. Discrete masked diffusion hides target tokens according to time t and uses a 1/t-related weighting; about 20% of examples are fully masked to preserve full reconstruction ability.", "学習はまずアダプタのみ、次にアダプタとLoRAを更新します。離散マスク拡散は時刻tに応じて正解トークンを隠し、1/tに関係する重みで復元を学びます。約20%は全マスクで、完全復元能力も維持します。"),
@@ -331,8 +339,8 @@ export const reports: Report[] = [
       },
       {
         id: "inference",
-        kicker: l("04 · 四个加速器", "04 · Four accelerators", "04 · 四つの高速化"),
-        heading: l("先验、早停、裁长和缓存是一套联动系统", "Prior, early exit, pruning, and caching work as a system", "事前分布・早期確定・長さ削減・キャッシュは連動する"),
+        kicker: l("04 · 四个加速器", "04 · Four accelerators", "04 · 四つの高速化", "04 · 네 가지 가속 장치"),
+        heading: l("先验、早停、裁长和缓存是一套联动系统", "Prior, early exit, pruning, and caching work as a system", "事前分布・早期確定・長さ削減・キャッシュは連動する", "사전정보·조기 종료·길이 가지치기·캐시는 하나의 시스템으로 작동한다"),
         paragraphs: [
           l("轻量 CTC 分支先生成粗稿与长度提示，使扩散过程从“有根据的候选”而不是全空白开始。每轮去噪后，置信度超过阈值的 token 可以固定，剩余计算集中到不确定位置；实现还保证每轮至少确认最高置信的一个位置，避免完全停滞。", "A lightweight CTC branch provides a draft and length hint, so diffusion starts from an informed candidate rather than blanks. After each round, tokens above a confidence threshold can be committed, concentrating later compute on uncertainty; at least the top-confidence position is finalized each round to guarantee progress.", "軽量CTCが下書きと長さを与え、拡散は空白ではなく根拠ある候補から始まります。各ラウンドで閾値以上のトークンを確定し、不確かな位置へ計算を集中します。停止を避けるため最低一位置は必ず確定します。"),
           l("自适应长度裁剪会尽早移除预测为结束或填充的尾部位置；语音条件在各轮不变，因此它的注意力键值可以缓存，无需重复编码。这四项并非彼此独立：若 CTC 粗稿很差，过早固定错误 token 反而让语言模型失去纠正机会。", "Adaptive length pruning removes likely end/padding positions early. Because speech conditioning is invariant across rounds, its attention keys and values can be cached. The four techniques are interdependent: a poor CTC draft combined with aggressive commitment can freeze errors before the LM corrects them.", "適応的長さ削減は終端・パディング候補を早く除きます。音声条件は反復間で不変なので注意K/Vをキャッシュできます。ただしCTC下書きが悪い状態で早く確定すると、LMが誤りを直せなくなります。"),
@@ -347,8 +355,8 @@ export const reports: Report[] = [
       },
       {
         id: "results",
-        kicker: l("05 · 结果对照", "05 · Results in context", "05 · 結果の比較"),
-        heading: l("4.44 倍来自 0.280 ÷ 0.063，而“精度不掉”需要更细地说", "4.44× is 0.280 ÷ 0.063, while “no accuracy loss” needs nuance", "4.44倍は0.280÷0.063、「精度低下なし」には補足が要る"),
+        kicker: l("05 · 结果对照", "05 · Results in context", "05 · 結果の比較", "05 · 결과 비교"),
+        heading: l("4.44 倍来自 0.280 ÷ 0.063，而“精度不掉”需要更细地说", "4.44× is 0.280 ÷ 0.063, while “no accuracy loss” needs nuance", "4.44倍は0.280÷0.063、「精度低下なし」には補足が要る", "4.44배는 0.280÷0.063의 결과이며 ‘정확도 손실 없음’에는 설명이 더 필요하다"),
         paragraphs: [
           l("论文汇总 LibriSpeech、Common Voice 和未见过的 VoxPopuli 英语测试，dLLM-ASR 平均 WER 6.34、RTF 0.063；自回归 Whisper-LLaMA3 为 6.54 和 0.280。平均指标上，扩散系统略准且约快 4.44 倍。", "Across LibriSpeech, Common Voice, and unseen English VoxPopuli tests, dLLM-ASR reports 6.34 average WER at 0.063 RTF, versus 6.54 and 0.280 for Whisper-LLaMA3. On the aggregate, it is slightly more accurate and about 4.44× faster.", "LibriSpeech、Common Voice、未学習の英語VoxPopuliを集計すると、dLLM-ASRは平均WER 6.34・RTF 0.063、Whisper-LLaMA3は6.54・0.280です。平均では僅かに高精度で約4.44倍高速です。"),
           l("但 test-clean 子集上 dLLM-ASR 的 2.28 仍略差于自回归基线的 2.15。因此更准确的说法是“平均 WER 没有回退并略有改善”，而不是所有条件都不掉点。朴素扩散版本 RTF 1.736 到 0.063 的约 27.6 倍下降，也说明大部分加速来自推理策略，而非只换模型类别。", "On test-clean, however, dLLM-ASR's 2.28 is slightly worse than the autoregressive baseline's 2.15. The accurate claim is that aggregate WER does not regress and slightly improves, not that every condition is lossless. The roughly 27.6× reduction from naïve diffusion RTF 1.736 to 0.063 also shows that inference design drives most of the gain.", "ただしtest-cleanではdLLM-ASRの2.28が自己回帰基準2.15より僅かに悪化します。正確には平均WERが退化せず少し改善したのであり、全条件で無損失ではありません。朴素拡散RTF 1.736から0.063への約27.6倍低下は、推論設計が主な高速化要因だと示します。"),
@@ -366,8 +374,8 @@ export const reports: Report[] = [
       },
       {
         id: "ablation",
-        kicker: l("06 · 消融告诉了什么", "06 · What the ablations reveal", "06 · アブレーションが示すこと"),
-        heading: l("最小 RTF 不等于最佳系统，质量—速度要联合调参", "Minimum RTF is not the best system; quality and speed are co-tuned", "最小RTFが最良システムとは限らず、品質と速度を同時調整する"),
+        kicker: l("06 · 消融告诉了什么", "06 · What the ablations reveal", "06 · アブレーションが示すこと", "06 · 어블레이션이 보여 주는 것"),
+        heading: l("最小 RTF 不等于最佳系统，质量—速度要联合调参", "Minimum RTF is not the best system; quality and speed are co-tuned", "最小RTFが最良システムとは限らず、品質と速度を同時調整する", "최소 RTF가 최선의 시스템은 아니며 품질과 속도를 함께 조정해야 한다"),
         paragraphs: [
           l("从消融看，移除 CTC 先验或长度裁剪会让 test-clean RTF 从约 0.057 上升至 0.069 / 0.071，WER 变化相对小。这说明二者主要减少冗余计算；而置信早停直接改变哪些 token 还能被修正，对精度更敏感。", "Ablations show that removing the CTC prior or length pruning raises test-clean RTF from about 0.057 to 0.069/0.071 with comparatively small WER changes. These components primarily remove redundant work, while confidence exit changes which tokens remain editable and is more accuracy-sensitive.", "CTC事前分布または長さ削減を外すとtest-clean RTFは約0.057から0.069/0.071へ上がり、WER変化は比較的小さいため、主に冗長計算を削っています。一方、確信度による確定は修正可能な位置を変えるため精度に敏感です。"),
           l("阈值 τ=0.9 是在论文条件下的折中，不是部署默认真理。口音、噪声和领域专名会改变置信校准；如果 CTC 对某类语音过度自信，错误可能被提前锁死。生产环境需要按风险分组画出 WER—延迟曲线，而不是只选择一个全局阈值。", "The τ=0.9 threshold is a paper-specific compromise, not a universal deployment default. Accent, noise, and domain names change confidence calibration; an overconfident CTC branch can freeze errors. Production tuning should plot WER–latency curves by risk slice instead of selecting one global threshold.", "τ=0.9は論文条件の折衷で、普遍的な既定値ではありません。アクセント、雑音、専門固有名詞で確信度校正は変わり、CTCの過信は誤りを固定します。運用ではリスク別のWER–遅延曲線が必要です。"),
@@ -379,8 +387,8 @@ export const reports: Report[] = [
       },
       {
         id: "deployment",
-        kicker: l("07 · 工程迁移", "07 · Engineering transfer", "07 · 工学的な応用"),
-        heading: l("“便宜草稿 + 昂贵校对”是一条比模型名称更通用的原则", "Cheap draft plus expensive refinement is the transferable principle", "安い下書き＋高価な校正こそ応用可能な原則"),
+        kicker: l("07 · 工程迁移", "07 · Engineering transfer", "07 · 工学的な応用", "07 · 엔지니어링 전이"),
+        heading: l("“便宜草稿 + 昂贵校对”是一条比模型名称更通用的原则", "Cheap draft plus expensive refinement is the transferable principle", "安い下書き＋高価な校正こそ応用可能な原則", "‘저렴한 초안 + 비싼 교정’이 모델 이름보다 더 일반적인 원칙이다"),
         paragraphs: [
           l("即使不用扩散 LLM，这套思路也可迁移到其他系统：小模型给出候选和不确定性，大模型仅检查难片段；对所有轮次不变的声学条件做缓存；按实际长度裁掉无效位置。它本质上是预算分配，而不是某个架构的专利。", "The pattern transfers beyond diffusion LMs: a small model proposes candidates and uncertainty, a large model examines hard spans, invariant acoustic conditions are cached, and invalid tail positions are pruned. This is compute-budget allocation rather than an architecture-specific trick.", "この考え方は拡散LM以外にも移せます。小モデルが候補と不確かさを出し、大モデルは難所だけを確認し、不変の音響条件をキャッシュし、無効な末尾を削ります。本質は計算予算配分です。"),
           l("若要做流式识别，还需额外解决音频分块、稳定前缀、有限回看与增量 KV 缓存。论文系统按完整语句离线去噪，不能只凭低 RTF 就称为实时流式；首字延迟和用户看到的反复改写次数同样重要。", "Streaming requires additional chunking, stable-prefix rules, bounded lookback, and incremental KV caching. The paper denoises complete utterances offline, so low RTF alone does not establish streaming behavior; first-token latency and visible revision churn also matter.", "ストリーミングにはチャンク化、安定接頭辞、有限の振り返り、増分KVキャッシュが必要です。論文は完全発話をオフラインで処理するため、低RTFだけでリアルタイム流式とは言えず、初文字遅延と表示の書き換え回数も重要です。"),
@@ -393,8 +401,8 @@ export const reports: Report[] = [
       },
       {
         id: "limits",
-        kicker: l("08 · 证据边界", "08 · Evidence boundary", "08 · 証拠の境界"),
-        heading: l("英语离线实验很有启发，但距离通用语音接口仍有多道门槛", "The English offline result is instructive, not yet a universal speech interface", "英語オフライン結果は有益だが、汎用音声インターフェースではない"),
+        kicker: l("08 · 证据边界", "08 · Evidence boundary", "08 · 証拠の境界", "08 · 근거의 경계"),
+        heading: l("英语离线实验很有启发，但距离通用语音接口仍有多道门槛", "The English offline result is instructive, not yet a universal speech interface", "英語オフライン結果は有益だが、汎用音声インターフェースではない", "영어 오프라인 결과는 유익하지만 아직 범용 음성 인터페이스는 아니다"),
         paragraphs: [
           l("训练与主测试集中在英语，尚缺多语、语码切换、强口音、远场噪声和专业术语的系统分析。VoxPopuli 的未见测试提供一定域外证据，但不能覆盖真实产品的长尾。论文还是预印本，当前也没有完整官方实现可用于独立复现全部速度数字。", "Training and main evaluation focus on English, without systematic multilingual, code-switching, strong-accent, far-field-noise, or terminology analysis. Unseen VoxPopuli provides some out-of-domain evidence but not production long tails. The work is a preprint, and a complete official implementation for reproducing every speed result is not currently available.", "学習と主要評価は英語中心で、多言語、コードスイッチ、強いアクセント、遠距離雑音、専門語の体系評価がありません。未見VoxPopuliは域外証拠の一部ですが実運用の長尾を覆わず、プレプリントで完全な公式再現実装も現時点ではありません。"),
           l("最值得保留的结论不是“扩散已经取代自回归”，而是三个工程原则：用廉价先验缩小问题、让计算随不确定性变化、缓存跨轮次不变的条件。它们需要在目标硬件和数据上重新验证，尤其要防止早停把偏差固化。", "The durable conclusion is not that diffusion has replaced autoregression. It is three engineering principles: narrow the problem with a cheap prior, allocate compute by uncertainty, and cache round-invariant conditions. Each must be revalidated on target data and hardware, especially against bias being frozen by early exit.", "残る結論は拡散が自己回帰を置き換えたことではありません。安い事前分布で問題を狭め、不確かさで計算を配分し、反復間で不変の条件をキャッシュする三原則です。対象データ・機器で再検証し、早期確定による偏り固定を防ぐ必要があります。"),
@@ -417,52 +425,55 @@ export const reports: Report[] = [
       { term: "KV cache", definition: l("复用注意力键值表示，避免每轮对不变条件重复计算。", "Reusing attention key/value states to avoid recomputing invariant context.", "不変文脈の再計算を避ける注意K/V状態の再利用です。") },
     ],
     sources: [
-      { label: l("微信原文", "WeChat article", "WeChat記事"), kind: "article", url: "https://mp.weixin.qq.com/s/BV4TV9PACl4RYIKvCzwNUA" },
-      { label: l("论文摘要（arXiv）", "Paper abstract (arXiv)", "論文概要（arXiv）"), kind: "paper", url: "https://arxiv.org/abs/2601.17902" },
-      { label: l("论文网页版", "Paper HTML", "論文HTML"), kind: "paper", url: "https://arxiv.org/html/2601.17902" },
-      { label: l("LLaDA 官方仓库（解码器基础）", "Official LLaDA repository (decoder foundation)", "LLaDA公式リポジトリ（デコーダ基盤）"), kind: "repository", url: "https://github.com/ML-GSAI/LLaDA" },
+      { label: l("微信原文", "WeChat article", "WeChat記事", "WeChat 원문"), kind: "article", url: "https://mp.weixin.qq.com/s/BV4TV9PACl4RYIKvCzwNUA" },
+      { label: l("论文摘要（arXiv）", "Paper abstract (arXiv)", "論文概要（arXiv）", "논문 초록(arXiv)"), kind: "paper", url: "https://arxiv.org/abs/2601.17902" },
+      { label: l("论文网页版", "Paper HTML", "論文HTML", "논문 HTML"), kind: "paper", url: "https://arxiv.org/html/2601.17902" },
+      { label: l("LLaDA 官方仓库（解码器基础）", "Official LLaDA repository (decoder foundation)", "LLaDA公式リポジトリ（デコーダ基盤）", "LLaDA 공식 저장소(디코더 기반)"), kind: "repository", url: "https://github.com/ML-GSAI/LLaDA" },
     ],
   },
   {
     index: "03",
     slug: "nemotron-labs-audex-unified-audio-llm",
     published: "2026-07-11",
-    readingTime: l("约 20 分钟", "About 20 min", "約20分"),
-    category: l("深度报告 · 统一音频语言模型", "Deep report · Unified audio-language model", "詳細レポート · 統合音声言語モデル"),
+    readingTime: l("约 20 分钟", "About 20 min", "約20分", "약 20분"),
+    category: l("深度报告 · 统一音频语言模型", "Deep report · Unified audio-language model", "詳細レポート · 統合音声言語モデル", "심층 보고서 · 통합 오디오 언어 모델"),
     title: l(
       "给大语言模型装上耳朵和嘴，怎样才能不忘掉原来的文字能力？",
       "How do you give an LLM ears and a voice without erasing its text intelligence?",
-      "LLMに耳と声を与えながら、元のテキスト能力を忘れさせないには"
+      "LLMに耳と声を与えながら、元のテキスト能力を忘れさせないには",
+      "LLM에 귀와 목소리를 더하면서 기존 텍스트 능력을 잊지 않게 하려면?"
     ),
     summary: l(
       "Nemotron-Labs-Audex 用一个解码器同时处理文本、语音和环境声音，并通过冻结文字嵌入、分阶段开放参数和持续文字回放，缓解音频训练对推理、指令遵循与长上下文能力的侵蚀。它的核心贡献是“如何扩展而不遗忘”，而不只是又做了一个能听能说的模型。",
       "Nemotron-Labs-Audex uses one decoder for text, speech, and general audio. Frozen text embeddings, staged parameter unfreezing, and sustained text replay reduce the damage that audio training can cause to reasoning, instruction following, and long-context skills. Its key question is how to expand a language model without making it forget.",
-      "Nemotron-Labs-Audexは一つのデコーダで文字、音声、環境音を扱います。文字埋め込みの凍結、段階的なパラメータ解放、継続的な文字リプレイで、音声学習による推論・指示追従・長文脈能力の損失を抑えます。主題は「聞いて話す」以上に「拡張しても忘れない」ことです。"
+      "Nemotron-Labs-Audexは一つのデコーダで文字、音声、環境音を扱います。文字埋め込みの凍結、段階的なパラメータ解放、継続的な文字リプレイで、音声学習による推論・指示追従・長文脈能力の損失を抑えます。主題は「聞いて話す」以上に「拡張しても忘れない」ことです。",
+      "Nemotron-Labs-Audex는 하나의 디코더로 텍스트, 음성, 환경음을 처리합니다. 텍스트 임베딩 고정, 단계적 파라미터 해제, 지속적인 텍스트 리플레이를 통해 오디오 학습이 추론·지시 이행·긴 문맥 능력을 훼손하는 문제를 줄입니다. 핵심은 단순히 듣고 말하는 모델이 아니라 ‘확장하면서도 잊지 않는’ 방법입니다."
     ),
     thesis: l(
       "统一模态最难的不是把音频 token 塞进词表，而是让巨量新梯度不覆盖已有文字行为。Audex 的消融显示，训练阶段设计和文字数据比例会决定长上下文与数学能力是否保留下来；因此“同一 checkpoint”不等于“所有能力无代价共存”。",
       "The hard part of unification is not inserting audio tokens into a vocabulary; it is preventing new gradients from overwriting established text behavior. Audex ablations show that staging and text-data ratio determine whether long-context and reasoning survive. One checkpoint therefore does not imply cost-free coexistence of every capability.",
-      "統合の難所は音声トークンを語彙へ足すことではなく、新しい勾配が既存の文字行動を上書きしないようにすることです。Audexの消融では段階設計と文字比率が長文脈・推論保持を左右し、一つのcheckpointでも全能力が無償で共存するとは限りません。"
+      "統合の難所は音声トークンを語彙へ足すことではなく、新しい勾配が既存の文字行動を上書きしないようにすることです。Audexの消融では段階設計と文字比率が長文脈・推論保持を左右し、一つのcheckpointでも全能力が無償で共存するとは限りません。",
+      "통합의 어려움은 오디오 토큰을 어휘에 넣는 데 있지 않고, 대규모의 새로운 그래디언트가 기존 텍스트 행동을 덮어쓰지 않게 하는 데 있습니다. Audex의 어블레이션은 학습 단계와 텍스트 비율이 긴 문맥·추론 능력의 유지 여부를 좌우함을 보여 줍니다. 하나의 체크포인트라고 해서 모든 능력이 비용 없이 공존하는 것은 아닙니다."
     ),
     tags: ["Audio LLM", "Nemotron", "Multimodal training", "TTS", "Long context"],
     facts: [
       {
-        label: l("公开版本", "Released variants", "公開版"),
+        label: l("公开版本", "Released variants", "公開版", "공개 버전"),
         value: l("2B 与 30B-A3B", "2B and 30B-A3B", "2Bと30B-A3B"),
         detail: l("30B 是 MoE 总参数规模，A3B 表示单个 token 约激活 3B 参数；它不表示完整权重只有 3B。", "The 30B model is a mixture of experts; A3B means roughly 3B parameters are active per token, not that the complete checkpoint contains only 3B.", "30BはMoEの総パラメータで、A3Bは一トークンあたり約3Bが活性化する意味です。全checkpointが3Bだけではありません。"),
       },
       {
-        label: l("训练规模", "Training scale", "学習規模"),
+        label: l("训练规模", "Training scale", "学習規模", "학습 규모"),
         value: l("394M 样本 / 1.092M 小时", "394M samples / 1.092M hours", "394Mサンプル／1.092M時間"),
         detail: l("报告还统计 157.4B 音频 token 与 320.5B 文字 token；但未公开逐项数据集与许可清单。", "The report also lists 157.4B audio tokens and 320.5B text tokens, without an itemized public dataset and license inventory.", "報告は157.4B音声トークンと320.5B文字トークンも示しますが、項目別データ・ライセンス一覧は未公開です。"),
       },
       {
-        label: l("训练上下文", "Training context", "学習コンテキスト"),
+        label: l("训练上下文", "Training context", "学習コンテキスト", "학습 문맥"),
         value: l("262,144 token", "262,144 tokens", "262,144トークン"),
         detail: l("在 512 张 H100 上以 BF16 训练；模型卡支持更长上下文并不意味着单机能低成本复现训练或满长推理。", "Training used 512 H100 GPUs in BF16. Longer supported context does not imply low-cost single-machine reproduction of training or full-length inference.", "512枚のH100でBF16学習されました。長文脈対応は単機で安価に学習や最大長推論を再現できる意味ではありません。"),
       },
       {
-        label: l("许可", "License", "ライセンス"),
+        label: l("许可", "License", "ライセンス", "라이선스"),
         value: l("NVIDIA OneWay Noncommercial", "NVIDIA OneWay Noncommercial", "NVIDIA OneWay Noncommercial"),
         detail: l("属于面向研究的非商业发布，不应仅凭“权重开放”推断可直接用于商业产品。", "This is a research-oriented noncommercial release; open weights should not be interpreted as automatic permission for commercial deployment.", "研究向け非商用公開で、重みが入手可能でも商用利用が自動許可されるわけではありません。"),
       },
@@ -470,8 +481,8 @@ export const reports: Report[] = [
     sections: [
       {
         id: "unification",
-        kicker: l("01 · 统一目标", "01 · The unification goal", "01 · 統合の目標"),
-        heading: l("不是把 ASR、聊天和 TTS 接成管道，而是让同一解码器学会多种序列", "One decoder learns multiple sequence types instead of wiring ASR, chat, and TTS", "ASR・会話・TTSの接続ではなく、一つのデコーダが複数系列を学ぶ"),
+        kicker: l("01 · 统一目标", "01 · The unification goal", "01 · 統合の目標", "01 · 통합의 목표"),
+        heading: l("不是把 ASR、聊天和 TTS 接成管道，而是让同一解码器学会多种序列", "One decoder learns multiple sequence types instead of wiring ASR, chat, and TTS", "ASR・会話・TTSの接続ではなく、一つのデコーダが複数系列を学ぶ", "ASR·대화·TTS를 파이프라인으로 잇는 대신 하나의 디코더가 여러 시퀀스를 학습한다"),
         paragraphs: [
           l("常见语音助手先把声音转成文字，再让 LLM 推理，最后由 TTS 合成语音。Audex 仍可能按任务顺序执行这些步骤，但核心参数和 token 空间由同一个 Transformer 解码器共享：输入可以是文字或音频表示，输出可以是文字、离散语音 token 或一般声音 token。", "A conventional voice assistant runs ASR, text reasoning, and TTS as separate models. Audex may still execute these logical stages in sequence, but one Transformer decoder shares the parameters and token space: inputs can be text or encoded audio, while outputs can be text, discrete speech tokens, or general-audio tokens.", "一般的な音声助手はASR、文字推論、TTSを別モデルで行います。Audexも論理的には順に処理する場合がありますが、一つのTransformerデコーダがパラメータとトークン空間を共有し、文字・音声入力から文字・離散音声・一般音トークンを出力できます。"),
           l("共享的好处是音频理解可以直接借用语言模型的知识与推理，语音生成也能受同一上下文控制；风险则是不同任务竞争参数。音频 token 数量巨大、梯度密集，如果不做保护，模型可能为了学发声而忘记原来如何做数学、遵循格式或在长文档中找证据。", "Sharing lets audio understanding reuse linguistic knowledge and reasoning, while generation follows the same context. The risk is parameter competition: abundant audio tokens can overwrite mathematical reasoning, formatting, or long-document retrieval while the model learns to listen and speak.", "共有により音声理解は言語知識と推論を利用し、生成も同じ文脈に従えます。一方、大量の音声トークンの勾配が競合し、聞いて話す学習の過程で数学、書式、長文検索を忘れる危険があります。"),
@@ -484,8 +495,8 @@ export const reports: Report[] = [
       },
       {
         id: "interfaces",
-        kicker: l("02 · 音频接口", "02 · Audio interfaces", "02 · 音声インターフェース"),
-        heading: l("输入是连续表示，输出则按声音类型使用不同离散码", "Inputs are continuous states; outputs use task-specific discrete audio codes", "入力は連続表現、出力は音種別の離散コード"),
+        kicker: l("02 · 音频接口", "02 · Audio interfaces", "02 · 音声インターフェース", "02 · 오디오 인터페이스"),
+        heading: l("输入是连续表示，输出则按声音类型使用不同离散码", "Inputs are continuous states; outputs use task-specific discrete audio codes", "入力は連続表現、出力は音種別の離散コード", "입력은 연속 표현이고 출력은 소리 유형별 이산 코드를 사용한다"),
         paragraphs: [
           l("音频输入先经过 AF-Whisper：16 kHz 波形以约 30 秒窗口编码为 25 Hz、1280 维表示，再投影到文字嵌入空间。这样理解任务无需先把音频硬转成文字，环境音、韵律和非语言线索可以直接进入解码器条件。", "Audio input passes through AF-Whisper: 16 kHz waveforms are encoded in roughly 30-second windows into 25 Hz, 1280-dimensional states and projected into the text embedding space. Understanding tasks need not force audio through transcription first, so sound events and prosody can condition the decoder directly.", "音声入力はAF-Whisperを通り、16kHz波形を約30秒窓で25Hz・1280次元表現へ符号化し、文字埋め込み空間へ射影します。理解タスクでは必ずしも文字起こしを経ず、環境音や韻律を直接条件にできます。"),
           l("生成侧把文字词表扩展到音频码。语音使用 X-Codec2，速率约 50 token/s、码本 65,536；一般音频使用 X-Codec 的前四层，合计约 200 token/s。扩展后词表约 204,805 项，并为计算效率补齐到 205,312。不同 token 率意味着一段声音会比同长度文字产生更长序列。", "For generation, the vocabulary is extended with audio codes. Speech uses X-Codec2 at roughly 50 tokens/s with a 65,536-entry codebook; general audio uses the first four X-Codec levels at about 200 tokens/s. The vocabulary reaches about 204,805 entries and is padded to 205,312 for efficiency. Audio therefore creates much longer sequences than comparable text.", "生成側では語彙へ音声コードを追加します。音声はX-Codec2（約50 token/s、65,536コード）、一般音はX-Codecの先頭4層（計約200 token/s）を使います。語彙は約204,805項で計算効率のため205,312へ揃えられ、音声は同時間の文字より長い系列になります。"),
@@ -498,8 +509,8 @@ export const reports: Report[] = [
       },
       {
         id: "anti-forgetting",
-        kicker: l("03 · 防止遗忘", "03 · Preventing forgetting", "03 · 忘却を防ぐ"),
-        heading: l("先保护文字空间，再逐步让主干接触音频", "Protect the text space first, then expose the backbone gradually", "まず文字空間を守り、主幹へ段階的に音声を導入する"),
+        kicker: l("03 · 防止遗忘", "03 · Preventing forgetting", "03 · 忘却を防ぐ", "03 · 망각 방지"),
+        heading: l("先保护文字空间，再逐步让主干接触音频", "Protect the text space first, then expose the backbone gradually", "まず文字空間を守り、主幹へ段階的に音声を導入する", "텍스트 공간을 먼저 보호한 뒤 백본에 오디오를 단계적으로 노출한다"),
         paragraphs: [
           l("Audex 不从第一天就让全部参数接受音频梯度。早期阶段冻结文字嵌入与主干，先训练新增加的音频编码、投影和输出接口；随后逐步开放更多参数，并持续混入文字任务。这样把“学会音频格式”和“重写语言能力”分开，降低突然漂移。", "Audex does not expose all parameters to audio gradients immediately. Early stages freeze text embeddings and the backbone while training new audio encoders, projectors, and output interfaces. Later stages progressively unfreeze parameters and continue mixing text tasks, separating interface acquisition from rewriting linguistic behavior.", "Audexは最初から全パラメータへ音声勾配を流しません。初期は文字埋め込みと主幹を凍結し、新しい音声エンコーダ、射影、出力部を学習します。その後徐々に解放し文字タスクを混ぜ、音声形式の獲得と文字能力の書き換えを分離します。"),
           l("消融非常直接：单阶段训练在 256K needle-in-a-haystack 测试只有 6.0，多阶段达到 99.3；在 1M 上是 0 对 86.8。冻结文字嵌入时 AIME 为 93.2，不冻结则降到 71.8。说明最容易被破坏的可能不是日常对话，而是依赖精确位置和稳定表示的高难能力。", "The ablations are stark: single-stage versus multi-stage training scores 6.0 versus 99.3 on 256K needle-in-a-haystack and 0 versus 86.8 at 1M. Freezing text embeddings yields 93.2 on AIME, compared with 71.8 when they are trainable. Fragile capabilities may be precision retrieval and reasoning rather than casual conversation.", "消融は明確で、単段階対多段階のNIAHは256Kで6.0対99.3、1Mで0対86.8です。文字埋め込み凍結のAIMEは93.2、非凍結は71.8。日常会話より精密検索や推論の方が壊れやすい可能性を示します。"),
@@ -517,8 +528,8 @@ export const reports: Report[] = [
       },
       {
         id: "data-and-training",
-        kicker: l("04 · 训练配方", "04 · Training recipe", "04 · 学習レシピ"),
-        heading: l("最终约七成仍是文字：多模态训练也要持续“复习旧课”", "Roughly seven-tenths remains text: multimodal training needs rehearsal", "最終的に約7割は文字：マルチモーダル学習にも復習が必要"),
+        kicker: l("04 · 训练配方", "04 · Training recipe", "04 · 学習レシピ", "04 · 학습 레시피"),
+        heading: l("最终约七成仍是文字：多模态训练也要持续“复习旧课”", "Roughly seven-tenths remains text: multimodal training needs rehearsal", "最終的に約7割は文字：マルチモーダル学習にも復習が必要", "최종 데이터의 약 70%는 여전히 텍스트다: 멀티모달 학습에도 복습이 필요하다"),
         paragraphs: [
           l("报告汇总约 394M 样本、109.2 万小时音频、1574 亿音频 token 与 3205 亿文字 token。多阶段监督训练之后还接入文字侧 Cascade RL 和多域 on-policy distillation。最终混合中，文字占比约 69%；当比例降到约 56% 时，已有文字能力出现更明显退化。", "The report aggregates roughly 394M samples, 1.092M audio hours, 157.4B audio tokens, and 320.5B text tokens. Multi-stage supervised training is followed by text-side Cascade RL and multi-domain on-policy distillation. The final mixture is about 69% text; reducing it to about 56% causes more visible text regression.", "報告は約394Mサンプル、109.2万時間、157.4B音声トークン、320.5B文字トークンを集計します。多段階教師学習後に文字側Cascade RLと多領域on-policy蒸留を行い、最終混合の文字比は約69%。約56%まで下げると文字能力の退化が目立ちます。"),
           l("这解释了为什么数据规模不能只看音频小时：统一模型必须同时购买“新能力样本”和“旧能力保险”。而且音频 token 率远高于文字，按样本数、小时数或 token 数计算比例会得到不同直觉，训练报告必须说明采样单位。", "This is why audio hours alone are misleading: a unified model needs both new-capability data and insurance for old capabilities. Since audio token rates are much higher than text, ratios by sample, hour, or token lead to different intuitions; the sampling unit must be explicit.", "音声時間だけでは不十分な理由です。統合モデルには新能力データと旧能力を守る保険の両方が必要です。また音声のトークン率が高いため、サンプル・時間・トークンの比率は意味が異なり、採样単位を明示すべきです。"),
@@ -531,8 +542,8 @@ export const reports: Report[] = [
       },
       {
         id: "text-retention",
-        kicker: l("05 · 文字能力", "05 · Text retention", "05 · 文字能力の保持"),
-        heading: l("“没有回退”更接近总体趋势，而不是每个基准都原封不动", "“No regression” describes the overall trend, not every benchmark", "「退化なし」は全体傾向であり、全ベンチが不変という意味ではない"),
+        kicker: l("05 · 文字能力", "05 · Text retention", "05 · 文字能力の保持", "05 · 텍스트 능력 유지"),
+        heading: l("“没有回退”更接近总体趋势，而不是每个基准都原封不动", "“No regression” describes the overall trend, not every benchmark", "「退化なし」は全体傾向であり、全ベンチが不変という意味ではない", "‘성능 저하 없음’은 전체 경향이지 모든 벤치마크가 그대로라는 뜻은 아니다"),
         paragraphs: [
           l("与文字基座 Nemotron-Cascade-2-30B-A3B 比较，Audex 在 AIME 从 92.4 到 91.2，IFBench 从 82.9 到 77.8，1M NIAH 从 99.0 到 83.4；IMO 则从 79.3 提升到 81.1。结果更像“多数核心能力仍然强，局部有升有降”，而不是数值完全不变。", "Against Nemotron-Cascade-2-30B-A3B, Audex moves from 92.4 to 91.2 on AIME, 82.9 to 77.8 on IFBench, and 99.0 to 83.4 on 1M NIAH, while IMO rises from 79.3 to 81.1. The fair summary is that core text ability remains strong with local gains and losses, not that every score is unchanged.", "文字基盤との比較ではAIME 92.4→91.2、IFBench 82.9→77.8、1M NIAH 99.0→83.4、IMO 79.3→81.1です。全数値不変ではなく、中心的文字能力は強いまま局所的な増減がある、が妥当です。"),
           l("尤其值得注意的是长上下文：83.4 仍是强结果，却与基座的 99.0 有明显距离。这和多阶段消融一起说明，模型标称支持长上下文与它能否在长上下文中稳定检索，是两个不同问题。", "Long context is particularly revealing: 83.4 remains strong, yet the gap from 99.0 is material. Together with the staged-training ablation, this shows that advertised context capacity and reliable retrieval within that context are different properties.", "長文脈の83.4は依然高いものの基盤99.0との差は無視できません。段階学習の消融と合わせ、対応コンテキスト長とその中での安定検索は別の能力だと分かります。"),
@@ -551,8 +562,8 @@ export const reports: Report[] = [
       },
       {
         id: "audio-results",
-        kicker: l("06 · 音频表现", "06 · Audio performance", "06 · 音声性能"),
-        heading: l("覆盖面很广，但榜单第一与统一能力是两件事", "Broad coverage and benchmark leadership are different claims", "広い対応範囲と各榜首は別の主張"),
+        kicker: l("06 · 音频表现", "06 · Audio performance", "06 · 音声性能", "06 · 오디오 성능"),
+        heading: l("覆盖面很广，但榜单第一与统一能力是两件事", "Broad coverage and benchmark leadership are different claims", "広い対応範囲と各榜首は別の主張", "폭넓은 지원과 벤치마크 1위는 서로 다른 주장이다"),
         paragraphs: [
           l("Audex 同一系列覆盖音频理解、ASR、翻译、TTS、环境音生成和语音到语音。30B 在 OpenASR 汇总 WER 为 6.82，2B 为 7.14，表现有竞争力；但同表 Canary-Qwen 为 5.63、Qwen3-Omni-Instruct 为 5.72，因此不能把它描述成该表上绝对最强识别器。", "The family covers audio understanding, ASR, translation, TTS, general audio generation, and speech-to-speech. OpenASR aggregate WER is 6.82 for 30B and 7.14 for 2B, which is competitive; Canary-Qwen at 5.63 and Qwen3-Omni-Instruct at 5.72 are lower in the same table, so absolute ASR leadership is not supported there.", "同系列は音声理解、ASR、翻訳、TTS、一般音生成、音声対音声を扱います。OpenASR平均WERは30Bが6.82、2Bが7.14で競争力がありますが、同表のCanary-Qwen 5.63、Qwen3-Omni-Instruct 5.72より高く、絶対首位とは言えません。"),
           l("TTS 的 WER 1.70 也很强，但 Qwen3-Omni 的 1.39 更低。BigBenchAudio 约 90 则支持它在综合听觉理解上的优势。正确解读是：一个 checkpoint 在许多任务上都达到高水平，减少专用模型切换；它没有在每个单项都超过最强专用或闭源系统。", "TTS WER of 1.70 is also strong, while Qwen3-Omni reports a lower 1.39. BigBenchAudio around 90 supports broad auditory understanding. The defensible claim is high performance across many tasks in one checkpoint, reducing model switching—not best-in-class on every individual metric.", "TTS WER 1.70も高水準ですがQwen3-Omniの1.39の方が低く、BigBenchAudio約90は総合聴覚理解を支えます。妥当な主張は一つのcheckpointが多課題で高水準に達することで、全単項目の首位ではありません。"),
@@ -571,8 +582,8 @@ export const reports: Report[] = [
       },
       {
         id: "deployment",
-        kicker: l("07 · 使用与部署", "07 · Use and deployment", "07 · 利用と展開"),
-        heading: l("A3B 降低每 token 计算，不会让 30B 权重凭空变小", "A3B reduces per-token compute; it does not shrink 30B of weights", "A3Bは一トークン計算を減らすが、30B重みを小さくはしない"),
+        kicker: l("07 · 使用与部署", "07 · Use and deployment", "07 · 利用と展開", "07 · 사용과 배포"),
+        heading: l("A3B 降低每 token 计算，不会让 30B 权重凭空变小", "A3B reduces per-token compute; it does not shrink 30B of weights", "A3Bは一トークン計算を減らすが、30B重みを小さくはしない", "A3B는 토큰당 계산량을 줄이지만 30B 가중치 자체를 작게 만들지는 않는다"),
         paragraphs: [
           l("MoE 每个 token 只激活约 3B 参数，因此算力路径比稠密 30B 更轻；但专家权重仍需存储和调度，完整模型的内存、通信与加载时间不能按 3B 估算。模型卡示例使用 tensor parallel 8，说明官方验证过该配置，不代表逻辑上必须八卡，也不证明普通消费显卡能轻松运行完整 30B。", "MoE activates roughly 3B parameters per token, reducing the compute path relative to a dense 30B model. Yet expert weights still require storage and routing, so memory, communication, and load time cannot be budgeted as a 3B checkpoint. A tensor-parallel-8 example is a validated configuration, not proof that eight GPUs are mandatory or that a consumer GPU easily hosts the full 30B model.", "MoEは一トークンあたり約3Bを活性化し、稠密30Bより計算経路を軽くします。しかし全専門家重みの保存とルーティングが必要で、メモリや通信を3Bとして見積もれません。TP=8の例は検証済み構成で、8枚必須でも民生GPUで容易という証明でもありません。"),
           l("语音到语音演示还应拆开测量：录音结束到文字完成、文字推理、首个音频 token、音频播放追上实时的时间。若产品需要低延迟打断和同时听说，还要增加流式编码、回声消除、轮次管理与安全策略；论文中的顺序式 S2S 不足以证明这些能力。", "Speech-to-speech latency should be decomposed into end-of-input to transcript, text reasoning, first audio token, and time until playback catches real time. Low-latency interruption and simultaneous listen/speak additionally require streaming encoders, echo cancellation, turn control, and safety logic; sequential S2S does not establish them.", "音声対音声の遅延は入力終了から文字完成、文字推論、最初の音声トークン、再生が実時間へ追いつくまでに分解すべきです。割り込みや同時送受話には流式エンコーダ、エコー除去、ターン制御、安全設計が追加で必要で、順序式S2Sだけでは証明できません。"),
@@ -585,8 +596,8 @@ export const reports: Report[] = [
       },
       {
         id: "limits",
-        kicker: l("08 · 结论与边界", "08 · Conclusion and limits", "08 · 結論と限界"),
-        heading: l("最值得学习的是训练控制，而最需要补的是独立复现与真实体验", "Training control is the lesson; independent reproduction and real-world experience are missing", "学ぶべきは学習制御、補うべきは独立再現と実体験"),
+        kicker: l("08 · 结论与边界", "08 · Conclusion and limits", "08 · 結論と限界", "08 · 결론과 한계"),
+        heading: l("最值得学习的是训练控制，而最需要补的是独立复现与真实体验", "Training control is the lesson; independent reproduction and real-world experience are missing", "学ぶべきは学習制御、補うべきは独立再現と実体験", "가장 배울 점은 학습 제어이며 가장 필요한 보완은 독립 재현과 실제 사용 경험이다"),
         paragraphs: [
           l("Audex 用大量消融说明了统一音频模型的失败模式：单阶段训练会摧毁长文检索，开放文字嵌入可能伤害数学能力，文字回放比例过低会导致整体回退。这些证据比“能做多少任务”的列表更可迁移，因为任何向成熟 LLM 添加新模态的团队都会遇到类似问题。", "Audex ablations expose failure modes of unified audio training: single-stage tuning can destroy long retrieval, trainable text embeddings can hurt mathematical reasoning, and insufficient text rehearsal causes broad regression. These lessons transfer to any team adding a modality to a mature LLM.", "Audexの消融は、単段階学習が長文検索を壊し、文字埋め込み更新が数学を傷つけ、文字リプレイ不足が全体退化を招く失敗を示します。成熟LLMへ新モダリティを追加する多くの開発へ移せる知見です。"),
           l("边界同样清楚：主要 TTA 训练片段约十秒，最终版本移除了声音模仿能力；没有完整逐项数据清单、独立复现、系统听感测试或生产延迟曲线。模型权重可获得但许可非商业。因此当前最合适的定位是强研究基线与训练方法案例，而不是已经验证的通用商业语音代理。", "The boundaries are equally clear: much text-to-audio training centers on roughly ten-second clips, voice imitation is removed from the final release, and there is no full dataset inventory, independent reproduction, systematic listening study, or production latency curve. With a noncommercial license, the appropriate position is a strong research baseline and training case study, not a validated universal commercial voice agent.", "限界も明確です。TTA学習の中心は約10秒、最終版では声の模倣を除去し、完全なデータ一覧、独立再現、体系的聴感試験、実運用遅延曲線がありません。非商用ライセンスのため、強い研究基準・学習事例であり、検証済み汎用商用音声エージェントではありません。"),
@@ -609,11 +620,11 @@ export const reports: Report[] = [
       { term: "Tensor parallelism", definition: l("把同一层张量计算拆到多张加速卡上；示例卡数是配置选择，不等于模型逻辑要求。", "Splitting layer tensors across accelerators; an example degree is a configuration, not a logical model requirement.", "同一層のテンソル計算を複数GPUへ分割する方式で、例の枚数は構成選択です。") },
     ],
     sources: [
-      { label: l("微信原文", "WeChat article", "WeChat記事"), kind: "article", url: "https://mp.weixin.qq.com/s/_SI7YrQCWmFI-7e0SGYqTw" },
-      { label: l("论文（arXiv）", "Paper (arXiv)", "論文（arXiv）"), kind: "paper", url: "https://arxiv.org/abs/2607.05196" },
-      { label: l("Audex 官方模型合集", "Official Audex model collection", "Audex公式モデルコレクション"), kind: "model", url: "https://huggingface.co/collections/nvidia/nemotron-labs-audex" },
-      { label: l("30B-A3B 官方模型卡", "Official 30B-A3B model card", "30B-A3B公式モデルカード"), kind: "model", url: "https://huggingface.co/nvidia/Nemotron-Labs-Audex-30B-A3B" },
-      { label: l("2B 官方模型卡", "Official 2B model card", "2B公式モデルカード"), kind: "model", url: "https://huggingface.co/nvidia/Nemotron-Labs-Audex-2B" },
+      { label: l("微信原文", "WeChat article", "WeChat記事", "WeChat 원문"), kind: "article", url: "https://mp.weixin.qq.com/s/_SI7YrQCWmFI-7e0SGYqTw" },
+      { label: l("论文（arXiv）", "Paper (arXiv)", "論文（arXiv）", "논문(arXiv)"), kind: "paper", url: "https://arxiv.org/abs/2607.05196" },
+      { label: l("Audex 官方模型合集", "Official Audex model collection", "Audex公式モデルコレクション", "Audex 공식 모델 컬렉션"), kind: "model", url: "https://huggingface.co/collections/nvidia/nemotron-labs-audex" },
+      { label: l("30B-A3B 官方模型卡", "Official 30B-A3B model card", "30B-A3B公式モデルカード", "30B-A3B 공식 모델 카드"), kind: "model", url: "https://huggingface.co/nvidia/Nemotron-Labs-Audex-30B-A3B" },
+      { label: l("2B 官方模型卡", "Official 2B model card", "2B公式モデルカード", "2B 공식 모델 카드"), kind: "model", url: "https://huggingface.co/nvidia/Nemotron-Labs-Audex-2B" },
     ],
   },
 ];

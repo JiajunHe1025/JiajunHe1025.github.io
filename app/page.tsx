@@ -7,8 +7,8 @@ import { AmbientDock } from "./AmbientDock";
 import { content, localeLabels, type Locale } from "./content";
 import { TravelMap } from "./TravelMap";
 
-const languages: Locale[] = ["zh", "en", "ja"];
-const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"] as const;
+const languages: Locale[] = ["zh", "en", "ja", "ko"];
+const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"] as const;
 type Theme = (typeof themes)[number];
 
 const themeNames: Record<Locale, Record<Theme, string>> = {
@@ -20,6 +20,8 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     pixel: "日系像素",
     cartoon: "缤纷卡通",
     noritake: "Noritake 线稿",
+    neko: "日系猫咪",
+    shiba: "日系柴犬",
   },
   en: {
     classic: "Academic",
@@ -29,6 +31,8 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     pixel: "Japanese Pixel",
     cartoon: "Playful Cartoon",
     noritake: "Noritake Line",
+    neko: "Japanese Cat",
+    shiba: "Japanese Shiba",
   },
   ja: {
     classic: "アカデミック",
@@ -38,6 +42,19 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     pixel: "和風ピクセル",
     cartoon: "カラフル漫画",
     noritake: "Noritake 線画",
+    neko: "和風ねこ",
+    shiba: "和風柴犬",
+  },
+  ko: {
+    classic: "클래식 아카데믹",
+    night: "나이트 랩",
+    film: "필름 여행",
+    glass: "리퀴드 글래스",
+    pixel: "일본풍 픽셀",
+    cartoon: "컬러풀 카툰",
+    noritake: "Noritake 라인 드로잉",
+    neko: "일본풍 고양이",
+    shiba: "일본풍 시바견",
   },
 };
 
@@ -45,12 +62,21 @@ const themeLabels: Record<Locale, string> = {
   zh: "切换网站主题",
   en: "Switch website theme",
   ja: "サイトテーマを切り替える",
+  ko: "웹사이트 테마 전환",
 };
 
 const notesShortcutLabels: Record<Locale, string> = {
   zh: "技术笔记",
   en: "Notes",
   ja: "技術ノート",
+  ko: "기술 노트",
+};
+
+const accessibilityLabels: Record<Locale, { skip: string; home: string; navigation: string; metrics: string }> = {
+  zh: { skip: "跳到主要内容", home: "主页", navigation: "主要导航", metrics: "研究数据" },
+  en: { skip: "Skip to content", home: "Home", navigation: "Primary navigation", metrics: "Research metrics" },
+  ja: { skip: "メインコンテンツへ移動", home: "ホーム", navigation: "メインナビゲーション", metrics: "研究指標" },
+  ko: { skip: "주요 콘텐츠로 이동", home: "홈", navigation: "주요 탐색", metrics: "연구 지표" },
 };
 
 const isTheme = (value: string | undefined | null): value is Theme =>
@@ -107,6 +133,7 @@ export default function Home() {
   const [theme, setTheme] = useState<Theme>("glass");
   const themeMenuRef = useRef<HTMLDetailsElement>(null);
   const current = content[locale];
+  const labels = accessibilityLabels[locale];
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -118,6 +145,7 @@ export default function Home() {
 
       const browserLanguage = window.navigator.language.toLowerCase();
       if (browserLanguage.startsWith("ja")) setLocale("ja");
+      else if (browserLanguage.startsWith("ko")) setLocale("ko");
       else if (!browserLanguage.startsWith("zh")) setLocale("en");
     }, 0);
     return () => window.clearTimeout(timer);
@@ -168,18 +196,18 @@ export default function Home() {
   return (
     <div className="site-root" id="top">
       <a className="skip-link" href="#main-content">
-        Skip to content
+        {labels.skip}
       </a>
 
       <header className="site-header">
-        <a className="wordmark" href="#top" aria-label={`${current.hero.name} — home`}>
+        <a className="wordmark" href="#top" aria-label={`${current.hero.name} — ${labels.home}`}>
           <span className="wordmark-mark">HJ</span>
           <span className="wordmark-name">
             {current.hero.name} / {current.hero.romanName}
           </span>
         </a>
 
-        <nav className="desktop-nav" aria-label="Primary navigation">
+        <nav className="desktop-nav" aria-label={labels.navigation}>
           {current.nav.map((item) => (
             <a key={item.href} href={item.href}>
               {item.label}
@@ -292,7 +320,7 @@ export default function Home() {
           <span className="noritake-vignette noritake-vignette-right" />
         </div>
 
-        <section className="metrics section-shell" aria-label="Research metrics">
+        <section className="metrics section-shell" aria-label={labels.metrics}>
           {current.metrics.map((metric) => (
             <article className="metric" key={metric.label}>
               <strong>{metric.value}</strong>

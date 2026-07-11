@@ -76,6 +76,54 @@
   filter: none;
 }
 
+:global(html[data-theme="neko"]) .pointer {
+  background: linear-gradient(145deg, #e895ae 0 43%, #303354 44% 100%);
+  filter: drop-shadow(2px 3px 0 rgba(48, 51, 84, 0.18));
+}
+
+:global(html[data-theme="neko"]) .trail {
+  width: 17px;
+  height: 12px;
+  border-color: #9c526d;
+  border-right-color: transparent;
+  border-left-color: transparent;
+  border-radius: 50%;
+  opacity: 0.72;
+  transform: rotate(-8deg) scale(0.82);
+}
+
+:global(html[data-theme="neko"]) .cursor[data-interactive="true"] .trail {
+  opacity: 1;
+  transform: rotate(-8deg) scale(1.55);
+}
+
+:global(html[data-theme="neko"]) .cursor[data-interactive="true"] .pointer {
+  filter: drop-shadow(0 3px 5px rgba(229, 143, 169, 0.38));
+}
+
+:global(html[data-theme="shiba"]) .pointer {
+  background: linear-gradient(145deg, #b9633f 0 43%, #365344 44% 100%);
+  filter: drop-shadow(2px 3px 0 rgba(60, 48, 40, 0.2));
+}
+
+:global(html[data-theme="shiba"]) .trail {
+  width: 16px;
+  height: 16px;
+  border: 2px dashed #8f4329;
+  border-radius: 50%;
+  opacity: 0.7;
+  transform: rotate(12deg) scale(0.76);
+}
+
+:global(html[data-theme="shiba"]) .cursor[data-interactive="true"] .trail {
+  opacity: 1;
+  transform: rotate(-8deg) scale(1.42);
+}
+
+:global(html[data-theme="shiba"]) .cursor[data-interactive="true"] .pointer {
+  filter: drop-shadow(0 3px 5px rgba(185, 99, 63, 0.36));
+}
+
 :global(html.has-art-cursor),
 :global(html.has-art-cursor *) {
   cursor: none !important;

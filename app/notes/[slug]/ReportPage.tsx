@@ -6,8 +6,8 @@ import { AmbientDock } from "../../AmbientDock";
 import type { Locale, Report } from "../reports";
 import styles from "./report.module.css";
 
-const locales: Locale[] = ["zh", "en", "ja"];
-const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"] as const;
+const locales: Locale[] = ["zh", "en", "ja", "ko"];
+const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"] as const;
 type Theme = (typeof themes)[number];
 
 const isLocale = (value: string | null): value is Locale =>
@@ -24,7 +24,7 @@ const ui = {
     home: "返回主页",
     theme: "切换主题",
     language: "切换语言",
-    themes: { classic: "经典", night: "暗夜", film: "胶片", glass: "流体玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿" },
+    themes: { classic: "经典", night: "暗夜", film: "胶片", glass: "流体玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿", neko: "日系猫咪", shiba: "日系柴犬" },
     published: "发布于",
     readingTime: "阅读时长",
     keyFacts: "关键数据",
@@ -36,6 +36,7 @@ const ui = {
     sourceNote: "链接在新标签页打开。实验数字请优先核对论文、模型卡或官方仓库的最新版本。",
     interpretation: "独立理解、非原文复刻",
     interpretationText: "本文基于公开技术报告、论文与项目资料重新组织问题、方法和证据，并加入作者自己的判断与使用建议。它不是逐段翻译，也不替代原作者的正式版本。",
+    bodyLanguageNote: null,
     tableNote: "表格说明",
     footer: "以清晰、可核查的方式分享技术。",
   },
@@ -46,7 +47,7 @@ const ui = {
     home: "Back home",
     theme: "Switch theme",
     language: "Switch language",
-    themes: { classic: "Classic", night: "Night", film: "Film", glass: "Fluid Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line" },
+    themes: { classic: "Classic", night: "Night", film: "Film", glass: "Fluid Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line", neko: "Japanese Cat", shiba: "Japanese Shiba" },
     published: "Published",
     readingTime: "Reading time",
     keyFacts: "Key facts",
@@ -58,6 +59,7 @@ const ui = {
     sourceNote: "Links open in a new tab. For experimental figures, prefer the latest paper, model card, or official repository.",
     interpretation: "Independent interpretation, not a reproduction",
     interpretationText: "This note reorganizes the problem, method, and evidence from public reports, papers, and project materials, adding the author's own assessment and practical guidance. It is not a line-by-line translation and does not replace the authors' official version.",
+    bodyLanguageNote: null,
     tableNote: "Table note",
     footer: "Sharing technology clearly and verifiably.",
   },
@@ -68,7 +70,7 @@ const ui = {
     home: "ホームへ戻る",
     theme: "テーマを切り替える",
     language: "言語を切り替える",
-    themes: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "フルイドガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画" },
+    themes: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "フルイドガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画", neko: "和風ねこ", shiba: "和風柴犬" },
     published: "公開日",
     readingTime: "読了時間",
     keyFacts: "主要データ",
@@ -80,8 +82,32 @@ const ui = {
     sourceNote: "リンクは新しいタブで開きます。実験値は最新版の論文、モデルカード、公式リポジトリを優先して確認してください。",
     interpretation: "独自解釈であり、原文の複製ではありません",
     interpretationText: "本稿は公開された技術報告、論文、プロジェクト資料をもとに、問題・手法・根拠を再構成し、筆者独自の評価と実践上の提案を加えたものです。逐語訳ではなく、原著者の正式版に代わるものでもありません。",
+    bodyLanguageNote: null,
     tableNote: "表の注記",
     footer: "技術を明確かつ検証可能な形で共有します。",
+  },
+  ko: {
+    htmlLang: "ko",
+    skip: "보고서 본문으로 이동",
+    back: "기술 노트로 돌아가기",
+    home: "홈으로 돌아가기",
+    theme: "테마 전환",
+    language: "언어 전환",
+    themes: { classic: "클래식", night: "나이트", film: "필름", glass: "플루이드 글라스", pixel: "일본풍 픽셀", cartoon: "밝은 카툰", noritake: "Noritake 라인 아트", neko: "일본풍 고양이", shiba: "일본풍 시바견" },
+    published: "게시일",
+    readingTime: "읽는 시간",
+    keyFacts: "핵심 데이터",
+    contents: "목차",
+    overview: "핵심 개요",
+    glossary: "용어집",
+    sources: "참고 자료",
+    sourceKinds: { article: "원문 기사", paper: "기술 논문", repository: "코드 저장소", model: "모델 페이지" },
+    sourceNote: "링크는 새 탭에서 열립니다. 실험 수치는 최신 논문, 모델 카드 또는 공식 저장소에서 우선 확인해 주세요.",
+    interpretation: "독립적인 해설이며 원문 복제가 아닙니다",
+    interpretationText: "이 글은 공개된 기술 보고서, 논문, 프로젝트 자료를 바탕으로 문제·방법·근거를 다시 구성하고 필자의 판단과 활용 제안을 더했습니다. 문장별 번역이 아니며 원저자의 공식 자료를 대체하지 않습니다.",
+    bodyLanguageNote: "보고서의 제목·요약·목차와 장 제목은 한국어로 제공되며, 세부 기술 본문은 정확한 의미 보존을 위해 현재 영어로 표시됩니다.",
+    tableNote: "표 주석",
+    footer: "기술을 명확하고 검증 가능한 방식으로 공유합니다.",
   },
 } satisfies Record<Locale, {
   htmlLang: string;
@@ -102,11 +128,13 @@ const ui = {
   sourceNote: string;
   interpretation: string;
   interpretationText: string;
+  bodyLanguageNote: string | null;
   tableNote: string;
   footer: string;
 }>;
 
-const localeButtonLabel: Record<Locale, string> = { zh: "中", en: "EN", ja: "日" };
+const localeButtonLabel: Record<Locale, string> = { zh: "中", en: "EN", ja: "日", ko: "한" };
+const localeNames: Record<Locale, string> = { zh: "中文", en: "English", ja: "日本語", ko: "한국어" };
 
 export function ReportPage({ report }: { report: Report }) {
   const [locale, setLocale] = useState<Locale>("zh");
@@ -130,6 +158,8 @@ export function ReportPage({ report }: { report: Report }) {
         setLocale(savedLocale);
       } else if (window.navigator.language.toLowerCase().startsWith("ja")) {
         setLocale("ja");
+      } else if (window.navigator.language.toLowerCase().startsWith("ko")) {
+        setLocale("ko");
       } else if (!window.navigator.language.toLowerCase().startsWith("zh")) {
         setLocale("en");
       }
@@ -209,7 +239,7 @@ export function ReportPage({ report }: { report: Report }) {
               <button
                 key={option}
                 type="button"
-                aria-label={option === "zh" ? "中文" : option === "en" ? "English" : "日本語"}
+                aria-label={localeNames[option]}
                 aria-pressed={locale === option}
                 onClick={() => setLocale(option)}
               >
@@ -229,6 +259,7 @@ export function ReportPage({ report }: { report: Report }) {
             </div>
             <h1>{report.title[locale]}</h1>
             <p className={styles.summary}>{report.summary[locale]}</p>
+            {copy.bodyLanguageNote ? <p className={styles.sourceNote}>{copy.bodyLanguageNote}</p> : null}
             <div className={styles.byline}>
               <span>{copy.published} <time dateTime={report.published}>{report.published}</time></span>
               <span>{copy.readingTime} · {report.readingTime[locale]}</span>

@@ -7,12 +7,14 @@ const localeTags: Record<Locale, string> = {
   zh: "zh-CN",
   en: "en-US",
   ja: "ja-JP",
+  ko: "ko-KR",
 };
 
 const weekDays: Record<Locale, string[]> = {
   zh: ["日", "一", "二", "三", "四", "五", "六"],
   en: ["S", "M", "T", "W", "T", "F", "S"],
   ja: ["日", "月", "火", "水", "木", "金", "土"],
+  ko: ["일", "월", "화", "수", "목", "금", "토"],
 };
 
 const dockCopy: Record<
@@ -77,6 +79,21 @@ const dockCopy: Record<
     blocked: "自動再生がブロックされました。画面をタップするか再生を押してください",
     volume: "音量",
     unsupported: "音楽を読み込めませんでした。しばらくしてからお試しください",
+  },
+  ko: {
+    calendar: "달력",
+    music: "음악",
+    close: "닫기",
+    previousMonth: "이전 달",
+    nextMonth: "다음 달",
+    today: "오늘",
+    play: "재생",
+    pause: "일시정지",
+    track: "나기의 휴식 · 메인 테마",
+    description: "PASCALS · 반복 재생 배경음악",
+    blocked: "자동 재생이 차단되었습니다. 화면을 누르거나 재생 버튼을 선택해 주세요",
+    volume: "음량",
+    unsupported: "음악을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요",
   },
 };
 

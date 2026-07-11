@@ -204,6 +204,90 @@
   border-color: #171717;
 }
 
+:global(html[data-theme="neko"]) .sprite {
+  filter: saturate(0.82) hue-rotate(305deg) drop-shadow(0 10px 10px rgba(48, 51, 84, 0.18));
+}
+
+:global(html[data-theme="neko"]) .petButton:focus-visible {
+  border-radius: 34px;
+  outline: 3px solid #343a70;
+  outline-offset: 3px;
+}
+
+:global(html[data-theme="neko"]) .speech {
+  border-color: rgba(48, 51, 84, 0.34);
+  border-radius: 18px 18px 18px 6px;
+  background: rgba(255, 253, 248, 0.95);
+  box-shadow: 0 12px 30px rgba(70, 50, 80, 0.14);
+  color: #303354;
+}
+
+:global(html[data-theme="neko"]) .speech::after {
+  border-color: rgba(48, 51, 84, 0.34);
+}
+
+:global(html[data-theme="neko"]) .petControls button,
+:global(html[data-theme="neko"]) .wakeButton {
+  border: 1px solid rgba(48, 51, 84, 0.34);
+  background: #fffaf5;
+  color: #303354;
+  box-shadow: 0 8px 20px rgba(70, 50, 80, 0.16);
+}
+
+:global(html[data-theme="neko"]) .basketballIcon {
+  border-color: #9c526d;
+  background: #e895ae;
+  box-shadow: inset -4px -3px rgba(156, 82, 109, 0.16);
+}
+
+:global(html[data-theme="neko"]) .basketballIcon::before,
+:global(html[data-theme="neko"]) .basketballIcon::after {
+  border-color: rgba(80, 55, 91, 0.62);
+  transform: rotate(18deg);
+}
+
+:global(html[data-theme="shiba"]) .sprite {
+  filter: saturate(0.9) sepia(0.08) drop-shadow(0 10px 10px rgba(60, 48, 40, 0.2));
+}
+
+:global(html[data-theme="shiba"]) .petButton:focus-visible {
+  border-radius: 30px;
+  outline: 3px solid #244a39;
+  outline-offset: 3px;
+}
+
+:global(html[data-theme="shiba"]) .speech {
+  border: 1px dashed rgba(60, 48, 40, 0.48);
+  border-radius: 16px 16px 16px 6px;
+  background: rgba(255, 249, 236, 0.96);
+  box-shadow: 0 12px 28px rgba(74, 51, 35, 0.14);
+  color: #3c3028;
+}
+
+:global(html[data-theme="shiba"]) .speech::after {
+  border-color: rgba(60, 48, 40, 0.48);
+}
+
+:global(html[data-theme="shiba"]) .petControls button,
+:global(html[data-theme="shiba"]) .wakeButton {
+  border: 1px dashed rgba(60, 48, 40, 0.52);
+  border-radius: 12px;
+  background: #fff7e8;
+  color: #365344;
+  box-shadow: 0 8px 20px rgba(74, 51, 35, 0.16);
+}
+
+:global(html[data-theme="shiba"]) .basketballIcon {
+  border-color: #8f4329;
+  background: #b9633f;
+  box-shadow: inset -4px -3px rgba(60, 48, 40, 0.2);
+}
+
+:global(html[data-theme="shiba"]) .basketballIcon::before,
+:global(html[data-theme="shiba"]) .basketballIcon::after {
+  border-color: rgba(60, 48, 40, 0.7);
+}
+
 @keyframes pet-frames {
   from { background-position-x: 0%; }
   to { background-position-x: 100%; }

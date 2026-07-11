@@ -67,13 +67,27 @@ const copy = {
     outfit: "服を替える",
     outfitNames: { summer: "夏のスポーツ", spring: "春服", autumn: "秋服", winter: "冬服", formal: "フォーマル" },
   },
+  ko: {
+    label: "농구 웹 펫",
+    hint: "드래그해서 옮기고, 두 번 누르면 드리블해요.",
+    hello: ["안녕하세요, 반가워요!", "기술 노트도 함께 살펴볼까요?", "오늘도 호기심을 잃지 마세요."],
+    dribble: "한 판 해볼까요!",
+    think: "조금 더 생각해 볼 만한 문제네요……",
+    sad: "잠시 쉬었다가 다시 시작해요.",
+    hide: "펫 숨기기",
+    wake: "펫 다시 부르기",
+    outfit: "옷 갈아입히기",
+    outfitNames: { summer: "여름 스포츠", spring: "봄옷", autumn: "가을옷", winter: "겨울옷", formal: "포멀" },
+  },
 } as const;
 
+type PetLocale = keyof typeof copy;
 type Position = { x: number; y: number };
 
-const getLocale = () => {
+const getLocale = (): PetLocale => {
   const lang = document.documentElement.lang.toLowerCase();
   if (lang.startsWith("ja")) return "ja";
+  if (lang.startsWith("ko")) return "ko";
   if (lang.startsWith("en")) return "en";
   return "zh";
 };
@@ -85,6 +99,7 @@ const clampPosition = (position: Position, width = 118, height = 132): Position 
 
 export function WebsitePet() {
   const [ready, setReady] = useState(false);
+  const [locale, setLocale] = useState<PetLocale>("zh");
   const [hidden, setHidden] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 18, y: 420 });
   const [action, setAction] = useState<PetAction>("idle");
@@ -114,6 +129,21 @@ export function WebsitePet() {
     setAction(nextAction);
     if (nextMessage) showMessage(nextMessage);
     actionTimerRef.current = setTimeout(() => setAction("idle"), duration);
+  }, [showMessage]);
+
+  useEffect(() => {
+    const syncLocale = (announce = false) => {
+      const nextLocale = getLocale();
+      setLocale(nextLocale);
+      if (announce) showMessage(copy[nextLocale].hint);
+    };
+    const timer = window.setTimeout(() => syncLocale(), 0);
+    const observer = new MutationObserver(() => syncLocale(true));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    return () => {
+      window.clearTimeout(timer);
+      observer.disconnect();
+    };
   }, [showMessage]);
 
   useEffect(() => {
@@ -155,7 +185,7 @@ export function WebsitePet() {
 
     const activityTimer = window.setInterval(() => {
       if (draggingRef.current || moving) return;
-      const localeCopy = copy[getLocale()];
+      const localeCopy = copy[locale];
       const roll = Math.random();
 
       if (roll < 0.48) {
@@ -174,7 +204,7 @@ export function WebsitePet() {
     }, 11_000);
 
     return () => window.clearInterval(activityTimer);
-  }, [hidden, moving, performAction, ready]);
+  }, [hidden, locale, moving, performAction, ready]);
 
   const persistPosition = (nextPosition: Position) => {
     try {
@@ -228,21 +258,21 @@ export function WebsitePet() {
     persistPosition(finalPosition);
 
     if (!dragRef.current.moved) {
-      const localeCopy = copy[getLocale()];
+      const localeCopy = copy[locale];
       const greeting = localeCopy.hello[Math.floor(Math.random() * localeCopy.hello.length)];
       performAction("wave", 1800, greeting);
     }
   };
 
   const handleDoubleClick = () => {
-    const localeCopy = copy[getLocale()];
+    const localeCopy = copy[locale];
     performAction("dribble", 2600, localeCopy.dribble);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      performAction("wave", 1800, copy[getLocale()].hello[0]);
+      performAction("wave", 1800, copy[locale].hello[0]);
     }
     if (event.key === " ") {
       event.preventDefault();
@@ -253,7 +283,7 @@ export function WebsitePet() {
   const cycleOutfit = () => {
     const nextOutfit = outfits[(outfits.indexOf(outfit) + 1) % outfits.length];
     setOutfit(nextOutfit);
-    performAction("wave", 1600, copy[getLocale()].outfitNames[nextOutfit]);
+    performAction("wave", 1600, copy[locale].outfitNames[nextOutfit]);
     try {
       window.localStorage.setItem("jiajun-web-pet-outfit", nextOutfit);
     } catch {
@@ -272,7 +302,7 @@ export function WebsitePet() {
     }
   };
 
-  const localeCopy = typeof document === "undefined" ? copy.zh : copy[getLocale()];
+  const localeCopy = copy[locale];
   const spriteStyle = {
     "--pet-sheet": `url(/pet/outfits/${outfit}.png)`,
     "--pet-row": `${actionRows[action] * 10}%`,

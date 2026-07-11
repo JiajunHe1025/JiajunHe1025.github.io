@@ -189,6 +189,20 @@
   box-shadow: none;
 }
 
+.neko {
+  border-color: #4b4f78;
+  background:
+    radial-gradient(circle at 36% 62%, #fffaf2 0 12%, transparent 13%),
+    linear-gradient(135deg, #fff7ed 0 46%, #e895ae 46% 70%, #4b4f78 70%);
+}
+
+.shiba {
+  border-color: #3e6250;
+  background:
+    radial-gradient(circle at 50% 62%, #f8ead1 0 17%, transparent 18%),
+    linear-gradient(135deg, #f7ecd8 0 44%, #b8623c 44% 72%, #3e6250 72%);
+}
+
 .noritakeVignette { display: none; }
 
 .hero {
@@ -1030,6 +1044,396 @@
   outline-offset: 3px;
 }
 
+/* Cream stationery, sakura pink, indigo and feline line details. */
+:global(html[data-theme="neko"]) .page {
+  --paper: #fff8ef;
+  --paper-strong: #fffdf8;
+  --ink: #303354;
+  --ink-soft: #62657f;
+  --cyan: #e58fa9;
+  --cyan-deep: #9c526d;
+  --navy: #363b68;
+  --navy-light: #4a507e;
+  --line: #e3cfd2;
+  --warm: #e6ad6e;
+  --warm-text: #8b4d25;
+  --focus-ring: #343a70;
+  --text-subtle: #666980;
+  --on-dark: #fffaf3;
+  --on-dark-soft: rgba(255, 250, 243, 0.78);
+  --on-dark-subtle: rgba(255, 250, 243, 0.62);
+  --surface-control: rgba(255, 253, 248, 0.9);
+  --surface-tag: #fff7f4;
+  --surface-hover: #fde9ee;
+  --border-soft: rgba(48, 51, 84, 0.2);
+  --border-medium: rgba(48, 51, 84, 0.38);
+  --report-surface: rgba(255, 253, 248, 0.94);
+  --report-surface-soft: rgba(255, 247, 244, 0.9);
+  --report-shadow: 0 18px 46px rgba(70, 50, 80, 0.1);
+  background: #fff8ef;
+}
+
+:global(html[data-theme="neko"]) .page::before {
+  opacity: 0.72;
+  background-image:
+    radial-gradient(circle, rgba(48, 51, 84, 0.08) 0 0.7px, transparent 0.85px),
+    linear-gradient(105deg, transparent 0 48%, rgba(229, 143, 169, 0.035) 49% 51%, transparent 52%);
+  background-size: 23px 23px, 88px 88px;
+  mask-image: linear-gradient(to bottom, #000, transparent 72vh);
+}
+
+:global(html[data-theme="neko"]) .page::after {
+  top: 176px;
+  right: -54px;
+  width: 230px;
+  height: 210px;
+  border: 2px solid rgba(52, 58, 112, 0.17);
+  border-radius: 52% 48% 46% 54%;
+  background:
+    radial-gradient(circle at 50% 58%, rgba(229, 143, 169, 0.17) 0 24%, transparent 25%),
+    radial-gradient(circle at 28% 25%, rgba(229, 143, 169, 0.17) 0 10%, transparent 11%),
+    radial-gradient(circle at 50% 17%, rgba(229, 143, 169, 0.17) 0 10%, transparent 11%),
+    radial-gradient(circle at 72% 25%, rgba(229, 143, 169, 0.17) 0 10%, transparent 11%);
+  filter: none;
+  transform: rotate(13deg);
+}
+
+:global(html[data-theme="neko"]) :is(.header, .themeSwitch, .languageSwitch, .overview, .fact, .toc, .bullets li, .tableFigure, .callout, .glossary div, .sources a, .interpretation) {
+  border-color: rgba(48, 51, 84, 0.28);
+  background-image: none;
+  box-shadow: var(--report-shadow);
+}
+
+:global(html[data-theme="neko"]) .header {
+  min-height: 76px;
+  margin-top: 12px;
+  padding-inline: 18px;
+  border: 1px solid rgba(48, 51, 84, 0.22);
+  border-radius: 22px;
+  background: rgba(255, 253, 248, 0.86);
+}
+
+:global(html[data-theme="neko"]) :is(.themeSwitch, .languageSwitch) {
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.92);
+}
+
+:global(html[data-theme="neko"]) :is(.themeSwitch, .languageSwitch) button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper-strong);
+}
+
+:global(html[data-theme="neko"]) .mark {
+  border-radius: 52% 52% 46% 46%;
+  background: #fff1f3;
+  box-shadow: inset 0 -5px rgba(229, 143, 169, 0.14);
+}
+
+:global(html[data-theme="neko"]) .hero {
+  row-gap: 40px;
+  padding-top: clamp(106px, 14vw, 174px);
+}
+
+:global(html[data-theme="neko"]) :is(.hero h1, .overview h2, .section h2, .tableFigure caption, .fact strong) {
+  color: var(--ink);
+  font-family: var(--display);
+  letter-spacing: -0.045em;
+}
+
+:global(html[data-theme="neko"]) :is(.heroMeta span:first-child, .tags span) {
+  border-color: rgba(156, 82, 109, 0.42);
+  border-radius: 999px;
+  background: #fdecef;
+  color: var(--cyan-deep);
+}
+
+:global(html[data-theme="neko"]) .noritakeVignette {
+  grid-column: 1 / -1;
+  display: block;
+  min-height: clamp(160px, 20vw, 260px);
+  margin-top: 8px;
+  border: 1px solid rgba(48, 51, 84, 0.26);
+  border-radius: 24px;
+  background-color: #fff9f2;
+  background-image: url("/illustrations/japanese-neko-theme.png");
+  background-image: image-set(
+    url("/illustrations/japanese-neko-theme.avif") type("image/avif"),
+    url("/illustrations/japanese-neko-theme.png") type("image/png")
+  );
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 18px 46px rgba(70, 50, 80, 0.1);
+}
+
+:global(html[data-theme="neko"]) .overview {
+  border: 1px solid rgba(48, 51, 84, 0.28);
+  border-radius: 28px;
+  background: var(--navy);
+  color: var(--on-dark);
+}
+
+:global(html[data-theme="neko"]) .overview .sectionKicker { color: #f4b3c6; }
+:global(html[data-theme="neko"]) .overview h2 { color: var(--on-dark); }
+
+:global(html[data-theme="neko"]) .fact {
+  border: 1px dashed rgba(48, 51, 84, 0.38);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.9);
+}
+
+:global(html[data-theme="neko"]) .fact > span,
+:global(html[data-theme="neko"]) .fact p { color: var(--ink-soft); }
+
+:global(html[data-theme="neko"]) .fact strong { color: var(--cyan-deep); }
+
+:global(html[data-theme="neko"]) .toc {
+  border: 1px solid rgba(48, 51, 84, 0.24);
+  border-radius: 22px;
+  background: #fff7f4;
+}
+
+:global(html[data-theme="neko"]) .toc a { border-radius: 12px; }
+:global(html[data-theme="neko"]) .toc a:hover { background: #fde9ee; transform: translateX(3px); }
+
+:global(html[data-theme="neko"]) .section + .section {
+  border-top-color: rgba(48, 51, 84, 0.32);
+  border-top-style: dashed;
+}
+
+:global(html[data-theme="neko"]) :is(.bullets li, .glossary div, .sources a) {
+  border-radius: 16px;
+  background: rgba(255, 253, 248, 0.88);
+}
+
+:global(html[data-theme="neko"]) .tableFigure {
+  border: 1px solid rgba(48, 51, 84, 0.28);
+  border-radius: 20px;
+  background: #fffdf8;
+}
+
+:global(html[data-theme="neko"]) .tableFigure :is(caption, th, td, figcaption) {
+  border-color: rgba(48, 51, 84, 0.26);
+}
+
+:global(html[data-theme="neko"]) .tableFigure thead th { background: #fdecef; }
+
+:global(html[data-theme="neko"]) :is(.callout, .calibration, .interpretation) {
+  border: 1px dashed rgba(48, 51, 84, 0.4);
+  border-radius: 18px;
+  background: #f9edf4;
+}
+
+:global(html[data-theme="neko"]) .sources a:hover {
+  border-color: var(--cyan-deep);
+  background: #fde9ee;
+  transform: translateY(-2px);
+}
+
+:global(html[data-theme="neko"]) .page :is(a, button):focus-visible,
+:global(html[data-theme="neko"]) .tableScroller:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Warm washi, shiba red, moss green and travel-stamp details. */
+:global(html[data-theme="shiba"]) .page {
+  --paper: #f6ecd9;
+  --paper-strong: #fff9ec;
+  --ink: #3c3028;
+  --ink-soft: #6f6257;
+  --cyan: #b9633f;
+  --cyan-deep: #8f4329;
+  --navy: #365344;
+  --navy-light: #4b6a59;
+  --line: #ddcbb0;
+  --warm: #d89b45;
+  --warm-text: #7a4514;
+  --focus-ring: #244a39;
+  --text-subtle: #716357;
+  --on-dark: #fff9ec;
+  --on-dark-soft: rgba(255, 249, 236, 0.78);
+  --on-dark-subtle: rgba(255, 249, 236, 0.62);
+  --surface-control: rgba(255, 249, 236, 0.9);
+  --surface-tag: #fbf0dc;
+  --surface-hover: #f2dfc6;
+  --border-soft: rgba(60, 48, 40, 0.22);
+  --border-medium: rgba(60, 48, 40, 0.4);
+  --report-surface: rgba(255, 249, 236, 0.94);
+  --report-surface-soft: rgba(250, 237, 216, 0.9);
+  --report-shadow: 0 18px 42px rgba(74, 51, 35, 0.1);
+  background: #f6ecd9;
+}
+
+:global(html[data-theme="shiba"]) .page::before {
+  opacity: 0.76;
+  background-image:
+    radial-gradient(ellipse, rgba(60, 48, 40, 0.075) 0 0.7px, transparent 0.9px),
+    linear-gradient(82deg, transparent 0 48%, rgba(143, 67, 41, 0.035) 49% 51%, transparent 52%);
+  background-size: 19px 25px, 96px 96px;
+  mask-image: linear-gradient(to bottom, #000, transparent 72vh);
+}
+
+:global(html[data-theme="shiba"]) .page::after {
+  top: 184px;
+  right: -54px;
+  width: 218px;
+  height: 218px;
+  border: 3px double rgba(143, 67, 41, 0.25);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 60%, rgba(185, 99, 63, 0.18) 0 25%, transparent 26%),
+    radial-gradient(circle at 27% 27%, rgba(185, 99, 63, 0.18) 0 10%, transparent 11%),
+    radial-gradient(circle at 50% 18%, rgba(185, 99, 63, 0.18) 0 10%, transparent 11%),
+    radial-gradient(circle at 73% 27%, rgba(185, 99, 63, 0.18) 0 10%, transparent 11%);
+  filter: none;
+  transform: rotate(-10deg);
+}
+
+:global(html[data-theme="shiba"]) :is(.header, .themeSwitch, .languageSwitch, .overview, .fact, .toc, .bullets li, .tableFigure, .callout, .glossary div, .sources a, .interpretation) {
+  border-color: rgba(60, 48, 40, 0.34);
+  background-image: none;
+  box-shadow: var(--report-shadow);
+}
+
+:global(html[data-theme="shiba"]) .header {
+  min-height: 78px;
+  margin-top: 12px;
+  padding-inline: 18px;
+  border: 1px dashed rgba(60, 48, 40, 0.46);
+  border-radius: 18px;
+  background: rgba(255, 249, 236, 0.88);
+}
+
+:global(html[data-theme="shiba"]) :is(.themeSwitch, .languageSwitch) {
+  border: 1px dashed rgba(60, 48, 40, 0.4);
+  border-radius: 14px;
+  background: rgba(255, 249, 236, 0.92);
+}
+
+:global(html[data-theme="shiba"]) :is(.themeSwitch, .languageSwitch) button { border-radius: 10px; }
+
+:global(html[data-theme="shiba"]) :is(.themeSwitch, .languageSwitch) button[aria-pressed="true"] {
+  background: var(--navy);
+  color: var(--paper-strong);
+}
+
+:global(html[data-theme="shiba"]) .mark {
+  border: 2px solid var(--cyan-deep);
+  border-radius: 50%;
+  background: #f8e4c4;
+  color: var(--cyan-deep);
+  transform: rotate(-5deg);
+}
+
+:global(html[data-theme="shiba"]) .hero {
+  row-gap: 40px;
+  padding-top: clamp(106px, 14vw, 174px);
+}
+
+:global(html[data-theme="shiba"]) :is(.hero h1, .overview h2, .section h2, .tableFigure caption, .fact strong) {
+  color: var(--ink);
+  font-family: var(--display);
+  letter-spacing: -0.04em;
+}
+
+:global(html[data-theme="shiba"]) :is(.heroMeta span:first-child, .tags span) {
+  border: 1px dashed rgba(143, 67, 41, 0.5);
+  border-radius: 10px;
+  background: #f4dfc4;
+  color: var(--cyan-deep);
+}
+
+:global(html[data-theme="shiba"]) .noritakeVignette {
+  grid-column: 1 / -1;
+  display: block;
+  min-height: clamp(160px, 20vw, 260px);
+  margin-top: 8px;
+  border: 1px dashed rgba(60, 48, 40, 0.48);
+  border-radius: 20px;
+  background-color: #fbefdc;
+  background-image: url("/illustrations/japanese-shiba-theme.png");
+  background-image: image-set(
+    url("/illustrations/japanese-shiba-theme.avif") type("image/avif"),
+    url("/illustrations/japanese-shiba-theme.png") type("image/png")
+  );
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 18px 42px rgba(74, 51, 35, 0.1);
+}
+
+:global(html[data-theme="shiba"]) .overview {
+  border: 1px dashed rgba(255, 249, 236, 0.42);
+  border-radius: 24px;
+  background: var(--navy);
+  color: var(--on-dark);
+}
+
+:global(html[data-theme="shiba"]) .overview .sectionKicker { color: #f0b38e; }
+:global(html[data-theme="shiba"]) .overview h2 { color: var(--on-dark); }
+
+:global(html[data-theme="shiba"]) .fact {
+  border: 1px dashed rgba(60, 48, 40, 0.44);
+  border-radius: 16px;
+  background: rgba(255, 249, 236, 0.9);
+}
+
+:global(html[data-theme="shiba"]) .fact > span,
+:global(html[data-theme="shiba"]) .fact p { color: var(--ink-soft); }
+
+:global(html[data-theme="shiba"]) .fact strong { color: var(--cyan-deep); }
+
+:global(html[data-theme="shiba"]) .toc {
+  border: 1px dashed rgba(60, 48, 40, 0.44);
+  border-radius: 18px;
+  background: #f8ead4;
+}
+
+:global(html[data-theme="shiba"]) .toc a { border-radius: 10px; }
+:global(html[data-theme="shiba"]) .toc a:hover { background: #f2dfc6; transform: translateX(3px); }
+
+:global(html[data-theme="shiba"]) .section + .section {
+  border-top-color: rgba(60, 48, 40, 0.4);
+  border-top-style: dashed;
+}
+
+:global(html[data-theme="shiba"]) :is(.bullets li, .glossary div, .sources a) {
+  border-style: dashed;
+  border-radius: 14px;
+  background: rgba(255, 249, 236, 0.88);
+}
+
+:global(html[data-theme="shiba"]) .tableFigure {
+  border: 1px dashed rgba(60, 48, 40, 0.46);
+  border-radius: 18px;
+  background: #fff9ec;
+}
+
+:global(html[data-theme="shiba"]) .tableFigure :is(caption, th, td, figcaption) {
+  border-color: rgba(60, 48, 40, 0.32);
+}
+
+:global(html[data-theme="shiba"]) .tableFigure thead th { background: #f2dfc6; }
+
+:global(html[data-theme="shiba"]) :is(.callout, .calibration, .interpretation) {
+  border: 1px dashed rgba(60, 48, 40, 0.48);
+  border-radius: 16px;
+  background: #e9e3cd;
+}
+
+:global(html[data-theme="shiba"]) .sources a:hover {
+  border-color: var(--cyan-deep);
+  background: #f2dfc6;
+  transform: translateY(-2px);
+}
+
+:global(html[data-theme="shiba"]) .page :is(a, button):focus-visible,
+:global(html[data-theme="shiba"]) .tableScroller:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   :global(html[data-theme="glass"]) :is(.header, .themeSwitch, .languageSwitch, .toc, .bullets li, .tableFigure, .callout, .glossary div, .sources a, .interpretation) {
     background: rgba(248, 251, 255, 0.92);
@@ -1123,6 +1527,19 @@
 
   :global(html[data-theme="noritake"]) .header { min-height: 0; }
   :global(html[data-theme="noritake"]) .noritakeVignette { min-height: 132px; }
+
+  :global(html[data-theme="neko"]) .header,
+  :global(html[data-theme="shiba"]) .header {
+    min-height: 0;
+    margin-top: 8px;
+    padding: 10px 12px 12px;
+  }
+
+  :global(html[data-theme="neko"]) .noritakeVignette,
+  :global(html[data-theme="shiba"]) .noritakeVignette {
+    min-height: 142px;
+    border-radius: 14px;
+  }
 }
 
 @media (max-width: 420px) {
@@ -1131,9 +1548,17 @@
   .footer { width: min(100% - 24px, 1240px); }
 
   .brandLink > span:last-child { max-width: 150px; }
-  .controls { gap: 5px; }
+  .controls {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
   .themeSwitch,
   .languageSwitch { padding: 2px; }
+  .themeSwitch {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .languageSwitch { margin-inline: auto; }
   .themeSwitch button { min-width: 26px; width: 26px; height: 31px; }
   .languageSwitch button { min-width: 28px; height: 31px; }
   .hero { padding-top: 68px; }

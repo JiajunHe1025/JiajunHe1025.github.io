@@ -5,11 +5,11 @@ import Link from "next/link";
 import { AmbientDock } from "../AmbientDock";
 import styles from "./notes.module.css";
 
-type Locale = "zh" | "en" | "ja";
-type Theme = "classic" | "night" | "film" | "glass" | "pixel" | "cartoon" | "noritake";
+type Locale = "zh" | "en" | "ja" | "ko";
+type Theme = "classic" | "night" | "film" | "glass" | "pixel" | "cartoon" | "noritake" | "neko" | "shiba";
 
-const locales: Locale[] = ["zh", "en", "ja"];
-const themes: Theme[] = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"];
+const locales: Locale[] = ["zh", "en", "ja", "ko"];
+const themes: Theme[] = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"];
 
 const isLocale = (value: string | null): value is Locale =>
   value !== null && locales.includes(value as Locale);
@@ -29,7 +29,7 @@ const copy = {
     intro: "记录语音、语言与多模态智能中的关键概念，并把研究方法拆成可以复现的实践步骤。这里的内容是导读与教程，不代表新的实验结论。",
     languageLabel: "切换语言",
     themeLabel: "切换主题",
-    themeNames: { classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿" },
+    themeNames: { classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿", neko: "日系猫咪", shiba: "日系柴犬" },
     read: "展开教程",
     close: "再次点击标题即可收起",
     steps: "实践步骤",
@@ -153,7 +153,7 @@ const copy = {
     intro: "Clear guides to speech, language, and multimodal intelligence, with research ideas translated into reproducible steps. These are primers and tutorials—not claims of new experimental results.",
     languageLabel: "Switch language",
     themeLabel: "Switch theme",
-    themeNames: { classic: "Classic", night: "Night", film: "Film", glass: "Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line" },
+    themeNames: { classic: "Classic", night: "Night", film: "Film", glass: "Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line", neko: "Japanese Cat", shiba: "Japanese Shiba" },
     read: "Open tutorial",
     close: "Select the heading again to close",
     steps: "Practical steps",
@@ -277,7 +277,7 @@ const copy = {
     intro: "音声・言語・マルチモーダル知能の要点を整理し、研究の考え方を再現可能な手順へ落とし込みます。掲載内容は入門解説とチュートリアルであり、新たな実験結果を主張するものではありません。",
     languageLabel: "言語を切り替える",
     themeLabel: "テーマを切り替える",
-    themeNames: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画" },
+    themeNames: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画", neko: "和風ねこ", shiba: "和風柴犬" },
     read: "チュートリアルを開く",
     close: "見出しをもう一度選ぶと閉じます",
     steps: "実践ステップ",
@@ -390,6 +390,130 @@ const copy = {
     },
     footer: "技術を明確かつ検証可能な形で共有します。",
   },
+  ko: {
+    htmlLang: "ko",
+    pageTitle: "기술 노트 · Jiajun He",
+    skip: "본문으로 이동",
+    home: "홈으로 돌아가기",
+    label: "학습과 교류",
+    title: "기술 노트",
+    subtitle: "Notes",
+    intro: "음성·언어·멀티모달 지능의 핵심 개념을 정리하고, 연구 아이디어를 재현 가능한 실천 단계로 풀어냅니다. 이곳의 글은 입문 해설과 튜토리얼이며 새로운 실험 결과를 주장하지 않습니다.",
+    languageLabel: "언어 전환",
+    themeLabel: "테마 전환",
+    themeNames: { classic: "클래식", night: "나이트", film: "필름", glass: "글라스", pixel: "일본풍 픽셀", cartoon: "밝은 카툰", noritake: "Noritake 라인 아트", neko: "일본풍 고양이", shiba: "일본풍 시바견" },
+    read: "튜토리얼 펼치기",
+    close: "제목을 다시 누르면 닫힙니다",
+    steps: "실습 단계",
+    snippet: "최소 구현 예시",
+    caution: "실습 시 주의사항",
+    deepDives: {
+      eyebrow: "심층 기술 보고서",
+      title: "논문을 실용적인 기술 판단으로 읽기",
+      intro: "최근 오디오 언어 모델 연구를 문제 정의, 모델 설계, 실험 근거와 적용 한계의 관점에서 다시 정리한 세 편의 독립적인 장문입니다. 공개 자료를 바탕으로 한 독자적인 해설이며 원문을 옮긴 글이 아닙니다.",
+      open: "전체 보고서 읽기",
+      metricLabel: "핵심 지표",
+      reports: [
+        {
+          index: "01",
+          kind: "다화자 ASR",
+          topic: "통합 오디오 언어 모델",
+          title: "MOSS-Transcribe-Diarize: 0.9B 모델이 전사·화자·타임스탬프를 통합하는 방법",
+          summary: "기존 연쇄형 시스템의 오류 전파에서 출발해 긴 문맥, 구조화 생성, 합성 대화 학습을 분석하고, 하나의 모델이 ‘누가 언제 무엇을 말했는가’를 다루는 방식을 설명합니다.",
+          metric: "128K · 약 90분",
+          readTime: "약 18분",
+          href: "/notes/moss-transcribe-diarize-0-9b-sats/",
+        },
+        {
+          index: "02",
+          kind: "확산형 ASR",
+          topic: "사전정보 기반 디노이징",
+          title: "dLLM-ASR: CTC 초안으로 확산 디코딩을 적응형 교정으로 바꾸기",
+          summary: "전체 마스크에서 시작하는 확산 디코딩이 느려지는 이유와 CTC 사전정보, 신뢰도 기반 조기 종료, 길이 가지치기, KV 캐시가 불확실한 위치에 계산을 집중하는 방식을 살펴봅니다.",
+          metric: "추론 4.44× 가속",
+          readTime: "약 17분",
+          href: "/notes/dllm-asr-prior-guided-adaptive-denoising/",
+        },
+        {
+          index: "03",
+          kind: "통합 오디오 지능",
+          topic: "이해 · 생성 · 대화",
+          title: "Nemotron Labs AUDEX: 이해·생성·대화를 하나로 묶은 오디오 LLM",
+          summary: "오디오 입력에서 오디오 출력으로 이어지는 양방향 경로를 따라 음향 표현, 언어 추론, 음성 생성을 정리하고 통합 모델과 조립형 음성 시스템의 가치와 위험을 비교합니다.",
+          metric: "하나의 모델 · 양방향 오디오",
+          readTime: "약 20분",
+          href: "/notes/nemotron-labs-audex-unified-audio-llm/",
+        },
+      ],
+    },
+    articles: [
+      {
+        index: "01",
+        kind: "입문 · ASR",
+        title: "문맥을 음성 인식에 실제로 활용하기",
+        summary: "문맥 기반 ASR은 단순히 핫워드 목록을 디코더에 넣는 일이 아닙니다. 장기 어휘, 세션 단서, 현재 발화의 힌트를 구분하고 각각 인코딩·디코딩·재순위화 중 어디에 영향을 줄지 설계해야 합니다.",
+        tags: ["Contextual ASR", "Biasing", "Evaluation"],
+        steps: [
+          "문맥 없는 기준 모델을 먼저 만들고 일반 단어와 목표 용어의 오류를 따로 측정해, 핫워드 개선이 전체 성능 저하를 가리지 않도록 합니다.",
+          "고정된 고유명사, 세션 주제, 이전 발화 문맥을 계층으로 나누고 각 계층에 별도의 가중치와 만료 규칙을 둡니다.",
+          "얕은 결합이나 후보 재순위화부터 시작한 뒤 문맥 인코더를 음성·텍스트 표현에 연결할 필요가 있는지 평가합니다.",
+          "정확한 문맥, 문맥 없음, 잘못된 문맥 조건을 모두 시험하고 목표가 아닌 단어에서의 오작동도 확인합니다.",
+        ],
+        code: `context = encode_terms(active_terms)\nnbest = asr.decode(audio, beam_size=8)\nscore = acoustic(nbest) + lm(nbest)\nscore += bias(nbest, context, max_bonus=beta)\nreturn select_best(nbest, score)`,
+        caution: "핫워드 재현율만 보지 말고 전체 인식 품질, 목표 용어 재현율, 오작동, 잘못된 문맥에서의 성능 저하를 함께 보고해야 합니다.",
+      },
+      {
+        index: "02",
+        kind: "튜토리얼 · ASR × LLM",
+        title: "다화자 ASR과 LLM: 언어 교정 전에 근거 보존하기",
+        summary: "회의와 인터뷰에서는 분리, 화자 분할, 인식, 언어 교정이 서로 영향을 줍니다. 감사 가능한 흐름은 원래 타임스탬프와 ASR 가설을 보존하고 LLM이 명확한 제약 아래에서만 텍스트를 수정하게 합니다.",
+        tags: ["Speaker Diarization", "LLM", "Traceability"],
+        steps: [
+          "음성 활동 검출과 화자 분할을 먼저 수행하고, 겹친 음성을 한 명에게 억지로 배정하지 말고 별도 상태로 보존합니다.",
+          "시간 구간별로 ASR을 실행하며 최종 문장뿐 아니라 단어 타임스탬프, 신뢰도, N-best 후보도 남깁니다.",
+          "LLM의 역할을 문장부호 복원, 용어 통일, 후보 선택 등으로 제한하고 오디오에 없는 사실을 추가하지 못하게 합니다.",
+          "원문, 수정문, 수정 이유와 타임스탬프를 함께 출력하고 화자 전환, 숫자, 고유명사, 낮은 신뢰도 구간을 사람이 검토합니다.",
+        ],
+        code: `record = {\n  "speaker": segment.speaker,\n  "time": [segment.start, segment.end],\n  "asr": hypotheses,\n  "instruction": "Edit only when supported by ASR evidence"\n}\nrevised = llm.constrained_edit(record)`,
+        caution: "유창함이 충실함을 뜻하지는 않습니다. 실제 운영에서는 오디오 근거로 돌아갈 수 있어야 하며 확인할 수 없는 내용은 불확실하다고 표시해야 합니다.",
+      },
+      {
+        index: "03",
+        kind: "입문 · 멀티모달",
+        title: "멀티모달 감정 인식: 결합보다 정렬이 먼저",
+        summary: "음성, 텍스트, 영상 신호는 시간 단위와 신뢰도가 서로 다릅니다. 모든 특징을 바로 이어 붙이기보다 정렬 단위를 먼저 정의하고 각 모달리티가 언제 신뢰할 수 있거나 누락되는지 명시적으로 모델링해야 합니다.",
+        tags: ["Emotion Recognition", "Fusion", "Robustness"],
+        steps: [
+          "예측 단위를 전체 녹음, 발화 턴, 짧은 창 중에서 정하고 녹음 단위 라벨을 모든 프레임에 기계적으로 복제하지 않습니다.",
+          "단일 모달리티 기준 모델을 각각 만들어 운율, 의미, 시각 단서가 무엇을 설명하는지 확인합니다.",
+          "공통 시간축에 신호를 정렬하고 누락 마스크를 보존하며, 결합 계층에 표현·신뢰도 추정·마스크를 함께 제공합니다.",
+          "모달리티 누락, 잡음, 화자 분리 조건에서 일반화를 평가하고 가장 쉬운 신호에 과도하게 의존하는지 살펴봅니다.",
+        ],
+        code: `features = [audio_emb, text_emb, visual_emb]\nmask = [audio_ok, text_ok, visual_ok]\nweights = reliability_gate(features, mask)\nfused = sum(w * x for w, x in zip(weights, features))\nemotion = classifier(fused)`,
+        caution: "감정 라벨에는 주관성과 문화적 차이가 있습니다. 주석 과정과 일치도를 기록하고 모델 출력을 개인의 심리 상태에 대한 확정적 판단으로 사용하지 마세요.",
+      },
+    ],
+    guestbook: {
+      eyebrow: "교류",
+      title: "메시지와 주제 제안",
+      intro: "로그인 없이 남길 수 있습니다. 메시지는 이메일로 전달되어 먼저 검토되며 즉시 공개되지 않습니다. 승인한 메시지만 이후 아래 목록에 표시될 수 있습니다.",
+      privacy: "FormSubmit이 폼 내용을 제 이메일로 전달합니다. 비밀번호, 신분증 정보 또는 기타 민감한 정보는 입력하지 마세요.",
+      success: "제출이 접수되었습니다. 감사합니다. 이메일 검토 후에만 공개 여부를 결정합니다.",
+      name: "이름",
+      namePlaceholder: "어떻게 불러 드릴까요?",
+      email: "이메일",
+      emailHint: "답변이 필요할 때만 사용하며 메시지와 함께 공개하지 않습니다.",
+      topic: "주제",
+      topics: ["기술 토론", "튜토리얼 제안", "연구 교류", "웹사이트 의견"],
+      message: "메시지",
+      messagePlaceholder: "논의하고 싶은 질문, 보고 싶은 튜토리얼 또는 제안을 남겨 주세요…",
+      consent: "메시지는 검토 후 공개되며 즉시 표시되지 않는다는 점을 이해했습니다.",
+      submit: "검토 요청 보내기",
+      approvedTitle: "승인된 메시지",
+      approvedEmpty: "아직 승인된 메시지가 없습니다.",
+    },
+    footer: "기술을 명확하고 검증 가능한 방식으로 공유합니다.",
+  },
 } satisfies Record<Locale, {
   htmlLang: string;
   pageTitle: string;
@@ -478,6 +602,8 @@ export function NotesPage() {
         setLocale(savedLocale);
       } else if (window.navigator.language.toLowerCase().startsWith("ja")) {
         setLocale("ja");
+      } else if (window.navigator.language.toLowerCase().startsWith("ko")) {
+        setLocale("ko");
       } else if (!window.navigator.language.toLowerCase().startsWith("zh")) {
         setLocale("en");
       }
@@ -547,7 +673,7 @@ export function NotesPage() {
                 aria-pressed={locale === option}
                 onClick={() => setLocale(option)}
               >
-                {option === "zh" ? "中" : option === "en" ? "EN" : "日"}
+                {option === "zh" ? "中" : option === "en" ? "EN" : option === "ja" ? "日" : "한"}
               </button>
             ))}
           </div>

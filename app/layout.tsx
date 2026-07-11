@@ -22,7 +22,7 @@ const themeInitScript = `
   (() => {
     try {
       const savedTheme = window.localStorage.getItem("jiajun-site-theme");
-      const allowedThemes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"];
+      const allowedThemes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"];
       document.documentElement.dataset.theme = allowedThemes.includes(savedTheme) ? savedTheme : "glass";
     } catch {
       document.documentElement.dataset.theme = "glass";
@@ -37,7 +37,9 @@ export const metadata: Metadata = {
   keywords: [
     "Jiajun He",
     "何嘉俊",
+    "허자쥔",
     "speech recognition",
+    "음성 인식",
     "multimodal AI",
     "ASR",
     "speech emotion recognition",

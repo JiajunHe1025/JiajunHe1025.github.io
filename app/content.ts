@@ -1,4 +1,4 @@
-export type Locale = "zh" | "en" | "ja";
+export type Locale = "zh" | "en" | "ja" | "ko";
 
 type LinkItem = {
   label: string;
@@ -938,10 +938,210 @@ export const content: Record<Locale, SiteContent> = {
     },
     footer: "カカシュン · 音声・言語・マルチモーダル知能",
   },
+  ko: {
+    htmlLang: "ko",
+    pageTitle: "허자쥔 | 음성·멀티모달 AI 연구",
+    languageLabel: "언어 선택",
+    nav: [
+      { label: "연구", href: "#research" },
+      { label: "논문", href: "#publications" },
+      { label: "경력", href: "#journey" },
+      { label: "수상", href: "#recognition" },
+      { label: "취미", href: "#hobbies" },
+      { label: "노트", href: "/notes/" },
+      { label: "연락", href: "#contact" },
+    ],
+    hero: {
+      eyebrow: "음성 · 언어 · 멀티모달 지능",
+      name: "허자쥔",
+      romanName: "Jiajun He / 何嘉俊",
+      headline: "실제 환경에서 언어와 화자, 감정을 이해하는 AI를 연구합니다.",
+      introduction:
+        "문맥 기반 음성 인식, 음성 감정 이해, 다중 화자 모델링, 대규모 언어 모델을 아우르며 복잡한 실제 환경에서도 안정적으로 작동하는 지능형 시스템을 탐구합니다.",
+      current: "현재 Alibaba Tongyi Lab 재직",
+      primaryCta: "연구 보기",
+      secondaryCta: "논문 보기",
+      portraitAlt: "허자쥔의 프로필 사진",
+      availability: "2026.06 — 현재",
+    },
+    metrics: [
+      { value: "70.42%", label: "최대 오류율 감소", detail: "AISHELL-1 · 문맥 기반 ASR" },
+      { value: "7.9%", label: "다중 화자 ASR WER", detail: "LibriMix · CMT-LLM" },
+      { value: "+4.1", label: "감정 인식 성능 향상", detail: "%p · IEMOCAP" },
+      { value: "22", label: "Google Scholar 등재 항목", detail: "2026년 7월 기준" },
+    ],
+    now: {
+      index: "01",
+      eyebrow: "현재",
+      title: "연구 질문을 실세계에서 작동하는 지능형 시스템으로.",
+      organization: "Alibaba · Tongyi Lab",
+      period: "2026년 6월 — 현재",
+      description:
+        "2026년 6월부터 Alibaba Tongyi Lab에서 근무하며 음성·언어·멀티모달 지능에 대한 장기적인 연구를 이어가고 있습니다.",
+    },
+    research: {
+      index: "02",
+      eyebrow: "연구",
+      title: "기계가 진정으로 ‘듣고 이해하기’ 위해 필요한 문제를 풀어냅니다.",
+      introduction:
+        "희귀 개체명 인식에서 중첩 음성과 감정 이해에 이르기까지, 단순한 벤치마크 점수를 넘어 모델이 문맥과 멀티모달 단서를 신뢰할 수 있게 활용하는 방법을 연구합니다.",
+      items: [
+        {
+          number: "R / 01",
+          title: "문맥 기반 음성 인식",
+          description:
+            "음소 정보 보강, 개체명 중심 학습 목표, 문맥 바이어싱을 활용해 인명·브랜드명·전문 용어의 인식 정확도를 높입니다.",
+          metric: "−70.42%",
+          metricLabel: "AISHELL-1에서의 최대 CER 감소",
+          tags: ["Contextual ASR", "Rare Words", "Error Correction"],
+          figure: "/research/contextual-asr.png",
+          figureAlt: "문맥 기반 음성 인식 모델 구조도",
+          paper: "PMF-CEC / PARCO",
+        },
+        {
+          number: "R / 02",
+          title: "다중 화자 ASR × LLM",
+          description:
+            "WavLM과 Vicuna에 2단계 필터링을 결합해 5,000개 이상의 후보 중 회의와 중첩 음성 인식에 유용한 문맥을 선별합니다.",
+          metric: "7.9%",
+          metricLabel: "LibriMix에서의 WER",
+          tags: ["Multi-talker", "LLM", "WavLM"],
+          figure: "/research/multitalker-llm.png",
+          figureAlt: "대규모 언어 모델을 활용한 다중 화자 음성 인식 프레임워크",
+          paper: "CMT-LLM · INTERSPEECH 2025",
+        },
+        {
+          number: "R / 03",
+          title: "감정·멀티모달 이해",
+          description:
+            "음성·텍스트·영상 표현을 융합하고 ASR 오류 교정을 인식 과정에 포함해, 무엇을 말했는지와 어떻게 말했는지를 함께 이해합니다.",
+          metric: "+4.1",
+          metricLabel: "IEMOCAP에서의 절대 향상 포인트",
+          tags: ["Speech Emotion", "Multimodal", "Video"],
+          figure: "/research/multimodal-emotion.png",
+          figureAlt: "멀티모달 음성 감정 인식 기법 구조도",
+          paper: "M4SER / GIA-MIC",
+        },
+      ],
+    },
+    publications: {
+      index: "03",
+      eyebrow: "전체 논문",
+      title: "2020년부터 2026년까지의 연구 여정을 한눈에.",
+      introduction:
+        "Google Scholar에 현재 등재된 22개 항목을 모두 수록했습니다. 학술지, 학술대회, 프리프린트, 동일 연구의 별도 버전을 포함하며, DOI 또는 공식 논문 페이지로 연결합니다.",
+      linkLabel: "논문 읽기",
+      scholarLabel: "Google Scholar에서 전체 실적 보기",
+      scholarUrl: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+      items: sharedPublications,
+    },
+    journey: {
+      index: "04",
+      eyebrow: "경력",
+      title: "산업 현장과 연구실, 서로 다른 학문 분야를 오가며 연구를 발전시켜 왔습니다.",
+      experienceTitle: "연구·경력",
+      educationTitle: "학력",
+      experience: [
+        {
+          period: "2026.06 — 현재",
+          organization: "Alibaba · Tongyi Lab",
+          role: "현직",
+          current: true,
+        },
+        {
+          period: "2025.10 — 2026",
+          organization: "나고야대학교 · 정보기반센터 / Toda Lab",
+          role: "연구원",
+        },
+        {
+          period: "2024.08 — 2025.09",
+          organization: "CyberAgent · AI Lab Audio Group",
+          role: "알고리즘 엔지니어 인턴",
+          note: "도쿄 · 문맥 기반 ASR 및 다중 화자 ASR",
+        },
+      ],
+      education: [
+        {
+          period: "2021.10 — 2026.03",
+          organization: "나고야대학교",
+          role: "컴퓨터과학 박사",
+          note: "Toda Lab · GPA A",
+        },
+        {
+          period: "2018.09 — 2021.06",
+          organization: "화남이공대학교",
+          role: "마이크로일렉트로닉스 및 고체전자공학 석사",
+          note: "GPA 86.71 / 100",
+        },
+        {
+          period: "2014.09 — 2018.06",
+          organization: "화남이공대학교",
+          role: "전자과학기술 학사",
+          note: "GPA 85 / 100",
+        },
+      ],
+    },
+    recognition: {
+      index: "05",
+      eyebrow: "수상·역량",
+      title: "연구뿐 아니라 명확한 소통, 개방적인 협업, 지속적인 성장을 중시합니다.",
+      awards: [
+        { year: "2025", title: "INTERSPEECH Student Grant", note: "음성 분야 국제 학술대회" },
+        { year: "2024", title: "INTERSPEECH Best Student Paper Finalist", note: "2DP-2MRC" },
+        { year: "2024", title: "IEEE 나고야 지부 우수 발표상", note: "ASR 오류 교정 연구" },
+        { year: "2024", title: "Odyssey 멀티모달 감정 인식 챌린지 5위", note: "멀티모달 융합" },
+        { year: "2023", title: "MER 멀티모달 감정 인식 챌린지 4위", note: "반지도학습" },
+      ],
+      skillsTitle: "방법론·도구",
+      skillGroups: [
+        {
+          label: "연구",
+          items: ["ASR", "Speech Emotion", "Multimodal Learning", "LLM", "Signal Processing"],
+        },
+        {
+          label: "엔지니어링",
+          items: ["Python / PyTorch", "ESPnet", "Hugging Face", "Shell", "C++"],
+        },
+        {
+          label: "언어",
+          items: ["중국어", "영어 · TOEFL 112", "일본어 · JLPT N2"],
+        },
+      ],
+    },
+    hobbies: {
+      index: "06",
+      eyebrow: "취미 · 여행과 사진",
+      title: "여행으로 세상을 만나고, 사진으로 그 순간을 남깁니다.",
+      introduction:
+        "지도에는 지금까지 방문한 곳을, 사진에는 그곳의 빛과 거리, 우연한 만남을 기록합니다. 하이라이트된 지역을 선택하면 해당 사진 갤러리를 볼 수 있습니다.",
+      mapLabel: "허자쥔이 방문한 지역의 세계지도",
+      visitedLabel: "개 방문지",
+      placeholderTitle: "사진은 추후 공개 예정",
+      placeholderBody: "직접 촬영한 사진을 추가할 공간입니다. 업로드한 후에는 지역별 갤러리로 편리하게 감상할 수 있습니다.",
+    },
+    contact: {
+      index: "07",
+      eyebrow: "연락",
+      title: "기계가 사람을 더 잘 이해하는 방법을 고민하고 계신다면, 함께 이야기해 보세요.",
+      description:
+        "음성 인식, 멀티모달 학습, 감정 컴퓨팅, 대규모 언어 모델 관련 연구와 협업 제안을 환영합니다.",
+      emailLabel: "이메일 보내기",
+      links: [
+        { label: "jiajun.he@g.sp.m.is.nagoya-u.ac.jp", href: "mailto:jiajun.he@g.sp.m.is.nagoya-u.ac.jp" },
+        { label: "GitHub", href: "https://github.com/JiajunHe1025" },
+        {
+          label: "Google Scholar",
+          href: "https://scholar.google.com/citations?hl=en&user=4mIKAZwAAAAJ&view_op=list_works&sortby=pubdate",
+        },
+      ],
+    },
+    footer: "허자쥔 · 음성·언어·멀티모달 지능",
+  },
 };
 
 export const localeLabels: Record<Locale, string> = {
   zh: "中文",
   en: "EN",
   ja: "日本語",
+  ko: "한국어",
 };

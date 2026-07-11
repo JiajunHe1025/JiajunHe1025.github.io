@@ -27,8 +27,8 @@
   --map-land: #41606d;
   --map-hover: #7cddf5;
   --shell: min(1240px, calc(100vw - 80px));
-  --display: "Iowan Old Style", "Songti SC", "STSong", "YuMincho", "Hiragino Mincho ProN", Georgia, serif;
-  --sans: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Yu Gothic", "Noto Sans CJK SC", system-ui, sans-serif;
+  --display: "Iowan Old Style", "Songti SC", "STSong", "YuMincho", "Hiragino Mincho ProN", "AppleMyungjo", "Nanum Myeongjo", Georgia, serif;
+  --sans: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Yu Gothic", "Apple SD Gothic Neo", "Noto Sans KR", "Noto Sans CJK SC", system-ui, sans-serif;
   --mono: var(--font-geist-mono), "SFMono-Regular", Consolas, monospace;
 }
 
@@ -54,7 +54,8 @@ body {
 }
 
 html[lang^="zh"] body,
-html[lang="ja"] body {
+html[lang="ja"] body,
+html[lang="ko"] body {
   line-height: 1.8;
   line-break: strict;
   word-break: normal;
@@ -389,6 +390,37 @@ button {
   border-bottom: 1px solid #1b1a18;
   border-radius: 48% 52% 44% 56%;
   transform: rotate(-9deg);
+}
+
+.theme-swatch-neko {
+  border-color: #4b4f78;
+  background:
+    radial-gradient(circle at 34% 63%, #fffaf2 0 11%, transparent 12%),
+    radial-gradient(circle at 66% 63%, #fffaf2 0 11%, transparent 12%),
+    linear-gradient(145deg, #fff7ed 0 44%, #e895ae 44% 70%, #4b4f78 70%);
+  box-shadow: 0 0 0 1px rgba(75, 79, 120, 0.22);
+}
+
+.theme-swatch-neko::after {
+  inset: 6px 7px 7px;
+  border-color: #4b4f78;
+  border-radius: 50% 50% 46% 46%;
+  clip-path: polygon(0 24%, 18% 0, 35% 22%, 65% 22%, 82% 0, 100% 24%, 94% 100%, 6% 100%);
+}
+
+.theme-swatch-shiba {
+  border-color: #3e6250;
+  background:
+    radial-gradient(circle at 50% 62%, #f8ead1 0 17%, transparent 18%),
+    linear-gradient(145deg, #f7ecd8 0 42%, #b8623c 42% 72%, #3e6250 72%);
+  box-shadow: 0 0 0 1px rgba(62, 98, 80, 0.24);
+}
+
+.theme-swatch-shiba::after {
+  inset: 6px;
+  border: 1px dashed #f7ecd8;
+  border-radius: 38% 42% 48% 46%;
+  transform: rotate(5deg);
 }
 
 .theme-options {
@@ -3260,6 +3292,816 @@ html[data-theme="noritake"] .music-controls input {
   accent-color: var(--ink);
 }
 
+/* Japanese stationery theme with an original cat illustration set. */
+html[data-theme="neko"] {
+  color-scheme: light;
+  --paper: #fff8ef;
+  --paper-strong: #fffdf8;
+  --ink: #303354;
+  --ink-soft: #62657f;
+  --cyan: #e58fa9;
+  --cyan-deep: #9c526d;
+  --navy: #363b68;
+  --navy-light: #4a507e;
+  --line: #e3cfd2;
+  --warm: #e6ad6e;
+  --warm-text: #8b4d25;
+  --focus-ring: #343a70;
+  --text-subtle: #666980;
+  --on-dark: #fffaf3;
+  --on-dark-soft: rgba(255, 250, 243, 0.78);
+  --on-dark-subtle: rgba(255, 250, 243, 0.62);
+  --surface-control: rgba(255, 253, 248, 0.9);
+  --surface-control-strong: #fffdf8;
+  --surface-soft: rgba(255, 246, 242, 0.7);
+  --surface-hover: rgba(229, 143, 169, 0.13);
+  --surface-publications: #fff0ed;
+  --surface-hobbies: #f5f0fa;
+  --surface-tag: #fff7f4;
+  --border-soft: rgba(48, 51, 84, 0.2);
+  --border-medium: rgba(48, 51, 84, 0.36);
+  --map-land: #c9c6d6;
+  --map-hover: #f4b3c6;
+}
+
+html[data-theme="neko"] body {
+  background: var(--paper);
+}
+
+html[data-theme="neko"] .site-root::before {
+  background-image:
+    radial-gradient(circle at center, rgba(48, 51, 84, 0.075) 0 0.7px, transparent 0.85px),
+    linear-gradient(105deg, transparent 0 48%, rgba(229, 143, 169, 0.035) 49% 51%, transparent 52%);
+  background-size: 23px 23px, 88px 88px;
+  mask-image: linear-gradient(to bottom, #000 0, transparent 92vh);
+}
+
+html[data-theme="neko"] .site-root::after {
+  top: 150px;
+  right: -72px;
+  width: 250px;
+  height: 220px;
+  border: 2px solid rgba(52, 58, 112, 0.18);
+  border-radius: 52% 48% 46% 54%;
+  background:
+    radial-gradient(circle at 50% 58%, rgba(229, 143, 169, 0.17) 0 24%, transparent 25%),
+    radial-gradient(circle at 28% 25%, rgba(229, 143, 169, 0.17) 0 10%, transparent 11%),
+    radial-gradient(circle at 50% 17%, rgba(229, 143, 169, 0.17) 0 10%, transparent 11%),
+    radial-gradient(circle at 72% 25%, rgba(229, 143, 169, 0.17) 0 10%, transparent 11%);
+  filter: none;
+  transform: rotate(13deg);
+}
+
+html[data-theme="neko"] :is(
+  .site-header,
+  .theme-menu summary,
+  .theme-options,
+  .language-switch,
+  .notes-shortcut,
+  .current-chip,
+  .button,
+  .portrait-frame,
+  .signal-panel,
+  .metric,
+  .research-card,
+  .skills-panel,
+  .travel-map-wrap,
+  .travel-photo-panel,
+  .travel-map-count,
+  .utility-actions,
+  .utility-popover
+) {
+  border-color: rgba(48, 51, 84, 0.28);
+  box-shadow: 0 10px 28px rgba(70, 50, 80, 0.08);
+}
+
+html[data-theme="neko"] .site-header {
+  min-height: 74px;
+  margin-top: 12px;
+  padding-inline: 18px;
+  border: 1px solid rgba(48, 51, 84, 0.22);
+  border-radius: 22px;
+  background: rgba(255, 253, 248, 0.84);
+}
+
+html[data-theme="neko"] .wordmark-mark {
+  border-color: var(--ink);
+  border-radius: 52% 52% 46% 46%;
+  background: #fff4f3;
+  box-shadow: inset 0 -5px rgba(229, 143, 169, 0.12);
+}
+
+html[data-theme="neko"] .wordmark:hover .wordmark-mark {
+  background: var(--ink);
+  color: var(--paper-strong);
+  transform: rotate(5deg);
+}
+
+html[data-theme="neko"] .desktop-nav a::after {
+  height: 3px;
+  border-radius: 999px;
+  background: var(--cyan);
+}
+
+html[data-theme="neko"] :is(.theme-menu summary, .language-switch, .notes-shortcut, .current-chip) {
+  border-color: rgba(48, 51, 84, 0.24);
+  background: rgba(255, 253, 248, 0.88);
+}
+
+html[data-theme="neko"] :is(.theme-menu[open] summary, .theme-menu summary:hover, .notes-shortcut:hover) {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper-strong);
+}
+
+html[data-theme="neko"] :is(.theme-options, .utility-popover) {
+  border-radius: 20px;
+  background: rgba(255, 253, 248, 0.96);
+}
+
+html[data-theme="neko"] .theme-options button {
+  border-radius: 12px;
+}
+
+html[data-theme="neko"] .theme-options button:hover,
+html[data-theme="neko"] .theme-options button[aria-pressed="true"] {
+  background: #fde9ee;
+}
+
+html[data-theme="neko"] .language-switch button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper-strong);
+}
+
+html[data-theme="neko"] .hero-copy::before {
+  position: absolute;
+  top: -20px;
+  left: -30px;
+  width: 88px;
+  height: 46px;
+  border-top: 1px solid rgba(48, 51, 84, 0.45);
+  border-bottom: 1px solid rgba(48, 51, 84, 0.32);
+  border-radius: 50%;
+  background: linear-gradient(7deg, transparent 48%, rgba(48, 51, 84, 0.4) 49% 51%, transparent 52%);
+  content: "";
+  pointer-events: none;
+  transform: rotate(-10deg);
+}
+
+html[data-theme="neko"] :is(.hero h1, .section-heading-copy h2, .now-copy h2, .contact-copy h2) {
+  color: var(--ink);
+  font-family: var(--display);
+  letter-spacing: -0.045em;
+}
+
+html[data-theme="neko"] .eyebrow,
+html[data-theme="neko"] .section-kicker span:first-child,
+html[data-theme="neko"] :is(.publication-year, .publication-link, .scholar-profile-link, .timeline-item time, .travel-photo-index, .travel-gallery-count) {
+  color: var(--cyan-deep);
+}
+
+html[data-theme="neko"] .button {
+  border-radius: 999px;
+}
+
+html[data-theme="neko"] .button-primary,
+html[data-theme="neko"] .button-primary:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper-strong);
+}
+
+html[data-theme="neko"] .button-ghost:hover {
+  border-color: var(--cyan-deep);
+  background: #fde9ee;
+}
+
+html[data-theme="neko"] .portrait-grid {
+  border-radius: 46% 54% 44% 56%;
+  background-color: #fce1e8;
+  background-image: radial-gradient(circle, rgba(52, 58, 112, 0.18) 0 1px, transparent 1.2px);
+  background-size: 15px 15px;
+  transform: rotate(3deg);
+}
+
+html[data-theme="neko"] .portrait-frame {
+  border-radius: 42px 42px 18px 18px;
+  background: #f9dce6;
+}
+
+html[data-theme="neko"] .portrait-image {
+  filter: saturate(0.88) contrast(0.98) sepia(0.06);
+}
+
+html[data-theme="neko"] .portrait-caption {
+  border-top: 1px dashed rgba(48, 51, 84, 0.28);
+  background: #fffaf5;
+  color: var(--ink);
+}
+
+html[data-theme="neko"] .signal-panel {
+  border-radius: 18px 18px 18px 5px;
+  background: #fffaf5;
+}
+
+html[data-theme="neko"] :is(.signal-bars span, .mini-signal i) {
+  background: var(--cyan);
+}
+
+html[data-theme="neko"] .noritake-vignettes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: min(var(--shell), 980px);
+  margin: -14px auto 92px;
+  padding: 15px;
+  border: 1px solid rgba(48, 51, 84, 0.22);
+  border-radius: 28px;
+  background: rgba(255, 253, 248, 0.72);
+}
+
+html[data-theme="neko"] .noritake-vignette {
+  position: relative;
+  display: block;
+  height: clamp(176px, 30vw, 390px);
+  overflow: hidden;
+  border: 1px solid rgba(48, 51, 84, 0.24);
+  border-radius: 20px;
+  background-color: #fff9f2;
+  background-image: url("/illustrations/japanese-neko-theme.png");
+  background-image: image-set(
+    url("/illustrations/japanese-neko-theme.avif") type("image/avif"),
+    url("/illustrations/japanese-neko-theme.png") type("image/png")
+  );
+  background-repeat: no-repeat;
+  background-size: 300% auto;
+}
+
+html[data-theme="neko"] .noritake-vignette::after {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.9);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+
+html[data-theme="neko"] .noritake-vignette-left { background-position: left center; }
+html[data-theme="neko"] .noritake-vignette-left::after { content: "NEKO 01"; }
+html[data-theme="neko"] .noritake-vignette-center { background-position: center center; }
+html[data-theme="neko"] .noritake-vignette-center::after { content: "NEKO 02"; }
+html[data-theme="neko"] .noritake-vignette-right { background-position: right center; }
+html[data-theme="neko"] .noritake-vignette-right::after { content: "NEKO 03"; }
+
+html[data-theme="neko"] .metrics {
+  border-color: rgba(48, 51, 84, 0.24);
+}
+
+html[data-theme="neko"] .metric {
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.7);
+}
+
+html[data-theme="neko"] .metric strong,
+html[data-theme="neko"] .research-metric strong {
+  color: var(--cyan-deep);
+}
+
+html[data-theme="neko"] :is(.now-section, .contact-section) {
+  background: var(--navy);
+}
+
+html[data-theme="neko"] :is(.now-copy h2, .contact-copy h2) {
+  color: var(--on-dark);
+}
+
+html[data-theme="neko"] .research-card {
+  border-color: rgba(48, 51, 84, 0.22);
+  border-radius: 24px;
+  background: rgba(255, 253, 248, 0.9);
+}
+
+html[data-theme="neko"] .research-card:hover {
+  border-color: var(--cyan-deep);
+  box-shadow: 0 16px 34px rgba(76, 49, 82, 0.12);
+  transform: translateY(-4px) rotate(-0.25deg);
+}
+
+html[data-theme="neko"] .research-card::after {
+  border-color: rgba(229, 143, 169, 0.35);
+  border-radius: 50%;
+  box-shadow: -16px -14px 0 -12px rgba(229, 143, 169, 0.25);
+}
+
+html[data-theme="neko"] .research-figure {
+  border-color: rgba(48, 51, 84, 0.22);
+  border-radius: 18px;
+}
+
+html[data-theme="neko"] :is(.tag-list span, .skill-list span) {
+  border-radius: 999px;
+}
+
+html[data-theme="neko"] :is(.timeline-dot, .timeline-dot.current) {
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0 4px rgba(229, 143, 169, 0.16);
+}
+
+html[data-theme="neko"] .skills-panel {
+  border: 1px solid rgba(255, 250, 243, 0.2);
+  border-radius: 24px;
+  background: var(--navy);
+}
+
+html[data-theme="neko"] .skills-panel-header {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0 1px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+html[data-theme="neko"] .skills-panel-header span {
+  color: #f4b3c6;
+}
+
+html[data-theme="neko"] .travel-map-wrap {
+  border-radius: 24px;
+  background: var(--navy);
+}
+
+html[data-theme="neko"] .travel-map-ocean { fill: var(--navy); }
+html[data-theme="neko"] .travel-country { stroke: var(--navy); }
+html[data-theme="neko"] .travel-country.visited { fill: var(--cyan); }
+html[data-theme="neko"] .travel-country.visited.selected { fill: var(--warm); }
+html[data-theme="neko"] .travel-marker-ring { fill: rgba(229, 143, 169, 0.2); stroke: #f4b3c6; }
+html[data-theme="neko"] .travel-marker-core { fill: #f4b3c6; }
+
+html[data-theme="neko"] .travel-map-count {
+  border-radius: 16px;
+  background: rgba(48, 51, 84, 0.88);
+}
+
+html[data-theme="neko"] .travel-map-count strong { color: #f4b3c6; }
+
+html[data-theme="neko"] .travel-photo-panel {
+  border-radius: 24px;
+  background: #fffdf8;
+}
+
+html[data-theme="neko"] .travel-gallery-frame {
+  border-radius: 18px;
+  background: #373a5e;
+}
+
+html[data-theme="neko"] :is(.travel-gallery-controls button, .travel-place-list button) {
+  border-color: rgba(48, 51, 84, 0.28);
+}
+
+html[data-theme="neko"] .travel-place-list button[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper-strong);
+}
+
+html[data-theme="neko"] .travel-photo-placeholder {
+  border-color: rgba(156, 82, 109, 0.5);
+  border-radius: 18px;
+  background-color: #fff0f2;
+  background-image: radial-gradient(circle, rgba(156, 82, 109, 0.08) 0 1px, transparent 1.2px);
+  background-size: 18px 18px;
+  color: var(--cyan-deep);
+}
+
+html[data-theme="neko"] .travel-placeholder-sun {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 18px rgba(229, 143, 169, 0.08), 0 0 0 38px rgba(229, 143, 169, 0.04);
+}
+
+html[data-theme="neko"] .contact-links a {
+  border-radius: 16px;
+}
+
+html[data-theme="neko"] .contact-links a:hover {
+  background: #f4b3c6;
+  color: var(--ink);
+}
+
+html[data-theme="neko"] .utility-actions {
+  border-color: rgba(48, 51, 84, 0.26);
+  background: rgba(255, 253, 248, 0.94);
+}
+
+html[data-theme="neko"] :is(.utility-actions button, .utility-popover-header button, .calendar-month-nav button, .calendar-today, .music-play) {
+  border-radius: 999px;
+}
+
+html[data-theme="neko"] .calendar-grid time[aria-current="date"] {
+  background: var(--ink);
+  box-shadow: 0 0 0 4px rgba(229, 143, 169, 0.24);
+}
+
+html[data-theme="neko"] .ambient-visualizer i {
+  background: linear-gradient(to top, var(--ink), var(--cyan));
+}
+
+html[data-theme="neko"] .music-controls input { accent-color: var(--cyan-deep); }
+
+html[data-theme="neko"] :is(a, button, input, select, textarea):focus-visible {
+  outline-color: var(--focus-ring);
+}
+
+/* Japanese travel-stamp theme with an original shiba illustration set. */
+html[data-theme="shiba"] {
+  color-scheme: light;
+  --paper: #f6ecd9;
+  --paper-strong: #fff9ec;
+  --ink: #3c3028;
+  --ink-soft: #6f6257;
+  --cyan: #b9633f;
+  --cyan-deep: #8f4329;
+  --navy: #365344;
+  --navy-light: #4b6a59;
+  --line: #ddcbb0;
+  --warm: #d89b45;
+  --warm-text: #7a4514;
+  --focus-ring: #244a39;
+  --text-subtle: #716357;
+  --on-dark: #fff9ec;
+  --on-dark-soft: rgba(255, 249, 236, 0.78);
+  --on-dark-subtle: rgba(255, 249, 236, 0.62);
+  --surface-control: rgba(255, 249, 236, 0.9);
+  --surface-control-strong: #fff9ec;
+  --surface-soft: rgba(255, 249, 236, 0.58);
+  --surface-hover: rgba(185, 99, 63, 0.12);
+  --surface-publications: #efe1cb;
+  --surface-hobbies: #f2e4cf;
+  --surface-tag: #fbf0dc;
+  --border-soft: rgba(60, 48, 40, 0.22);
+  --border-medium: rgba(60, 48, 40, 0.38);
+  --map-land: #b9c1ad;
+  --map-hover: #d98f6e;
+}
+
+html[data-theme="shiba"] body { background: var(--paper); }
+
+html[data-theme="shiba"] .site-root::before {
+  background-image:
+    radial-gradient(ellipse at center, rgba(60, 48, 40, 0.07) 0 0.65px, transparent 0.9px),
+    linear-gradient(82deg, transparent 0 48%, rgba(143, 67, 41, 0.035) 49% 51%, transparent 52%);
+  background-size: 19px 25px, 96px 96px;
+  mask-image: linear-gradient(to bottom, #000 0, transparent 92vh);
+}
+
+html[data-theme="shiba"] .site-root::after {
+  top: 160px;
+  right: -54px;
+  width: 230px;
+  height: 230px;
+  border: 3px double rgba(143, 67, 41, 0.24);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 60%, rgba(185, 99, 63, 0.18) 0 25%, transparent 26%),
+    radial-gradient(circle at 27% 27%, rgba(185, 99, 63, 0.18) 0 10%, transparent 11%),
+    radial-gradient(circle at 50% 18%, rgba(185, 99, 63, 0.18) 0 10%, transparent 11%),
+    radial-gradient(circle at 73% 27%, rgba(185, 99, 63, 0.18) 0 10%, transparent 11%);
+  filter: none;
+  transform: rotate(-10deg);
+}
+
+html[data-theme="shiba"] :is(
+  .site-header,
+  .theme-menu summary,
+  .theme-options,
+  .language-switch,
+  .notes-shortcut,
+  .current-chip,
+  .button,
+  .portrait-frame,
+  .signal-panel,
+  .metric,
+  .research-card,
+  .skills-panel,
+  .travel-map-wrap,
+  .travel-photo-panel,
+  .travel-map-count,
+  .utility-actions,
+  .utility-popover
+) {
+  border-color: rgba(60, 48, 40, 0.3);
+  box-shadow: 0 10px 24px rgba(74, 51, 35, 0.09);
+}
+
+html[data-theme="shiba"] .site-header {
+  min-height: 76px;
+  margin-top: 12px;
+  padding-inline: 18px;
+  border: 1px dashed rgba(60, 48, 40, 0.42);
+  border-radius: 18px;
+  background: rgba(255, 249, 236, 0.84);
+}
+
+html[data-theme="shiba"] .wordmark-mark {
+  border: 2px solid var(--cyan-deep);
+  border-radius: 50%;
+  background: #f8e4c4;
+  color: var(--cyan-deep);
+  transform: rotate(-5deg);
+}
+
+html[data-theme="shiba"] .wordmark:hover .wordmark-mark {
+  background: var(--cyan-deep);
+  color: var(--paper-strong);
+  transform: rotate(4deg);
+}
+
+html[data-theme="shiba"] .desktop-nav a::after {
+  height: 2px;
+  background: var(--cyan-deep);
+}
+
+html[data-theme="shiba"] :is(.theme-menu summary, .language-switch, .notes-shortcut, .current-chip) {
+  border-color: rgba(60, 48, 40, 0.3);
+  background: rgba(255, 249, 236, 0.9);
+}
+
+html[data-theme="shiba"] :is(.theme-menu[open] summary, .theme-menu summary:hover, .notes-shortcut:hover) {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: var(--paper-strong);
+}
+
+html[data-theme="shiba"] :is(.theme-options, .utility-popover) {
+  border: 1px dashed rgba(60, 48, 40, 0.48);
+  border-radius: 16px;
+  background: rgba(255, 249, 236, 0.97);
+}
+
+html[data-theme="shiba"] .theme-options button { border-radius: 12px; }
+html[data-theme="shiba"] .theme-options button:hover,
+html[data-theme="shiba"] .theme-options button[aria-pressed="true"] { background: #f2dfc6; }
+
+html[data-theme="shiba"] .language-switch button[aria-pressed="true"] {
+  background: var(--navy);
+  color: var(--paper-strong);
+}
+
+html[data-theme="shiba"] .hero-copy::before {
+  position: absolute;
+  top: -20px;
+  left: -22px;
+  width: 76px;
+  height: 76px;
+  border: 2px dashed rgba(143, 67, 41, 0.45);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(185, 99, 63, 0.18) 0 2px, transparent 2.3px) 0 0 / 12px 12px;
+  content: "";
+  pointer-events: none;
+  transform: rotate(-12deg);
+}
+
+html[data-theme="shiba"] :is(.hero h1, .section-heading-copy h2, .now-copy h2, .contact-copy h2) {
+  color: var(--ink);
+  font-family: var(--display);
+  letter-spacing: -0.04em;
+}
+
+html[data-theme="shiba"] :is(.eyebrow, .section-kicker span:first-child, .publication-year, .publication-link, .scholar-profile-link, .timeline-item time, .travel-photo-index, .travel-gallery-count) {
+  color: var(--cyan-deep);
+}
+
+html[data-theme="shiba"] .button {
+  border-radius: 14px;
+}
+
+html[data-theme="shiba"] .button-primary,
+html[data-theme="shiba"] .button-primary:hover {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: var(--paper-strong);
+}
+
+html[data-theme="shiba"] .button-ghost:hover {
+  border-color: var(--cyan-deep);
+  background: #f2dfc6;
+}
+
+html[data-theme="shiba"] .portrait-grid {
+  border: 2px dashed rgba(143, 67, 41, 0.34);
+  border-radius: 50%;
+  background: #efd5b1;
+  transform: rotate(-4deg);
+}
+
+html[data-theme="shiba"] .portrait-frame {
+  border-radius: 34px 34px 20px 20px;
+  background: #d89365;
+}
+
+html[data-theme="shiba"] .portrait-image {
+  filter: saturate(0.9) sepia(0.09) contrast(1.01);
+}
+
+html[data-theme="shiba"] .portrait-caption {
+  border-top: 1px dashed rgba(60, 48, 40, 0.4);
+  background: #fff7e8;
+  color: var(--ink);
+}
+
+html[data-theme="shiba"] .signal-panel {
+  border: 1px dashed rgba(60, 48, 40, 0.4);
+  border-radius: 16px;
+  background: #fff7e8;
+}
+
+html[data-theme="shiba"] :is(.signal-bars span, .mini-signal i) { background: var(--cyan); }
+
+html[data-theme="shiba"] .noritake-vignettes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: min(var(--shell), 980px);
+  margin: -14px auto 92px;
+  padding: 13px;
+  border: 1px dashed rgba(60, 48, 40, 0.45);
+  border-radius: 18px;
+  background: rgba(255, 249, 236, 0.72);
+}
+
+html[data-theme="shiba"] .noritake-vignette {
+  position: relative;
+  display: block;
+  height: clamp(176px, 30vw, 390px);
+  overflow: hidden;
+  border: 1px solid rgba(60, 48, 40, 0.34);
+  border-radius: 16px;
+  background-color: #fbefdc;
+  background-image: url("/illustrations/japanese-shiba-theme.png");
+  background-image: image-set(
+    url("/illustrations/japanese-shiba-theme.avif") type("image/avif"),
+    url("/illustrations/japanese-shiba-theme.png") type("image/png")
+  );
+  background-repeat: no-repeat;
+  background-size: 300% auto;
+}
+
+html[data-theme="shiba"] .noritake-vignette::after {
+  position: absolute;
+  right: 9px;
+  bottom: 8px;
+  padding: 4px 7px;
+  border: 1px dashed var(--cyan-deep);
+  border-radius: 50%;
+  background: rgba(255, 249, 236, 0.92);
+  color: var(--cyan-deep);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.05em;
+  transform: rotate(-5deg);
+}
+
+html[data-theme="shiba"] .noritake-vignette-left { background-position: left center; }
+html[data-theme="shiba"] .noritake-vignette-left::after { content: "01"; }
+html[data-theme="shiba"] .noritake-vignette-center { background-position: center center; }
+html[data-theme="shiba"] .noritake-vignette-center::after { content: "02"; }
+html[data-theme="shiba"] .noritake-vignette-right { background-position: right center; }
+html[data-theme="shiba"] .noritake-vignette-right::after { content: "03"; }
+
+html[data-theme="shiba"] .metrics { border-color: rgba(60, 48, 40, 0.3); }
+html[data-theme="shiba"] .metric { border-radius: 16px; background: rgba(255, 249, 236, 0.65); }
+html[data-theme="shiba"] :is(.metric strong, .research-metric strong) { color: var(--cyan-deep); }
+
+html[data-theme="shiba"] :is(.now-section, .contact-section) { background: var(--navy); }
+
+html[data-theme="shiba"] :is(.now-copy h2, .contact-copy h2) { color: var(--on-dark); }
+
+html[data-theme="shiba"] .research-card {
+  border: 1px dashed rgba(60, 48, 40, 0.4);
+  border-radius: 20px;
+  background: rgba(255, 249, 236, 0.9);
+}
+
+html[data-theme="shiba"] .research-card:hover {
+  border-color: var(--cyan-deep);
+  box-shadow: 0 16px 32px rgba(73, 49, 31, 0.12);
+  transform: translateY(-4px) rotate(0.2deg);
+}
+
+html[data-theme="shiba"] .research-card::after {
+  border: 2px dashed rgba(143, 67, 41, 0.34);
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+html[data-theme="shiba"] .research-figure {
+  border-color: rgba(60, 48, 40, 0.3);
+  border-radius: 16px;
+}
+
+html[data-theme="shiba"] :is(.tag-list span, .skill-list span) { border-radius: 10px; }
+
+html[data-theme="shiba"] :is(.timeline-dot, .timeline-dot.current) {
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(185, 99, 63, 0.16);
+}
+
+html[data-theme="shiba"] .skills-panel {
+  border: 1px dashed rgba(255, 249, 236, 0.32);
+  border-radius: 20px;
+  background: var(--navy);
+}
+
+html[data-theme="shiba"] .skills-panel-header {
+  background-image: radial-gradient(ellipse, rgba(255, 255, 255, 0.09) 0 1px, transparent 1.2px);
+  background-size: 18px 24px;
+}
+
+html[data-theme="shiba"] .skills-panel-header span { color: #eeb38d; }
+
+html[data-theme="shiba"] .travel-map-wrap {
+  border: 1px dashed rgba(60, 48, 40, 0.52);
+  border-radius: 20px;
+  background: var(--navy);
+}
+
+html[data-theme="shiba"] .travel-map-ocean { fill: var(--navy); }
+html[data-theme="shiba"] .travel-country { stroke: var(--navy); }
+html[data-theme="shiba"] .travel-country.visited { fill: var(--cyan); }
+html[data-theme="shiba"] .travel-country.visited.selected { fill: var(--warm); }
+html[data-theme="shiba"] .travel-marker-ring { fill: rgba(185, 99, 63, 0.2); stroke: #e39a78; }
+html[data-theme="shiba"] .travel-marker-core { fill: #e39a78; }
+
+html[data-theme="shiba"] .travel-map-count {
+  border: 1px dashed rgba(255, 249, 236, 0.52);
+  border-radius: 14px;
+  background: rgba(54, 83, 68, 0.9);
+}
+
+html[data-theme="shiba"] .travel-map-count strong { color: #efad87; }
+
+html[data-theme="shiba"] .travel-photo-panel {
+  border: 1px dashed rgba(60, 48, 40, 0.42);
+  border-radius: 20px;
+  background: #fff9ec;
+}
+
+html[data-theme="shiba"] .travel-gallery-frame {
+  border-radius: 14px;
+  background: #354d40;
+}
+
+html[data-theme="shiba"] :is(.travel-gallery-controls button, .travel-place-list button) {
+  border-color: rgba(60, 48, 40, 0.34);
+  border-radius: 12px;
+}
+
+html[data-theme="shiba"] .travel-place-list button[aria-pressed="true"] {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: var(--paper-strong);
+}
+
+html[data-theme="shiba"] .travel-photo-placeholder {
+  border-color: rgba(143, 67, 41, 0.52);
+  border-radius: 14px;
+  background-color: #f5e2c7;
+  background-image: radial-gradient(ellipse, rgba(143, 67, 41, 0.08) 0 1px, transparent 1.2px);
+  background-size: 18px 24px;
+  color: var(--cyan-deep);
+}
+
+html[data-theme="shiba"] .travel-placeholder-sun {
+  border: 2px dashed var(--cyan-deep);
+  box-shadow: none;
+}
+
+html[data-theme="shiba"] .contact-links a { border-radius: 14px; }
+html[data-theme="shiba"] .contact-links a:hover { background: #e8a17e; color: var(--ink); }
+
+html[data-theme="shiba"] .utility-actions {
+  border: 1px dashed rgba(60, 48, 40, 0.46);
+  background: rgba(255, 249, 236, 0.95);
+}
+
+html[data-theme="shiba"] :is(.utility-actions button, .utility-popover-header button, .calendar-month-nav button, .calendar-today, .music-play) {
+  border-radius: 12px;
+}
+
+html[data-theme="shiba"] .calendar-grid time[aria-current="date"] {
+  background: var(--navy);
+  box-shadow: 0 0 0 4px rgba(185, 99, 63, 0.2);
+}
+
+html[data-theme="shiba"] .ambient-visualizer i { background: linear-gradient(to top, var(--navy), var(--cyan)); }
+html[data-theme="shiba"] .music-controls input { accent-color: var(--cyan-deep); }
+
+html[data-theme="shiba"] :is(a, button, input, select, textarea):focus-visible {
+  outline-color: var(--focus-ring);
+}
+
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   html[data-theme="glass"] :is(
     .site-header,
@@ -3568,7 +4410,9 @@ html[data-theme="noritake"] .music-controls input {
     padding-block: 88px;
   }
 
-  html[data-theme="noritake"] .noritake-vignettes {
+  html[data-theme="noritake"] .noritake-vignettes,
+  html[data-theme="neko"] .noritake-vignettes,
+  html[data-theme="shiba"] .noritake-vignettes {
     gap: 10px;
     margin-top: -28px;
     margin-bottom: 72px;
@@ -3783,6 +4627,65 @@ html[data-theme="noritake"] .music-controls input {
     gap: 6px;
     margin: -18px auto 64px;
     padding-block: 10px;
+  }
+
+  html[data-theme="neko"] .site-header,
+  html[data-theme="shiba"] .site-header {
+    min-height: 0;
+    margin-top: 8px;
+    padding: 10px 12px 12px;
+  }
+
+  html[data-theme="neko"] .hero-copy::before,
+  html[data-theme="shiba"] .hero-copy::before {
+    top: -24px;
+    left: 2px;
+    transform: scale(0.78) rotate(-10deg);
+    transform-origin: left top;
+  }
+
+  html[data-theme="neko"] .noritake-vignettes,
+  html[data-theme="shiba"] .noritake-vignettes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin: -18px auto 64px;
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  html[data-theme="neko"] .noritake-vignette,
+  html[data-theme="shiba"] .noritake-vignette {
+    min-height: 174px;
+    border-radius: 12px;
+    background-size: auto 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .header-controls {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .language-switch {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .notes-shortcut {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .theme-options {
+    right: auto;
+    left: 0;
+    width: calc(100vw - 28px);
+  }
+
+  html[data-theme="neko"] .noritake-vignettes,
+  html[data-theme="shiba"] .noritake-vignettes {
+    padding: 6px;
   }
 }
 
