@@ -4102,6 +4102,171 @@ html[data-theme="shiba"] :is(a, button, input, select, textarea):focus-visible {
   outline-color: var(--focus-ring);
 }
 
+/* Distributed 3 x 2 character stickers for the two Japanese companion themes. */
+.theme-sticker {
+  position: absolute;
+  display: none;
+  width: 112px;
+  height: auto;
+  aspect-ratio: 1;
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 300% 200%;
+  pointer-events: none;
+  user-select: none;
+}
+
+html[data-theme="neko"] .theme-sticker {
+  display: block;
+  aspect-ratio: 1;
+  background-image: url("/illustrations/neko-stickers.png");
+  filter: drop-shadow(0 9px 10px rgba(87, 63, 91, 0.13));
+}
+
+html[data-theme="shiba"] .theme-sticker {
+  display: block;
+  background-image: url("/illustrations/shiba-stickers.png");
+  filter: drop-shadow(0 9px 9px rgba(91, 59, 35, 0.14));
+}
+
+.theme-sticker-sprite-1 { background-position: 0 0; }
+.theme-sticker-sprite-2 { background-position: 50% 0; }
+.theme-sticker-sprite-3 { background-position: 100% 0; }
+.theme-sticker-sprite-4 { background-position: 0 100%; }
+.theme-sticker-sprite-5 { background-position: 50% 100%; }
+.theme-sticker-sprite-6 { background-position: 100% 100%; }
+
+html[data-theme="neko"] :is(
+  .publications-section > .section-shell,
+  .journey-grid,
+  .hobbies-section > .section-shell,
+  .contact-grid
+),
+html[data-theme="shiba"] :is(
+  .publications-section > .section-shell,
+  .journey-grid,
+  .hobbies-section > .section-shell,
+  .contact-grid
+) {
+  position: relative;
+}
+
+html[data-theme="neko"] .theme-sticker-hero,
+html[data-theme="shiba"] .theme-sticker-hero {
+  z-index: 5;
+  top: -84px;
+  right: -72px;
+  width: 224px;
+  transform: rotate(-3deg);
+}
+
+html[data-theme="shiba"] .theme-sticker-hero {
+  transform: rotate(3deg);
+}
+
+html[data-theme="neko"] .theme-sticker-research,
+html[data-theme="shiba"] .theme-sticker-research {
+  z-index: 2;
+  top: 7px;
+  right: 52px;
+  width: 78px;
+  opacity: 0.92;
+}
+
+html[data-theme="neko"] .theme-sticker-publications,
+html[data-theme="shiba"] .theme-sticker-publications {
+  z-index: 1;
+  top: 76px;
+  left: 28px;
+  width: 126px;
+  opacity: 0.9;
+  transform: rotate(-5deg);
+}
+
+html[data-theme="shiba"] .theme-sticker-publications {
+  transform: rotate(5deg);
+}
+
+html[data-theme="neko"] .theme-sticker-journey,
+html[data-theme="shiba"] .theme-sticker-journey {
+  z-index: 1;
+  top: 82px;
+  left: 50%;
+  width: 104px;
+  opacity: 0.86;
+  transform: translateX(-50%) rotate(3deg);
+}
+
+html[data-theme="neko"] .theme-sticker-skills,
+html[data-theme="shiba"] .theme-sticker-skills {
+  z-index: 2;
+  top: 10px;
+  right: 12px;
+  width: 86px;
+  opacity: 0.88;
+  transform: rotate(4deg);
+}
+
+html[data-theme="neko"] .theme-sticker-travel,
+html[data-theme="shiba"] .theme-sticker-travel {
+  z-index: 3;
+  right: -28px;
+  bottom: 10px;
+  width: 134px;
+  opacity: 0.94;
+  transform: rotate(-4deg);
+}
+
+html[data-theme="shiba"] .theme-sticker-travel {
+  transform: rotate(4deg);
+}
+
+html[data-theme="neko"] .theme-sticker-contact,
+html[data-theme="shiba"] .theme-sticker-contact {
+  z-index: 1;
+  bottom: 22px;
+  left: 14px;
+  width: 118px;
+  opacity: 0.9;
+}
+
+html[data-theme="neko"] .publications-section,
+html[data-theme="neko"] .hobbies-section {
+  background-image:
+    radial-gradient(circle at 18px 18px, rgba(229, 143, 169, 0.08) 0 5px, transparent 5.5px),
+    radial-gradient(circle at 8px 7px, rgba(229, 143, 169, 0.07) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 17px 4px, rgba(229, 143, 169, 0.07) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 26px 7px, rgba(229, 143, 169, 0.07) 0 2.5px, transparent 3px);
+  background-size: 148px 148px;
+}
+
+html[data-theme="shiba"] .publications-section,
+html[data-theme="shiba"] .hobbies-section {
+  background-image:
+    linear-gradient(35deg, transparent 47%, rgba(143, 67, 41, 0.045) 48% 52%, transparent 53%),
+    linear-gradient(-35deg, transparent 47%, rgba(143, 67, 41, 0.035) 48% 52%, transparent 53%);
+  background-position: 0 0, 36px 36px;
+  background-size: 104px 104px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-theme="neko"] .theme-sticker-hero,
+  html[data-theme="shiba"] .theme-sticker-hero {
+    animation: companion-sticker-float 4.8s ease-in-out infinite;
+  }
+}
+
+@keyframes companion-sticker-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(1deg);
+  }
+}
+
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   html[data-theme="glass"] :is(
     .site-header,
@@ -4417,6 +4582,44 @@ html[data-theme="shiba"] :is(a, button, input, select, textarea):focus-visible {
     margin-top: -28px;
     margin-bottom: 72px;
   }
+
+  html[data-theme="neko"] .theme-sticker-hero,
+  html[data-theme="shiba"] .theme-sticker-hero {
+    top: -52px;
+    right: -24px;
+    width: 174px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-research,
+  html[data-theme="shiba"] .theme-sticker-research {
+    right: 46px;
+    width: 64px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-publications,
+  html[data-theme="shiba"] .theme-sticker-publications {
+    top: 64px;
+    left: 8px;
+    width: 94px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-journey,
+  html[data-theme="shiba"] .theme-sticker-journey,
+  html[data-theme="neko"] .theme-sticker-contact,
+  html[data-theme="shiba"] .theme-sticker-contact {
+    display: none;
+  }
+
+  html[data-theme="neko"] .theme-sticker-skills,
+  html[data-theme="shiba"] .theme-sticker-skills {
+    width: 76px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-travel,
+  html[data-theme="shiba"] .theme-sticker-travel {
+    right: -12px;
+    width: 98px;
+  }
 }
 
 @media (max-width: 520px) {
@@ -4659,6 +4862,36 @@ html[data-theme="shiba"] :is(a, button, input, select, textarea):focus-visible {
     border-radius: 12px;
     background-size: auto 100%;
   }
+
+  html[data-theme="neko"] .theme-sticker-hero,
+  html[data-theme="shiba"] .theme-sticker-hero {
+    top: -30px;
+    right: -8px;
+    width: 138px;
+  }
+
+  html[data-theme="neko"] .research-card:not(:first-child) .theme-sticker-research,
+  html[data-theme="shiba"] .research-card:not(:first-child) .theme-sticker-research,
+  html[data-theme="neko"] .theme-sticker-publications,
+  html[data-theme="shiba"] .theme-sticker-publications,
+  html[data-theme="neko"] .theme-sticker-travel,
+  html[data-theme="shiba"] .theme-sticker-travel {
+    display: none;
+  }
+
+  html[data-theme="neko"] .theme-sticker-research,
+  html[data-theme="shiba"] .theme-sticker-research {
+    top: 5px;
+    right: 58px;
+    width: 56px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-skills,
+  html[data-theme="shiba"] .theme-sticker-skills {
+    top: 8px;
+    right: 9px;
+    width: 66px;
+  }
 }
 
 @media (max-width: 380px) {
@@ -4686,6 +4919,24 @@ html[data-theme="shiba"] :is(a, button, input, select, textarea):focus-visible {
   html[data-theme="neko"] .noritake-vignettes,
   html[data-theme="shiba"] .noritake-vignettes {
     padding: 6px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-hero,
+  html[data-theme="shiba"] .theme-sticker-hero {
+    top: -18px;
+    right: 0;
+    width: 108px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-research,
+  html[data-theme="shiba"] .theme-sticker-research {
+    right: 54px;
+    width: 48px;
+  }
+
+  html[data-theme="neko"] .theme-sticker-skills,
+  html[data-theme="shiba"] .theme-sticker-skills {
+    width: 56px;
   }
 }
 

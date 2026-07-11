@@ -67,10 +67,14 @@ test("keeps four locales and all pet themes wired across the site", async () => 
     assert.match(css, /data-theme="shiba"/);
     assert.match(css, /japanese-neko-theme\.avif/);
     assert.match(css, /japanese-shiba-theme\.avif/);
+    assert.match(css, /neko-stickers\.png/);
+    assert.match(css, /shiba-stickers\.png/);
   }
 
   await Promise.all([
     access(new URL("../public/illustrations/japanese-neko-theme.avif", import.meta.url)),
     access(new URL("../public/illustrations/japanese-shiba-theme.avif", import.meta.url)),
+    access(new URL("../public/illustrations/neko-stickers.png", import.meta.url)),
+    access(new URL("../public/illustrations/shiba-stickers.png", import.meta.url)),
   ]);
 });

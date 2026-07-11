@@ -253,6 +253,7 @@ export function ReportPage({ report }: { report: Report }) {
       <main id="report-main" className={styles.main}>
         <article>
           <header className={styles.hero}>
+            <span className={`${styles.themeSticker} ${styles.heroSticker}`} aria-hidden="true" />
             <div className={styles.heroMeta}>
               <span>{report.index}</span>
               <span>{report.category[locale]}</span>
@@ -271,6 +272,7 @@ export function ReportPage({ report }: { report: Report }) {
           </header>
 
           <section id="overview" className={styles.overview} aria-labelledby="overview-title">
+            <span className={`${styles.themeSticker} ${styles.overviewSticker}`} aria-hidden="true" />
             <div className={styles.overviewCopy}>
               <p className={styles.sectionKicker}>{copy.overview}</p>
               <h2 id="overview-title">{report.thesis[locale]}</h2>
@@ -289,6 +291,7 @@ export function ReportPage({ report }: { report: Report }) {
 
           <div className={styles.readingLayout}>
             <aside className={styles.toc} aria-labelledby="toc-title">
+              <span className={`${styles.themeSticker} ${styles.tocSticker}`} aria-hidden="true" />
               <p id="toc-title">{copy.contents}</p>
               <ol>
                 {tableOfContents.map((item, index) => (
@@ -303,11 +306,12 @@ export function ReportPage({ report }: { report: Report }) {
             </aside>
 
             <div className={styles.reportBody}>
-              {report.sections.map((section) => {
+              {report.sections.map((section, index) => {
                 const isCalibration = section.id === "claims" || section.id === "limits";
 
                 return (
                   <section key={section.id} id={section.id} className={styles.section}>
+                    <span className={`${styles.themeSticker} ${styles.sectionSticker} ${styles[`stickerSlot${index % 6}`]}`} aria-hidden="true" />
                     <p className={styles.sectionKicker}>{section.kicker[locale]}</p>
                     <h2>{section.heading[locale]}</h2>
 
@@ -370,6 +374,7 @@ export function ReportPage({ report }: { report: Report }) {
               })}
 
               <section id="glossary" className={`${styles.section} ${styles.glossarySection}`}>
+                <span className={`${styles.themeSticker} ${styles.sectionSticker} ${styles.stickerSlot4}`} aria-hidden="true" />
                 <p className={styles.sectionKicker}>Glossary</p>
                 <h2>{copy.glossary}</h2>
                 <dl className={styles.glossary}>
@@ -383,6 +388,7 @@ export function ReportPage({ report }: { report: Report }) {
               </section>
 
               <section id="sources" className={`${styles.section} ${styles.sourcesSection}`}>
+                <span className={`${styles.themeSticker} ${styles.sectionSticker} ${styles.stickerSlot5}`} aria-hidden="true" />
                 <p className={styles.sectionKicker}>References</p>
                 <h2>{copy.sources}</h2>
                 <p className={styles.sourceNote}>{copy.sourceNote}</p>

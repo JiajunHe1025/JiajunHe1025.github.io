@@ -682,6 +682,7 @@ export function NotesPage() {
 
       <main id="notes-main" className={styles.main}>
         <section className={styles.hero} aria-labelledby="notes-title">
+          <span className={`${styles.themeSticker} ${styles.heroSticker}`} aria-hidden="true" />
           <p className={styles.eyebrow}>{current.label}</p>
           <h1 id="notes-title">
             {current.title}
@@ -710,6 +711,7 @@ export function NotesPage() {
                   <span className={styles.reportIndex}>{report.index}</span>
                   <span className={styles.reportKind}>{report.kind}</span>
                 </div>
+                <span className={`${styles.themeSticker} ${styles.cardSticker}`} aria-hidden="true" />
                 <p className={styles.reportTopic}>{report.topic}</p>
                 <h3>{report.title}</h3>
                 <p className={styles.reportSummary}>{report.summary}</p>
@@ -734,6 +736,7 @@ export function NotesPage() {
             <article key={article.index} className={styles.article}>
               <div className={styles.articleIndex}>{article.index}</div>
               <div className={styles.articleBody}>
+                <span className={`${styles.themeSticker} ${styles.articleSticker}`} aria-hidden="true" />
                 <p className={styles.articleKind}>{article.kind}</p>
                 <h2>{article.title}</h2>
                 <p className={styles.articleSummary}>{article.summary}</p>
@@ -748,6 +751,7 @@ export function NotesPage() {
                     <span className={styles.plus} aria-hidden="true">＋</span>
                   </summary>
                   <div className={styles.tutorialContent}>
+                    <span className={`${styles.themeSticker} ${styles.tutorialSticker}`} aria-hidden="true" />
                     <section>
                       <h3>{current.steps}</h3>
                       <ol>
@@ -770,6 +774,7 @@ export function NotesPage() {
         </section>
 
         <section className={styles.guestbook} aria-labelledby="guestbook-title">
+          <span className={`${styles.themeSticker} ${styles.guestbookSticker}`} aria-hidden="true" />
           <div className={styles.guestbookIntro}>
             <p className={styles.eyebrow}>{current.guestbook.eyebrow}</p>
             <h2 id="guestbook-title">{current.guestbook.title}</h2>

@@ -205,7 +205,58 @@
 
 .noritakeVignette { display: none; }
 
+.themeSticker {
+  position: absolute;
+  z-index: 2;
+  display: none;
+  aspect-ratio: 1;
+  background-repeat: no-repeat;
+  background-size: 300% 200%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.heroSticker {
+  top: 22px;
+  right: clamp(16px, 4vw, 58px);
+  width: clamp(96px, 10vw, 142px);
+  background-position: 0 0;
+  transform: rotate(5deg);
+}
+
+.overviewSticker {
+  top: -62px;
+  right: clamp(22px, 6vw, 78px);
+  width: clamp(96px, 10vw, 132px);
+  background-position: 50% 0;
+  transform: rotate(-5deg);
+}
+
+.tocSticker {
+  right: 15px;
+  bottom: 15px;
+  width: 82px;
+  background-position: 100% 0;
+  opacity: 0.82;
+  transform: rotate(5deg);
+}
+
+.sectionSticker {
+  top: 36px;
+  right: -54px;
+  width: 88px;
+  opacity: 0.34;
+}
+
+.stickerSlot0 { background-position: 0 100%; transform: rotate(7deg); }
+.stickerSlot1 { background-position: 50% 100%; transform: rotate(-6deg); }
+.stickerSlot2 { background-position: 100% 100%; transform: rotate(5deg); }
+.stickerSlot3 { background-position: 50% 0; transform: rotate(-4deg); }
+.stickerSlot4 { background-position: 100% 0; transform: rotate(6deg); }
+.stickerSlot5 { background-position: 0 0; transform: rotate(-5deg); }
+
 .hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(110px, 0.18fr) minmax(0, 0.82fr);
   gap: 22px 54px;
@@ -288,6 +339,7 @@
 }
 
 .overview {
+  position: relative;
   scroll-margin-top: 24px;
   padding: clamp(40px, 6vw, 72px);
   border: 1px solid var(--border-soft);
@@ -431,6 +483,7 @@
 .reportBody { min-width: 0; }
 
 .section {
+  position: relative;
   scroll-margin-top: 24px;
   padding: 0 0 clamp(86px, 11vw, 130px);
 }
@@ -1073,6 +1126,13 @@
   background: #fff8ef;
 }
 
+:global(html[data-theme="neko"]) .themeSticker {
+  display: block;
+  aspect-ratio: 1;
+  background-image: url("/illustrations/neko-stickers.png");
+  filter: drop-shadow(0 9px 11px rgba(70, 50, 80, 0.14));
+}
+
 :global(html[data-theme="neko"]) .page::before {
   opacity: 0.72;
   background-image:
@@ -1188,6 +1248,7 @@
 :global(html[data-theme="neko"]) .fact strong { color: var(--cyan-deep); }
 
 :global(html[data-theme="neko"]) .toc {
+  padding-bottom: 108px;
   border: 1px solid rgba(48, 51, 84, 0.24);
   border-radius: 22px;
   background: #fff7f4;
@@ -1263,6 +1324,12 @@
   --report-surface-soft: rgba(250, 237, 216, 0.9);
   --report-shadow: 0 18px 42px rgba(74, 51, 35, 0.1);
   background: #f6ecd9;
+}
+
+:global(html[data-theme="shiba"]) .themeSticker {
+  display: block;
+  background-image: url("/illustrations/shiba-stickers.png");
+  filter: drop-shadow(0 9px 10px rgba(74, 51, 35, 0.15));
 }
 
 :global(html[data-theme="shiba"]) .page::before {
@@ -1385,6 +1452,7 @@
 :global(html[data-theme="shiba"]) .fact strong { color: var(--cyan-deep); }
 
 :global(html[data-theme="shiba"]) .toc {
+  padding-bottom: 108px;
   border: 1px dashed rgba(60, 48, 40, 0.44);
   border-radius: 18px;
   background: #f8ead4;
@@ -1458,6 +1526,12 @@
   }
 
   .toc ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .sectionSticker {
+    right: 0;
+    width: 76px;
+    opacity: 0.22;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1487,12 +1561,22 @@
   .heroMeta { flex-direction: row; align-items: center; }
   .heroMeta span:first-child { width: 44px; height: 44px; }
   .hero h1 { font-size: clamp(42px, 13vw, 70px); }
+  .heroSticker {
+    top: 3px;
+    right: 2px;
+    width: 68px;
+  }
   .summary,
   .byline,
   .tags { grid-column: 1; }
   .summary { margin-top: 4px; }
 
   .overview { padding: 34px 26px; border-radius: 22px; }
+  .overviewSticker {
+    top: -42px;
+    right: 12px;
+    width: 74px;
+  }
   .overviewCopy { grid-template-columns: 1fr; gap: 16px; }
   .overview h2 { font-size: clamp(30px, 8.6vw, 46px); }
   .facts { grid-template-columns: 1fr; }
@@ -1540,6 +1624,16 @@
     min-height: 142px;
     border-radius: 14px;
   }
+
+  :global(html[data-theme="neko"]) :is(.tocSticker, .sectionSticker),
+  :global(html[data-theme="shiba"]) :is(.tocSticker, .sectionSticker) {
+    display: none;
+  }
+
+  :global(html[data-theme="neko"]) .toc,
+  :global(html[data-theme="shiba"]) .toc {
+    padding-bottom: 23px;
+  }
 }
 
 @media (max-width: 420px) {
@@ -1562,6 +1656,10 @@
   .themeSwitch button { min-width: 26px; width: 26px; height: 31px; }
   .languageSwitch button { min-width: 28px; height: 31px; }
   .hero { padding-top: 68px; }
+  :global(html[data-theme="neko"]) .overviewSticker,
+  :global(html[data-theme="shiba"]) .overviewSticker {
+    display: none;
+  }
   .overview { padding-inline: 20px; }
   .toc { padding: 17px; }
   .bullets li,
@@ -1573,6 +1671,11 @@
   .languageSwitch { gap: 1px; }
   .themeSwitch button { min-width: 24px; width: 24px; }
   .languageSwitch button { min-width: 27px; }
+
+  :global(html[data-theme="neko"]) .toc,
+  :global(html[data-theme="shiba"]) .toc {
+    padding-bottom: 17px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

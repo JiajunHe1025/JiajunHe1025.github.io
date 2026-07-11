@@ -285,6 +285,10 @@ export default function Home() {
           </div>
 
           <div className="hero-visual" aria-label={current.hero.portraitAlt}>
+            <span
+              className="theme-sticker theme-sticker-hero theme-sticker-sprite-1"
+              aria-hidden="true"
+            />
             <div className="portrait-grid" aria-hidden="true" />
             <div className="portrait-frame">
               <Image
@@ -356,8 +360,12 @@ export default function Home() {
             introduction={current.research.introduction}
           />
           <div className="research-grid">
-            {current.research.items.map((item) => (
+            {current.research.items.map((item, index) => (
               <article className="research-card" key={item.number}>
+                <span
+                  className={`theme-sticker theme-sticker-research theme-sticker-sprite-${index + 2}`}
+                  aria-hidden="true"
+                />
                 <div className="research-card-top">
                   <span>{item.number}</span>
                   <div className="mini-signal" aria-hidden="true">
@@ -398,6 +406,10 @@ export default function Home() {
 
         <section className="content-section publications-section" id="publications">
           <div className="section-shell">
+            <span
+              className="theme-sticker theme-sticker-publications theme-sticker-sprite-5"
+              aria-hidden="true"
+            />
             <SectionHeading
               index={current.publications.index}
               eyebrow={current.publications.eyebrow}
@@ -449,6 +461,10 @@ export default function Home() {
             title={current.journey.title}
           />
           <div className="journey-grid">
+            <span
+              className="theme-sticker theme-sticker-journey theme-sticker-sprite-4"
+              aria-hidden="true"
+            />
             <div className="journey-column">
               <h3>{current.journey.experienceTitle}</h3>
               <div className="timeline">
@@ -500,6 +516,10 @@ export default function Home() {
                 ))}
               </div>
               <aside className="skills-panel">
+                <span
+                  className="theme-sticker theme-sticker-skills theme-sticker-sprite-6"
+                  aria-hidden="true"
+                />
                 <div className="skills-panel-header">
                   <span>TOOLKIT / 2026</span>
                   <h3>{current.recognition.skillsTitle}</h3>
@@ -521,6 +541,10 @@ export default function Home() {
 
         <section className="content-section hobbies-section" id="hobbies">
           <div className="section-shell">
+            <span
+              className="theme-sticker theme-sticker-travel theme-sticker-sprite-3"
+              aria-hidden="true"
+            />
             <SectionHeading
               index={current.hobbies.index}
               eyebrow={current.hobbies.eyebrow}
@@ -539,6 +563,10 @@ export default function Home() {
 
         <section className="contact-section" id="contact" aria-labelledby="contact-title">
           <div className="section-shell contact-grid">
+            <span
+              className="theme-sticker theme-sticker-contact theme-sticker-sprite-2"
+              aria-hidden="true"
+            />
             <div className="contact-kicker">
               <span>{current.contact.index}</span>
               <span>{current.contact.eyebrow}</span>
