@@ -35,6 +35,45 @@ const copy = {
     steps: "实践步骤",
     snippet: "最小实现示意",
     caution: "实践提醒",
+    deepDives: {
+      eyebrow: "深度技术报告",
+      title: "把论文读成可用的技术判断",
+      intro: "三篇独立长文从问题定义、模型设计、实验结果与适用边界出发，重新梳理近期音频语言模型工作。内容是基于公开资料的原创理解，并非原文转录。",
+      open: "阅读全文",
+      metricLabel: "关键指标",
+      reports: [
+        {
+          index: "01",
+          kind: "多说话人 ASR",
+          topic: "统一音频语言模型",
+          title: "MOSS-Transcribe-Diarize：0.9B 模型如何统一转写、说话人和时间戳",
+          summary: "从传统级联系统的误差传递讲起，拆解长上下文、结构化生成和合成对话训练，理解它为何能在一次全局建模中回答“谁在何时说了什么”。",
+          metric: "128K · 约 90 分钟",
+          readTime: "约 18 分钟",
+          href: "/notes/moss-transcribe-diarize-0-9b-sats/",
+        },
+        {
+          index: "02",
+          kind: "扩散式 ASR",
+          topic: "先验引导去噪",
+          title: "dLLM-ASR：用 CTC 粗稿把扩散解码变成自适应精修",
+          summary: "分析全掩码扩散解码为何反而更慢，以及 CTC 先验、置信度早停、长度裁剪与 KV 缓存如何协同，把昂贵计算集中到真正不确定的词位。",
+          metric: "4.44× 推理加速",
+          readTime: "约 17 分钟",
+          href: "/notes/dllm-asr-prior-guided-adaptive-denoising/",
+        },
+        {
+          index: "03",
+          kind: "统一音频智能",
+          topic: "理解 · 生成 · 对话",
+          title: "Nemotron Labs AUDEX：面向理解、生成与对话的统一音频 LLM",
+          summary: "沿着音频输入与音频输出的双向链路，梳理统一模型如何组织声学表示、语言推理和语音生成，并讨论它相对拼装式语音系统的价值与风险。",
+          metric: "一套模型 · 双向音频",
+          readTime: "约 20 分钟",
+          href: "/notes/nemotron-labs-audex-unified-audio-llm/",
+        },
+      ],
+    },
     articles: [
       {
         index: "01",
@@ -120,6 +159,45 @@ const copy = {
     steps: "Practical steps",
     snippet: "Minimal implementation sketch",
     caution: "Practice note",
+    deepDives: {
+      eyebrow: "Research deep dives",
+      title: "Turning papers into usable technical judgment",
+      intro: "Three standalone essays revisit recent audio-language research through its problem framing, model design, evidence, and limits. Each is an original interpretation of public material—not a transcription of the source.",
+      open: "Read full report",
+      metricLabel: "Key signal",
+      reports: [
+        {
+          index: "01",
+          kind: "Multi-speaker ASR",
+          topic: "Unified audio language model",
+          title: "MOSS-Transcribe-Diarize: how a 0.9B model unifies text, speakers, and timestamps",
+          summary: "Starting from error propagation in cascaded systems, this report unpacks long-context modeling, structured generation, and synthetic dialogue training to explain how one model answers who said what, and when.",
+          metric: "128K · ≈ 90 minutes",
+          readTime: "18 min read",
+          href: "/notes/moss-transcribe-diarize-0-9b-sats/",
+        },
+        {
+          index: "02",
+          kind: "Diffusion ASR",
+          topic: "Prior-guided denoising",
+          title: "dLLM-ASR: turning diffusion decoding into adaptive refinement with a CTC draft",
+          summary: "Why can all-mask diffusion be slower than autoregression? The answer connects a CTC prior, confidence-based early exit, length pruning, and KV caching so expensive work targets only uncertain positions.",
+          metric: "4.44× faster inference",
+          readTime: "17 min read",
+          href: "/notes/dllm-asr-prior-guided-adaptive-denoising/",
+        },
+        {
+          index: "03",
+          kind: "Unified audio intelligence",
+          topic: "Understand · Generate · Converse",
+          title: "Nemotron Labs AUDEX: one audio LLM for understanding, generation, and dialogue",
+          summary: "Following the two-way path from audio input to audio output, this report maps acoustic representation, language reasoning, and speech generation—and weighs a unified model against assembled speech pipelines.",
+          metric: "One model · Audio I/O",
+          readTime: "20 min read",
+          href: "/notes/nemotron-labs-audex-unified-audio-llm/",
+        },
+      ],
+    },
     articles: [
       {
         index: "01",
@@ -205,6 +283,45 @@ const copy = {
     steps: "実践ステップ",
     snippet: "最小実装のイメージ",
     caution: "実践上の注意",
+    deepDives: {
+      eyebrow: "技術レポート",
+      title: "論文を実践的な技術判断へ読み替える",
+      intro: "近年の音声言語モデルを、課題設定・モデル設計・実験結果・適用限界から読み直す3本の独立した長文です。公開資料をもとにした独自の解説であり、原文の転載ではありません。",
+      open: "レポートを読む",
+      metricLabel: "注目ポイント",
+      reports: [
+        {
+          index: "01",
+          kind: "複数話者 ASR",
+          topic: "統合音声言語モデル",
+          title: "MOSS-Transcribe-Diarize：0.9B モデルで文字・話者・時刻を統合する仕組み",
+          summary: "カスケード方式の誤差伝播を出発点に、長文脈、構造化生成、合成対話学習を分解し、「誰が・いつ・何を話したか」を一つのモデルで扱う理由を考察します。",
+          metric: "128K · 約90分",
+          readTime: "約18分",
+          href: "/notes/moss-transcribe-diarize-0-9b-sats/",
+        },
+        {
+          index: "02",
+          kind: "拡散型 ASR",
+          topic: "事前情報付きデノイズ",
+          title: "dLLM-ASR：CTC の下書きで拡散復号を適応的な推敲へ変える",
+          summary: "全マスクから始める拡散復号が遅くなる理由と、CTC 事前情報、信頼度による早期終了、長さ削減、KV キャッシュが不確かな位置へ計算を集中させる仕組みを解説します。",
+          metric: "推論を 4.44× 高速化",
+          readTime: "約17分",
+          href: "/notes/dllm-asr-prior-guided-adaptive-denoising/",
+        },
+        {
+          index: "03",
+          kind: "統合音声知能",
+          topic: "理解 · 生成 · 対話",
+          title: "Nemotron Labs AUDEX：理解・生成・対話を一つにする音声 LLM",
+          summary: "音声入力から音声出力までの双方向経路をたどり、音響表現・言語推論・音声生成の構成を整理し、統合モデルと組み合わせ型音声システムの価値とリスクを比較します。",
+          metric: "1モデル · 双方向音声",
+          readTime: "約20分",
+          href: "/notes/nemotron-labs-audex-unified-audio-llm/",
+        },
+      ],
+    },
     articles: [
       {
         index: "01",
@@ -290,6 +407,23 @@ const copy = {
   steps: string;
   snippet: string;
   caution: string;
+  deepDives: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    open: string;
+    metricLabel: string;
+    reports: Array<{
+      index: string;
+      kind: string;
+      topic: string;
+      title: string;
+      summary: string;
+      metric: string;
+      readTime: string;
+      href: string;
+    }>;
+  };
   articles: Array<{
     index: string;
     kind: string;
@@ -326,6 +460,7 @@ export function NotesPage() {
   const [locale, setLocale] = useState<Locale>("zh");
   const [theme, setTheme] = useState<Theme>("glass");
   const [submitted, setSubmitted] = useState(false);
+  const [preferencesReady, setPreferencesReady] = useState(false);
   const current = copy[locale];
 
   useEffect(() => {
@@ -351,12 +486,14 @@ export function NotesPage() {
       setTheme(initialTheme);
       document.documentElement.setAttribute("data-theme", initialTheme);
       setSubmitted(new URLSearchParams(window.location.search).get("submitted") === "1");
+      setPreferencesReady(true);
     }, 0);
 
     return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
+    if (!preferencesReady) return;
     document.documentElement.lang = current.htmlLang;
     document.title = current.pageTitle;
     try {
@@ -364,7 +501,7 @@ export function NotesPage() {
     } catch {
       // Language switching still works when storage is unavailable.
     }
-  }, [current.htmlLang, current.pageTitle, locale]);
+  }, [current.htmlLang, current.pageTitle, locale, preferencesReady]);
 
   const selectTheme = (nextTheme: Theme) => {
     setTheme(nextTheme);
@@ -427,6 +564,41 @@ export function NotesPage() {
           <p className={styles.intro}>{current.intro}</p>
           <div className={styles.heroRule} aria-hidden="true">
             <span>ASR</span><span>LLM</span><span>MULTIMODAL</span>
+          </div>
+        </section>
+
+        <section className={styles.deepDives} aria-labelledby="deep-dives-title">
+          <div className={styles.deepDivesHeader}>
+            <div>
+              <p className={styles.eyebrow}>{current.deepDives.eyebrow}</p>
+              <h2 id="deep-dives-title">{current.deepDives.title}</h2>
+            </div>
+            <p>{current.deepDives.intro}</p>
+          </div>
+
+          <div className={styles.reportGrid}>
+            {current.deepDives.reports.map((report) => (
+              <Link key={report.index} className={styles.reportCard} href={report.href}>
+                <div className={styles.reportTopline}>
+                  <span className={styles.reportIndex}>{report.index}</span>
+                  <span className={styles.reportKind}>{report.kind}</span>
+                </div>
+                <p className={styles.reportTopic}>{report.topic}</p>
+                <h3>{report.title}</h3>
+                <p className={styles.reportSummary}>{report.summary}</p>
+                <div className={styles.reportMeta}>
+                  <div>
+                    <span>{current.deepDives.metricLabel}</span>
+                    <strong>{report.metric}</strong>
+                  </div>
+                  <span className={styles.readTime}>{report.readTime}</span>
+                </div>
+                <span className={styles.reportCta}>
+                  {current.deepDives.open}
+                  <span aria-hidden="true">↗</span>
+                </span>
+              </Link>
+            ))}
           </div>
         </section>
 

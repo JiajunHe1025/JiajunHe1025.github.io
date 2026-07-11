@@ -227,6 +227,217 @@
   letter-spacing: 0.12em;
 }
 
+.deepDives {
+  margin-bottom: clamp(104px, 13vw, 164px);
+}
+
+.deepDivesHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(320px, 1fr);
+  gap: 32px 72px;
+  align-items: end;
+  margin-bottom: 38px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-medium);
+}
+
+.deepDivesHeader h2 {
+  max-width: 620px;
+  margin: 15px 0 0;
+  font-family: var(--display);
+  font-size: clamp(38px, 5vw, 66px);
+  font-weight: 450;
+  letter-spacing: -0.045em;
+  line-height: 1.03;
+}
+
+.deepDivesHeader > p {
+  max-width: 650px;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.reportGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.reportCard {
+  --report-accent: var(--cyan-deep);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 520px;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(24px, 3vw, 34px);
+  border: 1px solid var(--border-soft);
+  border-radius: 24px;
+  outline: 0;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--report-accent) 8%, transparent), transparent 43%),
+    var(--notes-surface);
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink);
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.reportCard:nth-child(2) { --report-accent: var(--warm-text); }
+.reportCard:nth-child(3) { --report-accent: var(--navy-light); }
+
+.reportCard::before {
+  position: absolute;
+  z-index: -1;
+  top: -86px;
+  right: -74px;
+  width: 210px;
+  height: 210px;
+  border: 1px solid color-mix(in srgb, var(--report-accent) 24%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--report-accent) 8%, transparent);
+  content: "";
+  transform: scale(0.9);
+  transition: transform 260ms ease;
+}
+
+.reportCard:hover,
+.reportCard:focus-visible {
+  border-color: color-mix(in srgb, var(--report-accent) 62%, var(--border-soft));
+  box-shadow: 0 24px 68px color-mix(in srgb, var(--report-accent) 17%, transparent);
+  transform: translateY(-7px);
+}
+
+.reportCard:focus-visible {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--focus-ring) 32%, transparent),
+    0 24px 68px color-mix(in srgb, var(--report-accent) 17%, transparent);
+}
+
+.reportCard:hover::before,
+.reportCard:focus-visible::before { transform: scale(1.08); }
+
+.reportTopline {
+  display: flex;
+  min-height: 54px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.reportIndex {
+  color: var(--report-accent);
+  font-family: var(--mono);
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 520;
+  letter-spacing: -0.08em;
+  line-height: 0.82;
+}
+
+.reportKind {
+  max-width: 150px;
+  padding: 6px 9px;
+  border: 1px solid color-mix(in srgb, var(--report-accent) 31%, var(--border-soft));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--report-accent) 7%, var(--paper-strong));
+  color: var(--report-accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 720;
+  letter-spacing: 0.07em;
+  line-height: 1.35;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.reportTopic {
+  margin: 38px 0 13px;
+  color: var(--report-accent);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 740;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.reportCard h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(26px, 2.6vw, 35px);
+  font-weight: 480;
+  letter-spacing: -0.035em;
+  line-height: 1.16;
+}
+
+.reportSummary {
+  margin: 22px 0 30px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.reportMeta {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: end;
+  margin-top: auto;
+  padding: 18px 0;
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.reportMeta > div {
+  display: grid;
+  gap: 5px;
+}
+
+.reportMeta > div span {
+  color: var(--text-subtle);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.reportMeta strong {
+  color: var(--report-accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.readTime {
+  color: var(--text-subtle);
+  font-family: var(--mono);
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.reportCta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 20px;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 760;
+}
+
+.reportCta > span {
+  color: var(--report-accent);
+  font-family: var(--mono);
+  font-size: 16px;
+  transition: transform 180ms ease;
+}
+
+.reportCard:hover .reportCta > span,
+.reportCard:focus-visible .reportCta > span { transform: translate(3px, -3px); }
+
 .articleList { border-top: 1px solid var(--border-medium); }
 
 .article {
@@ -572,6 +783,7 @@
 }
 
 :global(html[data-theme="film"]) .articleBody,
+:global(html[data-theme="film"]) .reportCard,
 :global(html[data-theme="film"]) .tutorialContent section,
 :global(html[data-theme="film"]) .tutorialContent aside,
 :global(html[data-theme="film"]) .guestbook,
@@ -591,6 +803,22 @@
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.82);
   -webkit-backdrop-filter: blur(20px) saturate(1.3);
   backdrop-filter: blur(20px) saturate(1.3);
+}
+
+:global(html[data-theme="glass"]) .reportCard {
+  border-color: rgba(255, 255, 255, 0.76);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--report-accent) 12%, transparent), transparent 46%),
+    rgba(255, 255, 255, 0.42);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 18px 48px rgba(41, 67, 91, 0.1);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  backdrop-filter: blur(22px) saturate(1.35);
+}
+
+:global(html[data-theme="glass"]) .reportCard:hover,
+:global(html[data-theme="glass"]) .reportCard:focus-visible {
+  border-color: color-mix(in srgb, var(--report-accent) 42%, rgba(255, 255, 255, 0.8));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.95), 0 28px 70px rgba(41, 67, 91, 0.19);
 }
 
 :global(html[data-theme="glass"]) .header {
@@ -657,11 +885,43 @@
   filter: none;
 }
 
-:global(html[data-theme="pixel"]) :is(.header, .themeSwitch, .languageSwitch, .tutorialContent section, .tutorialContent aside, .guestbook, .formPanel) {
+:global(html[data-theme="pixel"]) :is(.header, .themeSwitch, .languageSwitch, .reportCard, .tutorialContent section, .tutorialContent aside, .guestbook, .formPanel) {
   border-width: 2px;
   border-radius: 3px;
   box-shadow: var(--notes-shadow);
 }
+
+:global(html[data-theme="pixel"]) .reportCard {
+  min-height: 530px;
+  background: var(--notes-surface);
+  transition-duration: 120ms;
+}
+
+:global(html[data-theme="pixel"]) .reportCard::before {
+  top: -52px;
+  right: -52px;
+  width: 126px;
+  height: 126px;
+  border-width: 2px;
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, transparent 50%, color-mix(in srgb, var(--report-accent) 12%, transparent) 50%),
+    linear-gradient(transparent 50%, color-mix(in srgb, var(--report-accent) 12%, transparent) 50%);
+  background-size: 12px 12px;
+}
+
+:global(html[data-theme="pixel"]) .reportCard:hover,
+:global(html[data-theme="pixel"]) .reportCard:focus-visible {
+  box-shadow: 10px 10px 0 color-mix(in srgb, var(--report-accent) 30%, rgba(41, 43, 72, 0.18));
+  transform: translate(-3px, -3px);
+}
+
+:global(html[data-theme="pixel"]) :is(.deepDivesHeader h2, .reportCard h3) {
+  font-family: var(--mono);
+  font-weight: 760;
+}
+
+:global(html[data-theme="pixel"]) :is(.reportKind, .reportCard) { border-radius: 2px; }
 
 :global(html[data-theme="pixel"]) :is(.hero h1, .article h2, .guestbookIntro h2) {
   font-family: var(--mono);
@@ -754,9 +1014,28 @@
   filter: none;
 }
 
-:global(html[data-theme="cartoon"]) :is(.header, .themeSwitch, .languageSwitch, .tutorialContent section, .tutorialContent aside, .guestbook, .formPanel) {
+:global(html[data-theme="cartoon"]) :is(.header, .themeSwitch, .languageSwitch, .reportCard, .tutorialContent section, .tutorialContent aside, .guestbook, .formPanel) {
   border: 2px solid #193253;
   box-shadow: var(--notes-shadow);
+}
+
+:global(html[data-theme="cartoon"]) .reportCard {
+  border-radius: 28px;
+  background: #ffffff;
+}
+
+:global(html[data-theme="cartoon"]) .reportCard:nth-child(2) { background: #fff9dd; }
+:global(html[data-theme="cartoon"]) .reportCard:nth-child(3) { background: #e9faff; }
+
+:global(html[data-theme="cartoon"]) .reportCard::before {
+  border: 2px solid #193253;
+  background: color-mix(in srgb, var(--report-accent) 24%, #ffffff);
+}
+
+:global(html[data-theme="cartoon"]) .reportKind { border: 2px solid #193253; }
+
+:global(html[data-theme="cartoon"]) :is(.deepDivesHeader h2, .reportCard h3) {
+  letter-spacing: -0.045em;
 }
 
 :global(html[data-theme="cartoon"]) .header {
@@ -840,6 +1119,14 @@
   .hero h1 { margin-top: 0; }
   .heroRule { margin-top: 18px; }
 
+  .deepDivesHeader {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .reportGrid { grid-template-columns: 1fr; }
+  .reportCard { min-height: 0; }
+
   .article { grid-template-columns: 56px minmax(0, 1fr); }
   .articleIndex { padding-right: 16px; }
   .articleBody { padding-left: 24px; }
@@ -876,6 +1163,15 @@
   .hero h1 { font-size: clamp(51px, 17vw, 78px); }
   .heroRule span:nth-child(2) { display: none; }
 
+  .deepDives { margin-bottom: 88px; }
+  .deepDivesHeader { margin-bottom: 24px; }
+  .deepDivesHeader h2 { font-size: 40px; }
+  .reportCard { padding: 24px 22px; }
+  .reportTopic { margin-top: 30px; }
+  .reportCard h3 { font-size: 29px; }
+  .reportMeta { grid-template-columns: 1fr; }
+  .readTime { white-space: normal; }
+
   .article { grid-template-columns: 1fr; }
   .articleIndex { padding: 38px 0 0; }
   .articleBody { padding: 13px 0 46px; border-left: 0; }
@@ -899,6 +1195,21 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reportCard,
+  .reportCard::before,
+  .reportCta > span {
+    transition: none;
+  }
+
+  .reportCard:hover,
+  .reportCard:focus-visible,
+  :global(html[data-theme="pixel"]) .reportCard:hover,
+  :global(html[data-theme="pixel"]) .reportCard:focus-visible {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .page *,
   .page *::before,
   .page *::after {
@@ -914,7 +1225,7 @@
 }
 
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  :global(html[data-theme="glass"]) :is(.header, .themeSwitch, .languageSwitch, .tutorialContent section, .tutorialContent aside) {
+  :global(html[data-theme="glass"]) :is(.header, .themeSwitch, .languageSwitch, .reportCard, .tutorialContent section, .tutorialContent aside) {
     background: rgba(247, 251, 255, 0.94);
   }
 }

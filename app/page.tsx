@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AmbientDock } from "./AmbientDock";
 import { content, localeLabels, type Locale } from "./content";
@@ -184,10 +185,10 @@ export default function Home() {
         </nav>
 
         <div className="header-controls">
-          <a className="notes-shortcut" href="/notes/">
+          <Link className="notes-shortcut" href="/notes/">
             <span>{notesShortcutLabels[locale]}</span>
             <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
 
           <details className="theme-menu" ref={themeMenuRef}>
             <summary aria-label={`${themeLabels[locale]}：${themeNames[locale][theme]}`}>
