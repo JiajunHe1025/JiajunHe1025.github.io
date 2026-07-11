@@ -163,6 +163,47 @@
   inset: -6px 3px;
 }
 
+:global(html[data-theme="noritake"]) .sprite {
+  filter: grayscale(1) contrast(1.2) drop-shadow(2px 3px 0 rgba(17, 17, 17, 0.14));
+}
+
+:global(html[data-theme="noritake"]) .speech {
+  border-color: #171717;
+  border-radius: 2px;
+  background: #faf9f5;
+  box-shadow: none;
+  color: #171717;
+  font-family: var(--mono);
+  font-weight: 560;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+:global(html[data-theme="noritake"]) .speech::after {
+  border-color: #171717;
+}
+
+:global(html[data-theme="noritake"]) .petControls button,
+:global(html[data-theme="noritake"]) .wakeButton {
+  border: 1px solid #171717;
+  border-radius: 2px;
+  background: #faf9f5;
+  box-shadow: 3px 3px 0 #171717;
+  color: #171717;
+}
+
+:global(html[data-theme="noritake"]) .basketballIcon {
+  border-color: #171717;
+  background: #faf9f5;
+  box-shadow: none;
+  filter: grayscale(1);
+}
+
+:global(html[data-theme="noritake"]) .basketballIcon::before,
+:global(html[data-theme="noritake"]) .basketballIcon::after {
+  border-color: #171717;
+}
+
 @keyframes pet-frames {
   from { background-position-x: 0%; }
   to { background-position-x: 100%; }

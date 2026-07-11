@@ -7,7 +7,7 @@ import type { Locale, Report } from "../reports";
 import styles from "./report.module.css";
 
 const locales: Locale[] = ["zh", "en", "ja"];
-const themes = ["classic", "night", "film", "glass", "pixel", "cartoon"] as const;
+const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"] as const;
 type Theme = (typeof themes)[number];
 
 const isLocale = (value: string | null): value is Locale =>
@@ -24,7 +24,7 @@ const ui = {
     home: "返回主页",
     theme: "切换主题",
     language: "切换语言",
-    themes: { classic: "经典", night: "暗夜", film: "胶片", glass: "流体玻璃", pixel: "日系像素", cartoon: "明亮卡通" },
+    themes: { classic: "经典", night: "暗夜", film: "胶片", glass: "流体玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿" },
     published: "发布于",
     readingTime: "阅读时长",
     keyFacts: "关键数据",
@@ -46,7 +46,7 @@ const ui = {
     home: "Back home",
     theme: "Switch theme",
     language: "Switch language",
-    themes: { classic: "Classic", night: "Night", film: "Film", glass: "Fluid Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon" },
+    themes: { classic: "Classic", night: "Night", film: "Film", glass: "Fluid Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line" },
     published: "Published",
     readingTime: "Reading time",
     keyFacts: "Key facts",
@@ -68,7 +68,7 @@ const ui = {
     home: "ホームへ戻る",
     theme: "テーマを切り替える",
     language: "言語を切り替える",
-    themes: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "フルイドガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン" },
+    themes: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "フルイドガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画" },
     published: "公開日",
     readingTime: "読了時間",
     keyFacts: "主要データ",
@@ -236,6 +236,7 @@ export function ReportPage({ report }: { report: Report }) {
             <div className={styles.tags} aria-label="Tags">
               {report.tags.map((tag) => <span key={tag}>{tag}</span>)}
             </div>
+            <div className={styles.noritakeVignette} aria-hidden="true" />
           </header>
 
           <section id="overview" className={styles.overview} aria-labelledby="overview-title">

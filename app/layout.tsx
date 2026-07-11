@@ -22,7 +22,7 @@ const themeInitScript = `
   (() => {
     try {
       const savedTheme = window.localStorage.getItem("jiajun-site-theme");
-      const allowedThemes = ["classic", "night", "film", "glass", "pixel", "cartoon"];
+      const allowedThemes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"];
       document.documentElement.dataset.theme = allowedThemes.includes(savedTheme) ? savedTheme : "glass";
     } catch {
       document.documentElement.dataset.theme = "glass";

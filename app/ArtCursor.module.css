@@ -58,6 +58,24 @@
   transform: translate(-2px, -2px) rotate(-8deg) scale(0.86);
 }
 
+:global(html[data-theme="noritake"]) .pointer {
+  background: #171717;
+  filter: none;
+}
+
+:global(html[data-theme="noritake"]) .trail {
+  width: 15px;
+  height: 15px;
+  border-color: #171717;
+  border-style: dashed;
+  border-radius: 50%;
+  opacity: 0.72;
+}
+
+:global(html[data-theme="noritake"]) .cursor[data-interactive="true"] .pointer {
+  filter: none;
+}
+
 :global(html.has-art-cursor),
 :global(html.has-art-cursor *) {
   cursor: none !important;

@@ -8,7 +8,7 @@ import { content, localeLabels, type Locale } from "./content";
 import { TravelMap } from "./TravelMap";
 
 const languages: Locale[] = ["zh", "en", "ja"];
-const themes = ["classic", "night", "film", "glass", "pixel", "cartoon"] as const;
+const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"] as const;
 type Theme = (typeof themes)[number];
 
 const themeNames: Record<Locale, Record<Theme, string>> = {
@@ -19,6 +19,7 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     glass: "流体玻璃",
     pixel: "日系像素",
     cartoon: "缤纷卡通",
+    noritake: "Noritake 线稿",
   },
   en: {
     classic: "Academic",
@@ -27,6 +28,7 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     glass: "Liquid Glass",
     pixel: "Japanese Pixel",
     cartoon: "Playful Cartoon",
+    noritake: "Noritake Line",
   },
   ja: {
     classic: "アカデミック",
@@ -35,6 +37,7 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     glass: "リキッドグラス",
     pixel: "和風ピクセル",
     cartoon: "カラフル漫画",
+    noritake: "Noritake 線画",
   },
 };
 
@@ -282,6 +285,12 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <div className="noritake-vignettes" aria-hidden="true">
+          <span className="noritake-vignette noritake-vignette-left" />
+          <span className="noritake-vignette noritake-vignette-center" />
+          <span className="noritake-vignette noritake-vignette-right" />
+        </div>
 
         <section className="metrics section-shell" aria-label="Research metrics">
           {current.metrics.map((metric) => (

@@ -6,10 +6,10 @@ import { AmbientDock } from "../AmbientDock";
 import styles from "./notes.module.css";
 
 type Locale = "zh" | "en" | "ja";
-type Theme = "classic" | "night" | "film" | "glass" | "pixel" | "cartoon";
+type Theme = "classic" | "night" | "film" | "glass" | "pixel" | "cartoon" | "noritake";
 
 const locales: Locale[] = ["zh", "en", "ja"];
-const themes: Theme[] = ["classic", "night", "film", "glass", "pixel", "cartoon"];
+const themes: Theme[] = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake"];
 
 const isLocale = (value: string | null): value is Locale =>
   value !== null && locales.includes(value as Locale);
@@ -29,7 +29,7 @@ const copy = {
     intro: "记录语音、语言与多模态智能中的关键概念，并把研究方法拆成可以复现的实践步骤。这里的内容是导读与教程，不代表新的实验结论。",
     languageLabel: "切换语言",
     themeLabel: "切换主题",
-    themeNames: { classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃", pixel: "日系像素", cartoon: "明亮卡通" },
+    themeNames: { classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿" },
     read: "展开教程",
     close: "再次点击标题即可收起",
     steps: "实践步骤",
@@ -153,7 +153,7 @@ const copy = {
     intro: "Clear guides to speech, language, and multimodal intelligence, with research ideas translated into reproducible steps. These are primers and tutorials—not claims of new experimental results.",
     languageLabel: "Switch language",
     themeLabel: "Switch theme",
-    themeNames: { classic: "Classic", night: "Night", film: "Film", glass: "Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon" },
+    themeNames: { classic: "Classic", night: "Night", film: "Film", glass: "Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line" },
     read: "Open tutorial",
     close: "Select the heading again to close",
     steps: "Practical steps",
@@ -277,7 +277,7 @@ const copy = {
     intro: "音声・言語・マルチモーダル知能の要点を整理し、研究の考え方を再現可能な手順へ落とし込みます。掲載内容は入門解説とチュートリアルであり、新たな実験結果を主張するものではありません。",
     languageLabel: "言語を切り替える",
     themeLabel: "テーマを切り替える",
-    themeNames: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン" },
+    themeNames: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画" },
     read: "チュートリアルを開く",
     close: "見出しをもう一度選ぶと閉じます",
     steps: "実践ステップ",
@@ -565,6 +565,7 @@ export function NotesPage() {
           <div className={styles.heroRule} aria-hidden="true">
             <span>ASR</span><span>LLM</span><span>MULTIMODAL</span>
           </div>
+          <div className={styles.noritakeVignette} aria-hidden="true" />
         </section>
 
         <section className={styles.deepDives} aria-labelledby="deep-dives-title">
