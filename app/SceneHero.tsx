@@ -1,11 +1,11 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element -- The approved scene art is a static full-width WebP; method diagrams retain their original source URLs. */
+/* eslint-disable @next/next/no-img-element -- Method diagrams retain their original source URLs. */
 
-import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { content, type Locale } from "./content";
 import { sceneThemes, type SceneTheme } from "./sceneThemes";
-import { SceneEntrance } from "./SceneEntrance";
+import { SceneVideo } from "./SceneVideo";
 import styles from "./SceneHero.module.css";
 
 type SceneHeroProps = {
@@ -45,9 +45,9 @@ const labels: Record<Locale, HeroLabels> = {
     benchmark: "该指标对应特定基准实验。", stroll: "沿着好奇心，继续走走",
     shortTopics: ["上下文识别", "多人对话", "情感理解"],
     artAlt: {
-      garden: "阳光下的微缩声音研究花园，有耳机拱门、录音室、声音亭与阅读亭",
-      cloud: "蓝天白云中的微缩语音研究小岛，有声音、语言与情感研究装置",
-      courtyard: "温暖奶油色的微缩研究庭院，有书本、录音装置与情感研究亭",
+      garden: "绿色微缩舞台上，小G胖转身挥手，音响波形和植物轻轻摆动",
+      cloud: "浅蓝色微缩舞台上，小G胖转身挥手，周围有耳机、书本和声音波形",
+      courtyard: "暖色微缩舞台上，小G胖转身挥手，周围有书本、耳机和盆栽",
     },
   },
   en: {
@@ -63,9 +63,9 @@ const labels: Record<Locale, HeroLabels> = {
     benchmark: "This result refers to a specific benchmark experiment.", stroll: "Follow a little curiosity",
     shortTopics: ["Context ASR", "Multi-talker", "Emotion"],
     artAlt: {
-      garden: "A sunny miniature speech research garden with a headphone arch, recording studio, sound pavilion, and reading nook",
-      cloud: "Miniature speech research islands among soft clouds, with sound, language, and emotion research objects",
-      courtyard: "A warm miniature research courtyard with books, recording equipment, and an emotion pavilion",
+      garden: "Little G turns and waves on a green miniature stage with moving audio bars and leaves",
+      cloud: "Little G turns and waves on a pale blue miniature stage with headphones, books, and audio bars",
+      courtyard: "Little G turns and waves on a warm miniature stage with books, headphones, and plants",
     },
   },
   ja: {
@@ -81,9 +81,9 @@ const labels: Record<Locale, HeroLabels> = {
     benchmark: "この指標は特定のベンチマーク実験の結果です。", stroll: "好奇心のまま、もう少し先へ",
     shortTopics: ["文脈音声認識", "複数話者", "感情理解"],
     artAlt: {
-      garden: "ヘッドホンのアーチ、録音室、音の東屋、読書スペースがある小さな研究の庭",
-      cloud: "柔らかな雲に浮かぶ音声研究の島と、音・言語・感情の研究装置",
-      courtyard: "本や録音装置、感情理解の東屋が並ぶ、温かな小さな研究の中庭",
+      garden: "緑の小さな舞台で、小G胖が手を振り、音のバーと葉が揺れる動画",
+      cloud: "淡い青の小さな舞台で、小G胖が手を振る動画。周りにはヘッドホン、本、音のバー",
+      courtyard: "暖かな色の小さな舞台で、小G胖が手を振る動画。周りには本、ヘッドホン、鉢植え",
     },
   },
   ko: {
@@ -99,25 +99,17 @@ const labels: Record<Locale, HeroLabels> = {
     benchmark: "이 지표는 특정 벤치마크 실험의 결과입니다.", stroll: "호기심을 따라 조금 더 멀리",
     shortTopics: ["문맥 인식", "다중 화자", "감정 이해"],
     artAlt: {
-      garden: "헤드폰 아치, 녹음실, 소리 정자와 독서 공간이 있는 햇살 가득한 작은 연구 정원",
-      cloud: "부드러운 구름에 떠 있는 작은 음성 연구 섬과 소리·언어·감정 연구 장치",
-      courtyard: "책, 녹음 장치와 감정 연구 정자가 있는 따뜻한 작은 연구 안뜰",
+      garden: "초록빛 작은 무대에서 小G胖이 손을 흔들고 소리 막대와 잎이 움직이는 무음 영상",
+      cloud: "옅은 파란색 무대에서 小G胖이 손을 흔드는 영상. 주변에는 헤드폰과 책, 소리 막대",
+      courtyard: "따뜻한 색의 무대에서 小G胖이 손을 흔드는 영상. 주변에는 책과 헤드폰, 화분",
     },
   },
-};
-
-// Percentages are measured on the artwork itself, so hotspots move with it.
-const hotspotPositions: Record<SceneTheme, readonly (readonly [number, number])[]> = {
-  garden: [[89, 45], [67, 60], [49, 31]],
-  cloud: [[89, 42], [68.5, 27.7], [48, 42.5]],
-  courtyard: [[51, 49], [73, 22], [77, 72]],
 };
 
 export function SceneHero({ locale, scene, onSceneChange, entranceReady }: SceneHeroProps) {
   const current = content[locale];
   const ui = labels[locale];
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const planeRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const restoreFocusRef = useRef(true);
@@ -128,10 +120,6 @@ export function SceneHero({ locale, scene, onSceneChange, entranceReady }: Scene
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
       reducedMotionRef.current = preference.matches;
-      if (preference.matches) {
-        planeRef.current?.style.setProperty("--scene-x", "0px");
-        planeRef.current?.style.setProperty("--scene-y", "0px");
-      }
     };
     update();
     preference.addEventListener("change", update);
@@ -177,18 +165,6 @@ export function SceneHero({ locale, scene, onSceneChange, entranceReady }: Scene
     window.history.replaceState(null, "", `#research-${selectedIndex}`);
   }
 
-  function moveArtwork(event: PointerEvent<HTMLElement>) {
-    if (reducedMotionRef.current || event.pointerType !== "mouse" || window.innerWidth <= 760) return;
-    const bounds = event.currentTarget.getBoundingClientRect();
-    planeRef.current?.style.setProperty("--scene-x", `${((event.clientX - bounds.left) / bounds.width - 0.5) * 10}px`);
-    planeRef.current?.style.setProperty("--scene-y", `${((event.clientY - bounds.top) / bounds.height - 0.5) * 7}px`);
-  }
-
-  function resetArtwork() {
-    planeRef.current?.style.setProperty("--scene-x", "0px");
-    planeRef.current?.style.setProperty("--scene-y", "0px");
-  }
-
   return (
     <section
       id="scene-hero"
@@ -196,36 +172,15 @@ export function SceneHero({ locale, scene, onSceneChange, entranceReady }: Scene
       data-scene={scene}
       data-locale={locale}
       aria-labelledby="hero-title"
-      onPointerMove={moveArtwork}
-      onPointerLeave={resetArtwork}
     >
       <div className={styles.art}>
-        <div className={styles.artPlane} ref={planeRef}>
-          <SceneEntrance key={scene} ready={entranceReady}>
-          <img key={scene} className={styles.artImage} src={`/scenes/${scene}.webp`} alt={ui.artAlt[scene]} fetchPriority="high" decoding="async" />
-          {current.research.items.map((item, index) => (
-            <button
-              key={index}
-              type="button"
-              className={styles.hotspot}
-              style={{ left: `${hotspotPositions[scene][index][0]}%`, top: `${hotspotPositions[scene][index][1]}%` }}
-              data-research-index={index}
-              aria-label={`${ui.explore}: ${item.title}`}
-              aria-haspopup="dialog"
-              aria-controls="scene-research-dialog"
-              onClick={(event) => openResearch(index, event)}
-            >
-              <span aria-hidden="true">＋</span><span className={styles.hotspotLabel}>{item.title}</span>
-            </button>
-          ))}
-          </SceneEntrance>
-        </div>
+        <SceneVideo key={scene} scene={scene} locale={locale} ready={entranceReady} description={ui.artAlt[scene]} />
       </div>
       <div className={styles.shade} aria-hidden="true" />
       <div className={styles.copyShell}>
         <div className={styles.themeSwitcher} role="group" aria-label={ui.sceneLabel}>
           {sceneThemes.map((theme) => (
-            <button key={theme} type="button" data-scene-target={theme} aria-pressed={scene === theme} onClick={() => { resetArtwork(); onSceneChange(theme); }}>
+            <button key={theme} type="button" data-scene-target={theme} aria-pressed={scene === theme} onClick={() => onSceneChange(theme)}>
               <span className={styles.themeDot} data-theme={theme} aria-hidden="true" />{ui.themes[theme]}
             </button>
           ))}
@@ -245,9 +200,9 @@ export function SceneHero({ locale, scene, onSceneChange, entranceReady }: Scene
         </div>
       </div>
       <a className={styles.stroll} href="#research">{ui.stroll}<span aria-hidden="true">↓</span></a>
-      <div className={styles.mobileTopics} role="group" aria-label={ui.topicsLabel}>
+      <div className={styles.researchTopics} role="group" aria-label={ui.topicsLabel}>
         {ui.shortTopics.map((title, index) => (
-          <button key={index} type="button" data-mobile-research-index={index} aria-label={`${ui.explore}: ${current.research.items[index].title}`} aria-haspopup="dialog" aria-controls="scene-research-dialog" onClick={(event) => openResearch(index, event)}>{title}<span aria-hidden="true">＋</span></button>
+          <button key={index} type="button" data-research-index={index} aria-label={`${ui.explore}: ${current.research.items[index].title}`} aria-haspopup="dialog" aria-controls="scene-research-dialog" onClick={(event) => openResearch(index, event)}><span className={styles.topicNumber} aria-hidden="true">0{index + 1}</span>{title}<span className={styles.topicPlus} aria-hidden="true">＋</span></button>
         ))}
       </div>
       <span className={styles.srOnly} aria-live="polite">{ui.sceneLabel}: {ui.themes[scene]}</span>

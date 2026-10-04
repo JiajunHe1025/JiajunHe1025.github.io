@@ -1,22 +1,29 @@
-# Three research scenes
+# Little G research homepage
 
-The homepage opens in the research garden. The scene switcher also offers a cloud island and a miniature courtyard. All three use Little G (小G胖 from 小蓝和他的朋友), identified and confirmed by the owner as the white round-headed character in a blue GAP hoodie.
+The homepage opens with an eight-second silent 3D film. The existing garden, cloud and courtyard switches choose green, pale-blue and warm palettes of the same miniature audio stage. Little G turns, waves, blinks and tilts his head while the stage turns to face the visitor, audio bars move and leaves sway.
 
-## Assets and interaction
+The character was rebuilt from the owner's confirmed 小G胖 reference with a wide white head, small dot eyes, outlined open smile, short double-chin arc, roomy blue-purple GAP hoodie and gray trousers. Visual reference: https://www.sohu.com/a/632833013_159592 (the G胖 illustration). It is a modeled interpretation, not an official character asset. The earlier generated scene illustrations remain in `public/scenes` as design history but no longer appear in the main hero.
 
-- `public/scenes/garden.webp`: Little G standing on the garden path, 418 KB.
-- `public/scenes/cloud.webp`: Little G reading a book on the floating island, 240 KB.
-- `public/scenes/courtyard.webp`: Little G resting beside the courtyard planter, 263 KB.
+## Video assets
 
-The 1672 × 941 illustrations were edited with the built-in image generation tool and compressed to WebP at quality 92. The owner-approved architecture, lighting and compositions were preserved. Public character confirmation reference: https://www.woyaogexing.com/touxiang/katong/2021/1167678.html.
+- `public/videos/little-g-garden.mp4`
+- `public/videos/little-g-cloud.mp4`
+- `public/videos/little-g-courtyard.mp4`
+- Matching `little-g-<theme>-poster.jpg` stills from the final frame.
 
-These are rendered illustrations with pointer parallax and three research hotspots, rather than runtime 3D meshes. Hotspots open the existing method figure, research description and benchmark context in a keyboard-accessible dialog. Mobile screens use separate topic buttons below the illustration. Reduced-motion preferences disable the motion. The illustrated scenes use Little G as their mascot; the existing floating basketball pet remains available in the older themes.
+Each film is 1280 × 800, 30 fps, eight seconds, H.264 with limited-range yuv420p and faststart, about 500 KB. It contains no audio track. Editable Remotion / React Three Fiber source and its lockfile are in `tools/hero-video`, with separate build instructions. The website serves the finished MP4 through a native video element and adds no 3D libraries to its runtime.
 
-The entire illustration now turns gently to face the visitor on entrance (2.3 seconds on desktop, 1.8 seconds with a smaller angle on mobile). Text stays fixed, and hotspots rotate with the artwork. The turn starts after image decoding and when the artwork is at least 15% visible; it pauses outside the viewport or in a hidden tab. Selecting a different scene replays the entrance, while changing language preserves the current animation. Reduced-motion preferences show the final pose immediately. This inner entrance layer leaves the outer pointer parallax and mobile composition intact.
+## Playback and research
+
+Playback starts only after preference restoration, when the video is at least 15% visible and automatic motion is allowed. It pauses when the scene leaves the viewport or the document is hidden. It plays once and rests on its final frame. Manual pause remains paused when the visitor scrolls away and back. Play and replay controls permit intentional motion, including with a reduced-motion preference. Newly enabling reduced motion pauses playback. An autoplay rejection leaves a usable manual play control.
+
+Scene selection remounts the video, while changing language preserves its current time. Text stays still. The previous CSS entrance rotation and pointer parallax are no longer applied to the video.
+
+Three fixed research buttons sit below the visual, opening the existing paper method figure, research description and benchmark context in a keyboard-accessible dialog. They remain in fixed positions while the film moves. The four languages include video labels and controls. Mobile shows text followed by a 400px video stage cropped toward the character at the right, then the research buttons.
 
 ## Preserved content
 
-The four languages, nine older themes, travel gallery, calendar and music controls remain available. The homepage now includes search and year filters for all 22 publication records, plus links to the three existing technical reports. Theme and language preferences carry across the homepage, notes index and report pages.
+The four languages, nine older themes, travel gallery, calendar and music controls remain available. The homepage includes search and year filters for all 22 publication records, plus links to the three existing technical reports. Theme and language preferences carry across the homepage, notes index and report pages.
 
 ## Build and preview
 
@@ -28,4 +35,4 @@ npm run build:pages
 python3 -m http.server 8879 --bind 127.0.0.1 --directory out
 ```
 
-The GitHub Pages workflow publishes the static `out` export when changes are merged into `main`. Work on this design lives on `codex/three-research-scenes` until reviewed.
+The GitHub Pages workflow publishes the static `out` export when changes are merged into `main`. Work remains on `codex/three-research-scenes` in the existing draft PR until reviewed.
