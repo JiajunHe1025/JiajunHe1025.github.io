@@ -21,7 +21,7 @@
 .sceneHero a:focus-visible, .sceneHero button:focus-visible { outline: 3px solid var(--scene-ink); outline-offset: 5px; }
 .art { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 .artPlane { position: absolute; width: max(100%, 1387px); aspect-ratio: 1672 / 941; top: 50%; left: 50%; transform: translate(calc(-50% + var(--scene-x, 0px)), calc(-50% + var(--scene-y, 0px))) scale(1.008); transition: transform 950ms cubic-bezier(.18,.68,.2,1); }
-.artImage { display: block; width: 100%; height: 100%; max-width: none; object-fit: fill; animation: arrive 420ms ease-out; }
+.artImage { display: block; width: 100%; height: 100%; max-width: none; object-fit: fill; }
 .shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(248,251,217,.52), rgba(248,251,217,.29) 23%, rgba(248,251,217,.04) 40%, transparent 49%); }
 .sceneHero[data-scene="cloud"] .shade { background: linear-gradient(90deg, rgba(232,244,250,.3), transparent 48%); }
 .sceneHero[data-scene="courtyard"] .shade { background: linear-gradient(90deg, rgba(250,237,223,.16), transparent 48%); }
@@ -79,7 +79,6 @@
 .benchmark span { font-size: 14px; color: var(--scene-soft); }
 .benchmarkNote { font-size: 14px; line-height: 1.7; color: var(--scene-soft); margin: 10px 0 24px; }
 .dialogLink { display: flex; gap: 20px; align-items: center; justify-content: space-between; font-size: 14px; border-top: 1px solid #dce4d1; padding-top: 17px; }
-@keyframes arrive { from { opacity: .65; } to { opacity: 1; } }
 
 @media (min-width: 1600px) { .sceneHero { height: 812px; } .artPlane { width: max(100%,1443px); } .copy { padding-top: 178px; } }
 @media (min-width: 761px) and (max-width: 1100px) {

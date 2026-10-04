@@ -5,12 +5,14 @@
 import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import { content, type Locale } from "./content";
 import { sceneThemes, type SceneTheme } from "./sceneThemes";
+import { SceneEntrance } from "./SceneEntrance";
 import styles from "./SceneHero.module.css";
 
 type SceneHeroProps = {
   locale: Locale;
   scene: SceneTheme;
   onSceneChange: (scene: SceneTheme) => void;
+  entranceReady: boolean;
 };
 
 type HeroLabels = {
@@ -111,7 +113,7 @@ const hotspotPositions: Record<SceneTheme, readonly (readonly [number, number])[
   courtyard: [[51, 49], [73, 22], [77, 72]],
 };
 
-export function SceneHero({ locale, scene, onSceneChange }: SceneHeroProps) {
+export function SceneHero({ locale, scene, onSceneChange, entranceReady }: SceneHeroProps) {
   const current = content[locale];
   const ui = labels[locale];
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -199,6 +201,7 @@ export function SceneHero({ locale, scene, onSceneChange }: SceneHeroProps) {
     >
       <div className={styles.art}>
         <div className={styles.artPlane} ref={planeRef}>
+          <SceneEntrance key={scene} ready={entranceReady}>
           <img key={scene} className={styles.artImage} src={`/scenes/${scene}.webp`} alt={ui.artAlt[scene]} fetchPriority="high" decoding="async" />
           {current.research.items.map((item, index) => (
             <button
@@ -215,6 +218,7 @@ export function SceneHero({ locale, scene, onSceneChange }: SceneHeroProps) {
               <span aria-hidden="true">＋</span><span className={styles.hotspotLabel}>{item.title}</span>
             </button>
           ))}
+          </SceneEntrance>
         </div>
       </div>
       <div className={styles.shade} aria-hidden="true" />

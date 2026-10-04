@@ -342,7 +342,7 @@ export default function Home() {
       </header>
 
       <main id="main-content">
-        {scene ? <SceneHero locale={locale} scene={scene} onSceneChange={selectTheme} /> : (
+        {scene ? <SceneHero locale={locale} scene={scene} onSceneChange={selectTheme} entranceReady={preferencesReady} /> : (
         <section className="hero section-shell" aria-labelledby="hero-title">
           <div className="hero-copy">
             <p className="eyebrow">{current.hero.eyebrow}</p>

@@ -1,0 +1,35 @@
+.layer {
+  --entry-y: -10deg;
+  --entry-z: -.4deg;
+  --entry-scale: 1.09;
+  position: absolute;
+  inset: 0;
+  transform-origin: 70% 50%;
+}
+
+.layer[data-entrance="waiting"] {
+  transform: perspective(3200px) rotateY(var(--entry-y)) rotateZ(var(--entry-z)) scale(var(--entry-scale));
+}
+
+.layer[data-entrance="playing"] {
+  animation: turnToFront 2300ms cubic-bezier(.22,.72,.25,1) both;
+  will-change: transform;
+}
+
+.layer[data-paused="true"] { animation-play-state: paused; }
+.layer[data-entrance="done"] { transform: none; }
+
+@keyframes turnToFront {
+  0% { transform: perspective(3200px) rotateY(var(--entry-y)) rotateZ(var(--entry-z)) scale(var(--entry-scale)); }
+  75% { transform: perspective(3200px) rotateY(1.2deg) rotateZ(.08deg) scale(1.014); }
+  100% { transform: perspective(3200px) rotateY(0) rotateZ(0) scale(1); }
+}
+
+@media (max-width: 760px) {
+  .layer { --entry-y: -7deg; --entry-z: -.2deg; --entry-scale: 1.04; }
+  .layer[data-entrance="playing"] { animation-duration: 1800ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer[data-entrance] { animation: none; transform: none; will-change: auto; }
+}
