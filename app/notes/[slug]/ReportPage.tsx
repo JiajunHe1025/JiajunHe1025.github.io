@@ -7,7 +7,7 @@ import type { Locale, Report } from "../reports";
 import styles from "./report.module.css";
 
 const locales: Locale[] = ["zh", "en", "ja", "ko"];
-const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"] as const;
+const themes = ["garden", "cloud", "courtyard", "classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"] as const;
 type Theme = (typeof themes)[number];
 
 const isLocale = (value: string | null): value is Locale =>
@@ -24,7 +24,7 @@ const ui = {
     home: "返回主页",
     theme: "切换主题",
     language: "切换语言",
-    themes: { classic: "经典", night: "暗夜", film: "胶片", glass: "流体玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿", neko: "日系猫咪", shiba: "日系柴犬" },
+    themes: { garden: "研究花园", cloud: "云端小岛", courtyard: "微缩庭院", classic: "经典", night: "暗夜", film: "胶片", glass: "流体玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿", neko: "日系猫咪", shiba: "日系柴犬" },
     published: "发布于",
     readingTime: "阅读时长",
     keyFacts: "关键数据",
@@ -47,7 +47,7 @@ const ui = {
     home: "Back home",
     theme: "Switch theme",
     language: "Switch language",
-    themes: { classic: "Classic", night: "Night", film: "Film", glass: "Fluid Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line", neko: "Japanese Cat", shiba: "Japanese Shiba" },
+    themes: { garden: "Research Garden", cloud: "Cloud Island", courtyard: "Research Courtyard", classic: "Classic", night: "Night", film: "Film", glass: "Fluid Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line", neko: "Japanese Cat", shiba: "Japanese Shiba" },
     published: "Published",
     readingTime: "Reading time",
     keyFacts: "Key facts",
@@ -70,7 +70,7 @@ const ui = {
     home: "ホームへ戻る",
     theme: "テーマを切り替える",
     language: "言語を切り替える",
-    themes: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "フルイドガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画", neko: "和風ねこ", shiba: "和風柴犬" },
+    themes: { garden: "研究の庭", cloud: "雲の島", courtyard: "小さな中庭", classic: "クラシック", night: "ナイト", film: "フィルム", glass: "フルイドガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画", neko: "和風ねこ", shiba: "和風柴犬" },
     published: "公開日",
     readingTime: "読了時間",
     keyFacts: "主要データ",
@@ -93,7 +93,7 @@ const ui = {
     home: "홈으로 돌아가기",
     theme: "테마 전환",
     language: "언어 전환",
-    themes: { classic: "클래식", night: "나이트", film: "필름", glass: "플루이드 글라스", pixel: "일본풍 픽셀", cartoon: "밝은 카툰", noritake: "Noritake 라인 아트", neko: "일본풍 고양이", shiba: "일본풍 시바견" },
+    themes: { garden: "연구 정원", cloud: "구름 섬", courtyard: "작은 연구 뜰", classic: "클래식", night: "나이트", film: "필름", glass: "플루이드 글라스", pixel: "일본풍 픽셀", cartoon: "밝은 카툰", noritake: "Noritake 라인 아트", neko: "일본풍 고양이", shiba: "일본풍 시바견" },
     published: "게시일",
     readingTime: "읽는 시간",
     keyFacts: "핵심 데이터",
@@ -138,7 +138,7 @@ const localeNames: Record<Locale, string> = { zh: "中文", en: "English", ja: "
 
 export function ReportPage({ report }: { report: Report }) {
   const [locale, setLocale] = useState<Locale>("zh");
-  const [theme, setTheme] = useState<Theme>("glass");
+  const [theme, setTheme] = useState<Theme>("garden");
   const [preferencesReady, setPreferencesReady] = useState(false);
   const copy = ui[locale];
 
@@ -164,7 +164,7 @@ export function ReportPage({ report }: { report: Report }) {
         setLocale("en");
       }
 
-      const initialTheme = isTheme(savedTheme) ? savedTheme : "glass";
+      const initialTheme = isTheme(savedTheme) ? savedTheme : "garden";
       setTheme(initialTheme);
       document.documentElement.setAttribute("data-theme", initialTheme);
       setPreferencesReady(true);

@@ -17,6 +17,13 @@
   opacity: 1;
 }
 
+/* The scene character is the mascot in the three illustrated themes. */
+:global(html[data-theme="garden"]) .petRoot,
+:global(html[data-theme="cloud"]) .petRoot,
+:global(html[data-theme="courtyard"]) .petRoot {
+  display: none;
+}
+
 .petRoot.moving {
   transition: left 5.8s linear, opacity 180ms ease;
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ArtCursor } from "./ArtCursor";
 import { WebsitePet } from "./WebsitePet";
+import { sceneThemes } from "./sceneThemes";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,10 +23,10 @@ const themeInitScript = `
   (() => {
     try {
       const savedTheme = window.localStorage.getItem("jiajun-site-theme");
-      const allowedThemes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"];
-      document.documentElement.dataset.theme = allowedThemes.includes(savedTheme) ? savedTheme : "glass";
+      const allowedThemes = ${JSON.stringify([...sceneThemes, "classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"])};
+      document.documentElement.dataset.theme = allowedThemes.includes(savedTheme) ? savedTheme : "garden";
     } catch {
-      document.documentElement.dataset.theme = "glass";
+      document.documentElement.dataset.theme = "garden";
     }
   })();
 `;
@@ -79,7 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-Hans" data-theme="glass" suppressHydrationWarning>
+    <html lang="zh-Hans" data-theme="garden" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>

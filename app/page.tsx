@@ -6,13 +6,19 @@ import { useEffect, useRef, useState } from "react";
 import { AmbientDock } from "./AmbientDock";
 import { content, localeLabels, type Locale } from "./content";
 import { TravelMap } from "./TravelMap";
+import { SceneHero } from "./SceneHero";
+import { sceneThemes, isSceneTheme, type SceneTheme } from "./sceneThemes";
+import { reports } from "./notes/reports";
 
 const languages: Locale[] = ["zh", "en", "ja", "ko"];
-const themes = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"] as const;
+const themes = [...sceneThemes, "classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"] as const;
 type Theme = (typeof themes)[number];
 
 const themeNames: Record<Locale, Record<Theme, string>> = {
   zh: {
+    garden: "声音研究花园",
+    cloud: "云端语音小岛",
+    courtyard: "微缩研究庭院",
     classic: "经典学术",
     night: "暗夜实验室",
     film: "胶片旅行",
@@ -24,6 +30,9 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     shiba: "日系柴犬",
   },
   en: {
+    garden: "Sound Garden",
+    cloud: "Cloud Islands",
+    courtyard: "Research Courtyard",
     classic: "Academic",
     night: "Night Lab",
     film: "Film Journey",
@@ -35,6 +44,9 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     shiba: "Japanese Shiba",
   },
   ja: {
+    garden: "音声研究ガーデン",
+    cloud: "雲の上の音声島",
+    courtyard: "研究コートヤード",
     classic: "アカデミック",
     night: "ナイトラボ",
     film: "フィルム旅",
@@ -46,6 +58,9 @@ const themeNames: Record<Locale, Record<Theme, string>> = {
     shiba: "和風柴犬",
   },
   ko: {
+    garden: "소리 연구 정원",
+    cloud: "구름 위 음성 섬",
+    courtyard: "연구 안뜰",
     classic: "클래식 아카데믹",
     night: "나이트 랩",
     film: "필름 여행",
@@ -70,6 +85,29 @@ const notesShortcutLabels: Record<Locale, string> = {
   en: "Notes",
   ja: "技術ノート",
   ko: "기술 노트",
+};
+
+const publicationControls: Record<Locale, {
+  search: string; placeholder: string; year: string; allYears: string;
+  clear: string; empty: string; results: (shown: number, total: number) => string;
+}> = {
+  zh: { search: "搜索论文", placeholder: "标题、作者、会议或关键词", year: "发表年份", allYears: "全部年份", clear: "清空筛选", empty: "没有匹配的记录。试试其他关键词或年份。", results: (shown, total) => `显示 ${shown} / ${total} 条发表记录` },
+  en: { search: "Search publications", placeholder: "Title, author, venue, or keyword", year: "Publication year", allYears: "All years", clear: "Clear filters", empty: "No matching records. Try another keyword or year.", results: (shown, total) => `Showing ${shown} of ${total} publication records` },
+  ja: { search: "論文を検索", placeholder: "タイトル・著者・会議・キーワード", year: "発表年", allYears: "すべての年", clear: "絞り込みを解除", empty: "一致する記録はありません。別のキーワードや年をお試しください。", results: (shown, total) => `${total} 件の発表記録のうち ${shown} 件を表示` },
+  ko: { search: "논문 검색", placeholder: "제목, 저자, 학회 또는 키워드", year: "발표 연도", allYears: "모든 연도", clear: "필터 초기화", empty: "일치하는 기록이 없습니다. 다른 키워드나 연도를 입력해 보세요.", results: (shown, total) => `전체 발표 기록 ${total}개 중 ${shown}개 표시` },
+};
+
+const homeNotesLabels: Record<Locale, { title: string; introduction: string; all: string; method: string }> = {
+  zh: { title: "把研究中的问题，继续写下去。", introduction: "技术报告、方法拆解与实验观察。三篇现有笔记，记录对语音与音频模型的思考。", all: "浏览全部技术笔记", method: "查看原始研究方法图" },
+  en: { title: "Keep the research conversation going.", introduction: "Technical reports, method breakdowns, and experimental observations. Three existing notes on speech and audio models.", all: "Browse all technical notes", method: "View the original method diagram" },
+  ja: { title: "研究の問いを、書き続ける。", introduction: "技術レポート、手法の解説、実験の観察。音声・オーディオモデルを考える三つの既存ノート。", all: "すべての技術ノートを見る", method: "元の研究手法図を見る" },
+  ko: { title: "연구의 질문을 계속 기록합니다.", introduction: "기술 보고서, 방법 분석, 실험 관찰. 음성·오디오 모델을 살펴보는 세 편의 기존 노트입니다.", all: "모든 기술 노트 보기", method: "원본 연구 방법 도식 보기" },
+};
+
+const homeReportNames: Record<string, string> = {
+  "moss-transcribe-diarize-0-9b-sats": "MOSS-Transcribe-Diarize",
+  "dllm-asr-prior-guided-adaptive-denoising": "dLLM-ASR",
+  "nemotron-labs-audex-unified-audio-llm": "AUDEX",
 };
 
 const accessibilityLabels: Record<Locale, { skip: string; home: string; navigation: string; metrics: string }> = {
@@ -108,6 +146,23 @@ function SectionHeading({
   );
 }
 
+function ResearchFigure({ item }: { item: (typeof content)["zh"]["research"]["items"][number] }) {
+  return (
+    <figure className="research-figure">
+      <Image
+        className="research-figure-image"
+        src={item.figure}
+        alt={item.figureAlt}
+        width={1600}
+        height={960}
+        sizes="(max-width: 820px) 90vw, 36vw"
+        unoptimized
+      />
+      <figcaption>{item.paper}</figcaption>
+    </figure>
+  );
+}
+
 function SignalBars() {
   return (
     <div className="signal-bars" aria-hidden="true">
@@ -130,23 +185,43 @@ function Arrow() {
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("zh");
-  const [theme, setTheme] = useState<Theme>("glass");
+  const [theme, setTheme] = useState<Theme>("garden");
+  const [preferencesReady, setPreferencesReady] = useState(false);
+  const [publicationQuery, setPublicationQuery] = useState("");
+  const [publicationYear, setPublicationYear] = useState("all");
   const themeMenuRef = useRef<HTMLDetailsElement>(null);
   const current = content[locale];
   const labels = accessibilityLabels[locale];
+  const publicationLabels = publicationControls[locale];
+  const notesLabels = homeNotesLabels[locale];
+  const scene: SceneTheme | null = isSceneTheme(theme) ? theme : null;
+  const publicationYears = [...new Set(current.publications.items.map((item) => item.year))]
+    .sort((a, b) => Number(b) - Number(a));
+  const normalizedQuery = publicationQuery.trim().normalize("NFKC").toLocaleLowerCase();
+  const visiblePublications = current.publications.items.filter((publication) => {
+    const searchableText = [publication.code, publication.title, publication.authors, publication.venue, publication.note, publication.year]
+      .filter(Boolean).join(" ").normalize("NFKC").toLocaleLowerCase();
+    return (publicationYear === "all" || publication.year === publicationYear)
+      && searchableText.includes(normalizedQuery);
+  });
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const saved = window.localStorage.getItem("jiajun-site-language") as Locale | null;
-      if (saved && languages.includes(saved)) {
-        setLocale(saved);
-        return;
+      let saved: string | null = null;
+      try {
+        saved = window.localStorage.getItem("jiajun-site-language");
+      } catch {
+        // Browser language remains available when storage is restricted.
       }
-
-      const browserLanguage = window.navigator.language.toLowerCase();
-      if (browserLanguage.startsWith("ja")) setLocale("ja");
-      else if (browserLanguage.startsWith("ko")) setLocale("ko");
-      else if (!browserLanguage.startsWith("zh")) setLocale("en");
+      if (saved && languages.includes(saved as Locale)) {
+        setLocale(saved as Locale);
+      } else {
+        const browserLanguage = window.navigator.language.toLowerCase();
+        if (browserLanguage.startsWith("ja")) setLocale("ja");
+        else if (browserLanguage.startsWith("ko")) setLocale("ko");
+        else if (!browserLanguage.startsWith("zh")) setLocale("en");
+      }
+      setPreferencesReady(true);
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
@@ -179,8 +254,14 @@ export default function Home() {
   useEffect(() => {
     document.documentElement.lang = current.htmlLang;
     document.title = current.pageTitle;
-    window.localStorage.setItem("jiajun-site-language", locale);
-  }, [current.htmlLang, current.pageTitle, locale]);
+    if (preferencesReady) {
+      try {
+        window.localStorage.setItem("jiajun-site-language", locale);
+      } catch {
+        // Locale switching remains functional when browser storage is unavailable.
+      }
+    }
+  }, [current.htmlLang, current.pageTitle, locale, preferencesReady]);
 
   const selectTheme = (nextTheme: Theme) => {
     setTheme(nextTheme);
@@ -194,14 +275,16 @@ export default function Home() {
   };
 
   return (
-    <div className="site-root" id="top">
+    <div className={scene ? "site-root scene-site" : "site-root"} id="top">
       <a className="skip-link" href="#main-content">
         {labels.skip}
       </a>
 
       <header className="site-header">
         <a className="wordmark" href="#top" aria-label={`${current.hero.name} — ${labels.home}`}>
-          <span className="wordmark-mark">HJ</span>
+          {scene ? (
+            <Image className="scene-wordmark-portrait" src="/jiajun-he.jpg" alt={current.hero.portraitAlt} width={42} height={42} unoptimized />
+          ) : <span className="wordmark-mark">HJ</span>}
           <span className="wordmark-name">
             {current.hero.name} / {current.hero.romanName}
           </span>
@@ -259,6 +342,7 @@ export default function Home() {
       </header>
 
       <main id="main-content">
+        {scene ? <SceneHero locale={locale} scene={scene} onSceneChange={selectTheme} /> : (
         <section className="hero section-shell" aria-labelledby="hero-title">
           <div className="hero-copy">
             <p className="eyebrow">{current.hero.eyebrow}</p>
@@ -318,6 +402,8 @@ export default function Home() {
           </div>
         </section>
 
+        )}
+
         <div className="noritake-vignettes" aria-hidden="true">
           <span className="noritake-vignette noritake-vignette-left" />
           <span className="noritake-vignette noritake-vignette-center" />
@@ -361,7 +447,7 @@ export default function Home() {
           />
           <div className="research-grid">
             {current.research.items.map((item, index) => (
-              <article className="research-card" key={item.number}>
+              <article className="research-card" id={`research-${index}`} key={item.number} tabIndex={-1}>
                 <span
                   className={`theme-sticker theme-sticker-research theme-sticker-sprite-${index + 2}`}
                   aria-hidden="true"
@@ -376,18 +462,9 @@ export default function Home() {
                     <i />
                   </div>
                 </div>
-                <figure className="research-figure">
-                  <Image
-                    className="research-figure-image"
-                    src={item.figure}
-                    alt={item.figureAlt}
-                    width={1600}
-                    height={960}
-                    sizes="(max-width: 820px) 90vw, 36vw"
-                    unoptimized
-                  />
-                  <figcaption>{item.paper}</figcaption>
-                </figure>
+                {!scene ? (
+                  <ResearchFigure item={item} />
+                ) : null}
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
                 <div className="research-metric">
@@ -399,6 +476,12 @@ export default function Home() {
                     <span key={tag}>{tag}</span>
                   ))}
                 </div>
+                {scene ? (
+                  <details className="scene-research-method">
+                    <summary>{notesLabels.method}</summary>
+                  <ResearchFigure item={item} />
+                  </details>
+                ) : null}
               </article>
             ))}
           </div>
@@ -416,8 +499,32 @@ export default function Home() {
               title={current.publications.title}
               introduction={current.publications.introduction}
             />
+            <div className="publication-controls">
+              <label className="publication-search" htmlFor="publication-search">
+                <span>{publicationLabels.search}</span>
+                <input id="publication-search" type="search" value={publicationQuery}
+                  placeholder={publicationLabels.placeholder}
+                  onChange={(event) => setPublicationQuery(event.target.value)} />
+              </label>
+              <label className="publication-year-filter" htmlFor="publication-year">
+                <span>{publicationLabels.year}</span>
+                <select id="publication-year" value={publicationYear}
+                  onChange={(event) => setPublicationYear(event.target.value)}>
+                  <option value="all">{publicationLabels.allYears}</option>
+                  {publicationYears.map((year) => <option key={year} value={year}>{year}</option>)}
+                </select>
+              </label>
+              {normalizedQuery || publicationYear !== "all" ? (
+                <button className="publication-clear" type="button" onClick={() => { setPublicationQuery(""); setPublicationYear("all"); }}>
+                  {publicationLabels.clear}
+                </button>
+              ) : null}
+            </div>
+            <p className="publication-results" role="status">
+              {publicationLabels.results(visiblePublications.length, current.publications.items.length)}
+            </p>
             <div className="publication-list">
-              {current.publications.items.map((publication) => (
+              {visiblePublications.map((publication) => (
                 <a
                   className="publication-row"
                   key={`${publication.year}-${publication.title}`}
@@ -442,6 +549,7 @@ export default function Home() {
                 </a>
               ))}
             </div>
+            {visiblePublications.length === 0 ? <p className="publication-empty">{publicationLabels.empty}</p> : null}
             <a
               className="scholar-profile-link"
               href={current.publications.scholarUrl}
@@ -451,6 +559,25 @@ export default function Home() {
               <span>{current.publications.scholarLabel}</span>
               <Arrow />
             </a>
+          </div>
+        </section>
+
+        <section className="content-section home-notes-section section-shell" id="notes" aria-labelledby="home-notes-title">
+          <div className="home-notes-heading">
+            <span className="home-notes-eyebrow">FIELD NOTES / {notesShortcutLabels[locale]}</span>
+            <h2 id="home-notes-title">{notesLabels.title}</h2>
+            <p>{notesLabels.introduction}</p>
+            <Link className="home-notes-all" href="/notes/">{notesLabels.all} <Arrow /></Link>
+          </div>
+          <div className="home-notes-list">
+            {reports.filter((report) => homeReportNames[report.slug]).map((report) => (
+              <Link className="home-note-row" key={report.slug} href={`/notes/${report.slug}/`}>
+                <span className="home-note-meta"><span>{homeReportNames[report.slug]}</span><time dateTime={report.published}>{report.published}</time></span>
+                <h3>{report.title[locale]}</h3>
+                <p>{report.summary[locale]}</p>
+                <span className="home-note-reading">{report.readingTime[locale]} <Arrow /></span>
+              </Link>
+            ))}
           </div>
         </section>
 
