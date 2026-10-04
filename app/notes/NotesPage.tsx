@@ -6,10 +6,10 @@ import { AmbientDock } from "../AmbientDock";
 import styles from "./notes.module.css";
 
 type Locale = "zh" | "en" | "ja" | "ko";
-type Theme = "classic" | "night" | "film" | "glass" | "pixel" | "cartoon" | "noritake" | "neko" | "shiba";
+type Theme = "garden" | "cloud" | "courtyard" | "classic" | "night" | "film" | "glass" | "pixel" | "cartoon" | "noritake" | "neko" | "shiba";
 
 const locales: Locale[] = ["zh", "en", "ja", "ko"];
-const themes: Theme[] = ["classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"];
+const themes: Theme[] = ["garden", "cloud", "courtyard", "classic", "night", "film", "glass", "pixel", "cartoon", "noritake", "neko", "shiba"];
 
 const isLocale = (value: string | null): value is Locale =>
   value !== null && locales.includes(value as Locale);
@@ -29,7 +29,7 @@ const copy = {
     intro: "记录语音、语言与多模态智能中的关键概念，并把研究方法拆成可以复现的实践步骤。这里的内容是导读与教程，不代表新的实验结论。",
     languageLabel: "切换语言",
     themeLabel: "切换主题",
-    themeNames: { classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿", neko: "日系猫咪", shiba: "日系柴犬" },
+    themeNames: { garden: "研究花园", cloud: "云端小岛", courtyard: "微缩庭院", classic: "经典", night: "暗夜", film: "胶片", glass: "玻璃", pixel: "日系像素", cartoon: "明亮卡通", noritake: "Noritake 线稿", neko: "日系猫咪", shiba: "日系柴犬" },
     read: "展开教程",
     close: "再次点击标题即可收起",
     steps: "实践步骤",
@@ -153,7 +153,7 @@ const copy = {
     intro: "Clear guides to speech, language, and multimodal intelligence, with research ideas translated into reproducible steps. These are primers and tutorials—not claims of new experimental results.",
     languageLabel: "Switch language",
     themeLabel: "Switch theme",
-    themeNames: { classic: "Classic", night: "Night", film: "Film", glass: "Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line", neko: "Japanese Cat", shiba: "Japanese Shiba" },
+    themeNames: { garden: "Research Garden", cloud: "Cloud Island", courtyard: "Research Courtyard", classic: "Classic", night: "Night", film: "Film", glass: "Glass", pixel: "Japanese Pixel", cartoon: "Bright Cartoon", noritake: "Noritake Line", neko: "Japanese Cat", shiba: "Japanese Shiba" },
     read: "Open tutorial",
     close: "Select the heading again to close",
     steps: "Practical steps",
@@ -277,7 +277,7 @@ const copy = {
     intro: "音声・言語・マルチモーダル知能の要点を整理し、研究の考え方を再現可能な手順へ落とし込みます。掲載内容は入門解説とチュートリアルであり、新たな実験結果を主張するものではありません。",
     languageLabel: "言語を切り替える",
     themeLabel: "テーマを切り替える",
-    themeNames: { classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画", neko: "和風ねこ", shiba: "和風柴犬" },
+    themeNames: { garden: "研究の庭", cloud: "雲の島", courtyard: "小さな中庭", classic: "クラシック", night: "ナイト", film: "フィルム", glass: "ガラス", pixel: "和風ピクセル", cartoon: "ポップカートゥーン", noritake: "Noritake 線画", neko: "和風ねこ", shiba: "和風柴犬" },
     read: "チュートリアルを開く",
     close: "見出しをもう一度選ぶと閉じます",
     steps: "実践ステップ",
@@ -401,7 +401,7 @@ const copy = {
     intro: "음성·언어·멀티모달 지능의 핵심 개념을 정리하고, 연구 아이디어를 재현 가능한 실천 단계로 풀어냅니다. 이곳의 글은 입문 해설과 튜토리얼이며 새로운 실험 결과를 주장하지 않습니다.",
     languageLabel: "언어 전환",
     themeLabel: "테마 전환",
-    themeNames: { classic: "클래식", night: "나이트", film: "필름", glass: "글라스", pixel: "일본풍 픽셀", cartoon: "밝은 카툰", noritake: "Noritake 라인 아트", neko: "일본풍 고양이", shiba: "일본풍 시바견" },
+    themeNames: { garden: "연구 정원", cloud: "구름 섬", courtyard: "작은 연구 뜰", classic: "클래식", night: "나이트", film: "필름", glass: "글라스", pixel: "일본풍 픽셀", cartoon: "밝은 카툰", noritake: "Noritake 라인 아트", neko: "일본풍 고양이", shiba: "일본풍 시바견" },
     read: "튜토리얼 펼치기",
     close: "제목을 다시 누르면 닫힙니다",
     steps: "실습 단계",
@@ -582,7 +582,7 @@ const copy = {
 
 export function NotesPage() {
   const [locale, setLocale] = useState<Locale>("zh");
-  const [theme, setTheme] = useState<Theme>("glass");
+  const [theme, setTheme] = useState<Theme>("garden");
   const [submitted, setSubmitted] = useState(false);
   const [preferencesReady, setPreferencesReady] = useState(false);
   const current = copy[locale];
@@ -608,7 +608,7 @@ export function NotesPage() {
         setLocale("en");
       }
 
-      const initialTheme = isTheme(savedTheme) ? savedTheme : "glass";
+      const initialTheme = isTheme(savedTheme) ? savedTheme : "garden";
       setTheme(initialTheme);
       document.documentElement.setAttribute("data-theme", initialTheme);
       setSubmitted(new URLSearchParams(window.location.search).get("submitted") === "1");

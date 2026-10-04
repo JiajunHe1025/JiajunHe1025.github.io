@@ -40,3 +40,6 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/tools/hero-video/node_modules/
+/tools/hero-video/build/
+/tools/hero-video/.remotion/

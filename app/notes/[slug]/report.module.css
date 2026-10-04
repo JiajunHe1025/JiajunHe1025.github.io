@@ -176,6 +176,9 @@
   box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.44);
 }
 
+.garden { background: linear-gradient(145deg, #e3eff4 0 40%, #b9d8a9 40% 72%, #f6deb8 72%); }
+.cloud { background: linear-gradient(145deg, #b9d8f1 0 44%, #f5d7c8 44% 65%, #cbe0cb 65%); }
+.courtyard { background: linear-gradient(145deg, #f8ead6 0 40%, #e7c2ae 40% 67%, #dce6c6 67%); }
 .classic { background: linear-gradient(135deg, #f3f7f8 50%, #16c4f3 50%); }
 .night { background: linear-gradient(135deg, #071019 50%, #5ad7ff 50%); }
 .film { background: linear-gradient(135deg, #f4eadb 50%, #c96d32 50%); }
@@ -1687,4 +1690,21 @@
   .backArrow,
   .toc a,
   .sources a { transition: none; }
+}
+
+/* Keep the expanded theme selector from pushing language controls off screen. */
+@media (max-width: 1080px) {
+  .header { grid-template-columns: 1fr; }
+  .controls { width: 100%; min-width: 0; flex-wrap: wrap; }
+  .themeSwitch { max-width: 100%; min-width: 0; }
+}
+
+@media (max-width: 760px) {
+  .themeSwitch {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .themeSwitch button { min-width: 0; width: 100%; }
+  .languageSwitch { margin-inline: auto; }
 }
